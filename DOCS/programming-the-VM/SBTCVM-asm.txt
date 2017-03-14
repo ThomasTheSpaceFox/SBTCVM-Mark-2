@@ -4,12 +4,16 @@ for SBTCVM Mark 2 Assembler v2.0.0
 
 
 command line usage:
-on unix like systems:
-e.g.
+This is SBTCVM-asm2.py, SBTCVM Mark 2's assembler.
+commands:
+SBTCVM-asm2.py -h (--help): this text
+SBTCVM-asm2.py -v (--version)
+SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py
+SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm source into a trom
+SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom
 
-	./SBTCVM-asm2.py ./tdaasmsourcefile.tasm
 
-in this example "tdaasmsourcefile.tasm", will be compiled into the SBTCVM TROM: "tdaasmsourcefile.trom"
+for example, a source file called "file.tasm", will be compiled into the SBTCVM TROM: "file.trom"
 
 it is possible to edit the trom directly, but can be more difficult.
 
@@ -151,7 +155,9 @@ set instruction of rom address DATA using register 1 [IIIIII???]
 set data of rom address DATA using register 1 [DDDDDDDDD]
 -supports pointer referencing (see above)
 
-
+"continue"
+---+++
+go to instruction following last goto instruction.
 >>>basic color display commands<<<
 
 "colorpixel"
