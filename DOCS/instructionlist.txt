@@ -24,7 +24,7 @@
 ---+0+
 ---++-
 ---++0
----+++
+---+++|continue execution at next address after previous goto.
 --0---|COLORDISP draw pixel using DRAWCOLOR using data XXXYYY ((Tip: draw same color pixels together between color changes)
 --0--0|SET DRAWCOLOR using data CCCCCC where C is a 6-trit RGB color :D
 --0--+|fill COLORDISP using data CCCCCC where C is a 6-trit RGB color :D
@@ -79,13 +79,13 @@
 --+++-|dump register 2 to TTY
 --+++0|tty write port (direct)
 --++++|buzzer port (direct)
--0----
--0---0
--0---+
--0--0-
--0--00
--0--0+
--0--+-
+-0----|set copyrange start addr [reserved for implimentation]
+-0---0|set copyrange end addr [reserved for implimentation]
+-0---+|set copyrange dest addr [reserved for implimentation]
+-0--0-|Exec > IO copy [reserved for implimentation]
+-0--00|Exec > Exec copy [reserved for implimentation]
+-0--0+|IO > Exec copy [reserved for implimentation]
+-0--+-|IO > IO [reserved for implimentation]
 -0--+0
 -0--++
 -0-0--

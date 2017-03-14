@@ -6,6 +6,7 @@ import time
 import os
 import libSBTCVM
 import libbaltcalc
+import sys
 pygame.display.init()
 
 print "SBTCVM Mark 2 Starting up..."
@@ -55,14 +56,14 @@ snf=pygame.mixer.Sound(wavsp)
 snf.play()
 
 #config defaults
-TROMA="BOOTUP.TROM"
+TROMA="intro.trom"
 #these are dud roms full of soft stops
 TROMB=("DEFAULT.TROM")
 TROMC=("DEFAULT.TROM")
 TROMD=("DEFAULT.TROM")
 TROME=("DEFAULT.TROM")
 TROMF=("DEFAULT.TROM")
-CPUWAIT=(0.01)
+CPUWAIT=(0.005)
 stepbystep=0
 scconf=open('BOOTUP.CFG', 'r')
 exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
@@ -71,6 +72,24 @@ tuibig=1
 logromexit=0
 logIOexit=0
 exec(exconf)
+
+#try:
+	#cmd=sys.argv[1]
+	#TROMA=cmd
+	#libtrom.redefA(cmd)
+	#print "Running trom specified in command line..."
+#except IndexError:
+	#print "no command line run argument found. do normal execution..."
+
+if 'GLOBRUNFLG' in globals():
+	
+	TROMA=GLOBRUNFLG
+	libtrom.redefA(TROMA)
+	print ("GLOBRUNFLG found... \n running trom: \"" + TROMA + "\" as TROMA")
+
+
+
+
 #print BOOTUPFILE
 
 #4 trit instruct
@@ -128,6 +147,7 @@ stopflag=0
 EXECCHANGE=0
 #ROMFILE=open(BOOTUPFILE)
 EXECADDR="---------"
+contaddr="---------"
 EXECADDRfall=0
 EXECADDRraw=EXECADDR
 REG1="000000000"
@@ -278,6 +298,10 @@ while stopflag==0:
 	#set data
 	elif curinst=="---+--":
 		libtrom.tromsetdata(curdata, REG1, ROMFILE)
+	#continue
+	elif curinst=="---+++":
+		EXECADDRNEXT=contaddr
+		EXECCHANGE=1
 	#color draw
 	elif curinst=="--0---":
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
@@ -298,7 +322,7 @@ while stopflag==0:
 	elif curinst=="--0-0-":
 		colvectorreg=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 	elif curinst=="--0-00":
-		print curdata
+		#print curdata
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
 		jy=libSBTCVM.drawnumstruct3((curdata[6] + curdata[7] + curdata[8]))
 		kx=libSBTCVM.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
@@ -309,7 +333,7 @@ while stopflag==0:
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#color draw rect
 	elif curinst=="--0-0+":
-		print curdata
+		#print curdata
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
 		jy=libSBTCVM.drawnumstruct3((curdata[6] + curdata[7] + curdata[8]))
 		kx=libSBTCVM.drawnumstruct3((colvectorreg[0] + colvectorreg[1] + colvectorreg[2]))
@@ -367,7 +391,8 @@ while stopflag==0:
 		ttyredraw=1
 	#NULL INSTRUCTION (DOES NOTHING) USE WHEN YOU WISH TO DO NOTHING :p
 	elif curinst=="--0000":
-		print("NULLinstruction")
+		
+		print("")
 	#goto rom adress specified by CURRENT DATA
 	elif curinst=="--000+":
 		EXECADDRNEXT=curdata
@@ -513,6 +538,11 @@ while stopflag==0:
 			time.sleep(0.1)
 		else:
 			time.sleep(0.2)
+	
+	
+	
+	
+	
 	#needed by user quering opcodes such as 0+--	
 	if extradraw==1:
 		screensurf.blit(vmbg, (0, 0))
@@ -735,6 +765,7 @@ while stopflag==0:
 	if EXECCHANGE==1:
 		EXECCHANGE=0
 		#print("ding")
+		contaddr=EXECADDR
 		EXECADDR=EXECADDRNEXT
 		EXECADDRraw=EXECADDR
 		#print EXECADDR

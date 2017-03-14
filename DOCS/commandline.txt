@@ -1,0 +1,34 @@
+List of command line tools incuded in SBTCVM Mark 2, as well as short usage.
+
+
+SBTCVM-asm2.py
+
+This is SBTCVM-asm2.py, SBTCVM Mark 2's assembler.
+commands:
+SBTCVM-asm2.py -h (--help): this text
+SBTCVM-asm2.py -v (--version)
+SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py
+SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm source into a trom
+SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom
+
+
+MK2-GFX.py
+
+This is SBTCVM Mark 2's GFX toolkit.
+commands:
+MK2-GFX.py -h (--help): this text
+MK2-GFX.py -v (--version)
+MK2-GFX.py -a (--about): about MK2-GFX.py
+MK2-GFX.py -c (--colraster) [imagefile]: convert a 27x27 pixel or smaller
+
+image to color raster instrucions (exported as a *.tasm)
+
+
+MK2-RUN.py
+This is MK2-RUN.py, a command line launcher for SBTCVM Mark 2
+commands:
+MK2-RUN.py -h (--help): this text
+MK2-RUN.py -v (--version)
+MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA
+MK2-RUN.py -a (--about): about MK2-RUN.py
+MK2-RUN.py [trom file]: run a trom as TROMA

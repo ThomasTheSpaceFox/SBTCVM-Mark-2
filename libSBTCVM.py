@@ -110,6 +110,11 @@ def trunkto6(code):
 	#code=libbaltcalc.BTINVERT(code)
 	return((code[0]) + (code[1]) + (code[2]) + (code[3]) + (code[4]) + (code[5]) + (code[6]) + (code[7]) + (code[8]))
 
+
+
+
+
+
 def trunkto6math(code):
 	codecnt=0
 	for fel in code:

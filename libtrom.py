@@ -14,6 +14,8 @@ logreads=0
 def initwait():
 	return libtromready
 
+
+
 scconf=open('BOOTUP.CFG', 'r')
 exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
 exec(exconf)
@@ -24,8 +26,17 @@ if tromlogging==0:
 if tromlogging==1:
 	tromlog1=open(os.path.join('CAP', "libtrom.log"), "w")
 
-
-
+def redefA(filenameq):
+	global AROM
+	global TROMA
+	AROM= {}
+	TROMA=filenameq
+	TROMAfile=open(filenameq, "r")
+	linecnt=1
+	for rmline in TROMAfile:
+		rmline=rmline.replace("\n", "")
+		AROM[linecnt]=rmline
+		linecnt += 1
 
 #load TROMS from TROM files to respective dictionaries
 print "libtrom: parsing TROMs into dictionaries..."
