@@ -1,0 +1,19 @@
+#integrated specs program.
+TTYclear
+textstart
+SBTCVM Mark 1.1 Specifications:
+>TTY: 36x27 display running at
+324x243, with 9x9 pixel font.
+>6-trit IObus
+>6-trit temp. editable rom bus with
+ up to 6 hot-swappable roms of up to
+ 729 instructions.
+>dual mini raster graphics displays.
+>includes a custom assembler.
+>togglable step-by-step execution.
+>features a buzzer and various
+ status displays and indicators.
+textstop
+userwait
+
+

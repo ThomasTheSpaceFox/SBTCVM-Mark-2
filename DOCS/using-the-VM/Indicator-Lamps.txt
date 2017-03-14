@@ -1,0 +1,9 @@
+Indicator Lamps:
+
+----CPU----
+Blue: active.
+Orange: stopped
+
+---STEP----
+ON: Step-by-step mode is ON
+OFF: Step-by-step mode is OFF

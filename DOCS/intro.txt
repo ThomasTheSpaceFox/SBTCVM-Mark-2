@@ -1,0 +1,34 @@
+Hello.
+
+Welcome To SBTCVM Mark 2
+
+This VM is a balanced ternary computer with 9-trit data, and 6 trit 
+instruction.
+
+it features Raster graphics, a TTY system, various debugging features,
+ screen shots, a buzzer, etc.
+ 
+
+Specifications:
+36x27 character TUI with 6-trit text encoding.
+external assembler with built-in text conversion.
+
+
+See the "using-the-VM" directory for general user help.
+
+See the "programming-the-VM" directory for programming help.
+
+
+also see the assorted files in the Root of the "DOCS" directory as well. 
+
+
+further reading:
+
+	-Wikipedia:
+		-Balanced Ternary:
+			https://en.wikipedia.org/wiki/Balanced_ternary
+		-Setun:
+			https://en.wikipedia.org/wiki/Setun
+		-ternary computer
+			https://en.wikipedia.org/wiki/Ternary_computer
+			

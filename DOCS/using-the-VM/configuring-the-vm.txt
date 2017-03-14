@@ -1,0 +1,31 @@
+Configuring The VM:
+
+the VM has a config file:
+BOOTUP.CFG
+
+this file has various settings. 
+
+
+SELECTING ROMS:
+see the example lines in the config file. make sure that on multi-rom programs,
+you load all roms and load them in the correct slots.
+
+MultiROMs should usually have a letter at the end of each file to show this. 
+eg: 'sampleA.trom' or 'SAMPLEa.trom'
+
+there are 6 rom slots. 
+labeled a-f.
+
+
+DEBUGGING:
+
+the default to step-by-step mode is determined here. see comments
+
+CPU SPEED: (measured in seconds to wait per clock tick)
+
+the default CPU speed is determined here. 
+usually it should be set at 0.005
+
+if this is too fast for your computer, increase the wait time.
+
+likewise, if your computer can handle more, increase the speed by shortening the wait time.

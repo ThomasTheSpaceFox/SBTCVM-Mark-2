@@ -1,0 +1,6 @@
+9x9 font used in STCGv1 text modes:
+
+36x27 [324x243] {4:3} <9x9 chars>
+
+CURRENTLY IMPLIMENTED IN:
+-SBTCVM Mark 1.1

@@ -1,0 +1,328 @@
+SBTCVM Assembler documentation. 
+
+for SBTCVM Mark 2 Assembler v2.0.0
+
+
+command line usage:
+on unix like systems:
+e.g.
+
+	./SBTCVM-asm2.py ./tdaasmsourcefile.tasm
+
+in this example "tdaasmsourcefile.tasm", will be compiled into the SBTCVM TROM: "tdaasmsourcefile.trom"
+
+it is possible to edit the trom directly, but can be more difficult.
+
+
+note: while SBTCVM-asm does make programming for SBTCVM mark 2 easier
+a basic understanding of both how conventional computers work, 
+and balanced ternary mathematics, is still needed.
+
+comments:
+comments can be achieved as such:
+"#comment"
+
+Multiline text blocks:
+
+	start command:
+	"textstart"
+	
+	end command:
+	"textstop"
+
+
+to pad memory space, use "null". 
+
+SBTCVM-asm will fill any remaining TROM space with "null" automatically.
+
+basic commands:
+
+These correspond to SBTCVM Mk1.1 Opcodes:
+any data specified should be specified  as such:
+'null|?????????'
+SBTCVM has a pointer feature for data-based gotos and data/instruction modifiers.
+
+-where ? is a balanced ternary digit
+-Mark 2 uses 9-trit data. so does the assembler.
+-note the vertical bar "|"
+-note omitting the vertical bar and data will cause the data to default to ground. (000000000)
+-for compatibility reasons, six trit integers are padded like so: 000??????
+
+
+define a pointer like this:
+'null|000000000|thisisanexample'
+notice how the data should be present in this usage even if it is 000000000.
+
+
+on the following instructions you may point to a pointer as such:
+'gotodata|>thisisanexample'
+'gotodataif|>thisisanexample'
+'YNgoto|>thisisanexample'
+'setdata|>thisisanexample'
+'setinst|>thisisanexample'
+
+
+
+
+
+
+
+"romread1"
+------
+ROMread 1
+(first register)
+
+"romread2"
+-----0
+ROMread 2
+(second register)
+
+"IOread1"
+-----+
+IOread  1
+(first register)
+
+"IOread2"
+----0-
+IOread  2
+(second register)
+
+"IOwrite1"
+----00
+IOwrite 1
+(first register)
+
+"IOwrite2"
+----0+
+IOwrite 2
+(second register)
+
+"regswap"
+----+-
+swap primary registers
+
+"copy1to2"
+----+0
+copy register 1 to 2
+
+"copy2to1"
+----++
+copy register 2 to 1
+
+"invert1"
+---0--
+invert register 1
+
+"invert2"
+---0-0
+invert register 2
+
+"add"
+---0-+
+add
+
+"subtract"
+---00-
+subtract
+
+"multiply"
+---000
+multiply
+
+"divide"
+---00+
+integer division
+
+"setreg1"
+---0+-
+set register 1
+
+"setreg2"
+---0+0
+set register 2
+
+"setinst"
+---0++
+set instruction of rom address DATA using register 1 [IIIIII???]
+-supports pointer referencing (see above)
+
+"setdata"
+---+--
+set data of rom address DATA using register 1 [DDDDDDDDD]
+-supports pointer referencing (see above)
+
+
+>>>basic color display commands<<<
+
+"colorpixel"
+--0---
+COLORDISP draw pixel using DRAWCOLOR using data ???XXXYYY
+((Tip: draw same color pixels together between color changes)
+
+"setcolorreg"
+--0--0
+SET DRAWCOLOR using data ???CCCCCC where C is a 6-trit RGB color :D
+
+"colorfill"
+--0--+
+fill COLORDISP using data ???CCCCCC where C is a 6-trit RGB color :D
+
+"setcolorvect"
+--0-0-
+set colordisp vector register
+(for filled rectangle and line instructions) ???XXXYYY
+
+"colorline"
+--0-00
+draw color line ???XXXYYY
+
+"colorrect"
+--0-0+
+draw color filled rectangle ???XXXYYY
+
+>>>basic Mono Display commands<<<
+
+
+"monopixel"
+--0-+-
+MONODISP draw pixel using data ???XXYYMM
+where M=is a 2 trit monochrome value
+
+"monofill"
+--0-+0
+fill COLORDISP using data ???????MM
+where M=is a 2 trit monochrome value
+
+"setmonovect"
+--0-++
+set monodisp vector register 
+(for filled rectangle and line instructions ???XXYY??
+
+"monoline"
+--00--
+draw line  ???XXYYMM
+where MM is a 2 trit greyscale color value.
+
+"monorect"
+--00-0
+draw filled rectangle ???XXYYMM
+where MM is a 2 trit greyscale color value.
+
+>>>end basic display commands<<<
+
+
+"stop"
+--000-
+stop (shuts down VM)
+
+"null"
+--0000
+null command
+
+"gotodata"
+--000+
+goto data specified ROM address
+-supports pointer referencing (see above)
+
+"gotoreg1"
+--00+-
+goto reg1 specified ROM address
+
+"gotodataif"
+--00+0
+goto data specified ROM address IF REG 1 & 2 ARE EQUAL
+-supports pointer referencing (see above)
+
+"wait"
+--00++
+wait 0.1, 0.2, or 0.3
+(????????+ = 3 ????????0= 2 ????????- = 1)
+
+"YNgoto"
+--0+--
+YN user goto. asks user to confirm goto. ( ROM Address data specified)
+(best used with a label explaining what it does.)
+-supports pointer referencing (see above)
+
+"userwait"
+--0+-0
+user wait.
+
+"TTYclear"
+--0+-+
+TTY clear
+
+>>>Rom switching GOTOs<<<
+
+(the following gotos switch TROMS! make sure config setup is done properly! also note that none of these gotos support pointer referencing!)
+
+"gotoA
+--+---
+A mandatory goto  
+
+"gotoAif"
+--+--0
+A reg equal goto
+
+"gotoB"
+--+--+
+B mandatory goto
+
+"gotoBif"
+--+-0-
+B reg equal goto
+
+"gotoC"
+--+-00
+C mandatory goto
+
+"gotoCif"
+--+-0+
+C reg equal goto
+
+"gotoD"
+--+-+-
+D mandatory goto
+
+"gotoDif"
+--+-+0
+D reg equal goto
+
+"gotoE"
+--+-++
+E mandatory goto
+
+"gotoEif"
+--+0--
+E reg equal goto
+
+"gotoF"
+--+0-0
+F mandatory goto
+
+"gotoFif"
+--+0-+
+F reg equal goto
+
+>>>end Rom switching GOTOs<<<
+
+"dumpreg1"
+--++0+
+dump register 1 to TTY
+
+"dumpreg2"
+--+++-
+dump register 2 to TTY
+
+"TTYwrite"
+--+++0
+tty write port (direct) (???CCCCCC) where CCCCCC is the SBTCVMtext 6-trit character code.
+
+"buzzer"
+--++++
+buzzer port (direct)
+???TFFFFF where T is time and FFFFF is frequency code
+	time codes:
+	+   0.3 seconds
+	0   0.2 seconds
+	-   0.1 seconds

@@ -1,0 +1,29 @@
+Information On compatibility with past SBTCVM programs:
+
+
+SBTCVM Mark 2 is NOT compatible with mark 1 or mark 1.1 TROMs (programs)
+
+Reasons include:
+the old 1.x opcodes now use slightly different opcodes and data syntax.
+opcodes were modified as such:
+
+--LLLL where LLLL is the 1.x opcode.
+
+also functions such as the TTY write and raster fields and the buzzer and
+other opcodes sill expecting 6-trit data have been padded as such:
+
+???LLLLLL where LLLLLL is the legacy data.
+
+Other opcodes have been changed and now run using all 9 trits of data.
+
+for example addressing and mathematical operations are now done in 9 trits instead of 6.
+
+IObanklist has been redesigned. since It was not implemented as anything other than
+scratch memory in previous SBTCVM versions.
+
+see IObanklist-summary.txt
+
+
+
+if the tasm source is available, one might be able to retool the source.
+(see SBTCVM-asm.txt)

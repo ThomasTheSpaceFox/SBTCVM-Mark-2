@@ -1,0 +1,16 @@
+This is a more readable summary of SBTCVM Mark 2's IObanklist
+
+
+Scratch memory
+Start:
+--------- [1] <-9841>
+End:
+---++++++ [729] <-9113>
+
+
+
+
+
+
+
+

@@ -1,0 +1,348 @@
+
+#New SBTCVM Mark 2 Single-trom intro.
+
+buzzer|000-0++++
+buzzer|00000++++
+buzzer|000-0++++
+buzzer|00000++++
+buzzer|000-0++++
+buzzer|00000++++
+buzzer|000-0++++
+buzzer|00000++++
+#First TUI screen: title art
+TTYclear
+#null|000000000|test2
+#textstart
+#* * * *-- *   *-- *-* *-*-* *--
+#* * * *-  *   *   * * * * * *- 
+#*-*-* *-- *-- *-- *-* * * * *--
+#
+textstart
+
+Welcome To:
+textstop
+#SBTCVM LOGO DEMO. 
+#This uses the 27x27 6-trit color field. 
+#background dulled and simplified to shrink instruction size
+#
+#
+#blue
+setcolorreg|000-0-000
+setcolorvect|000------
+colorrect|000-0-+++
+#cyan
+setcolorreg|000-00000
+setcolorvect|000-00---
+colorrect|000-+++++
+#green
+setcolorreg|000-000-0
+setcolorvect|0000-----
+colorrect|00000-+++
+#yellow
+setcolorreg|0000000-0
+setcolorvect|000000---
+colorrect|0000+++++
+#red
+setcolorreg|00000-0-0
+setcolorvect|000+-----
+colorrect|000+0-+++
+#violet
+setcolorreg|00000-000
+setcolorvect|000+00---
+colorrect|000++++++
+#whitepixel
+setcolorreg|000++++++
+#begin pixelpositions
+#S
+colorpixel|000--+0-+
+colorpixel|000-0-0-+
+colorpixel|000--000-
+colorpixel|000--+000
+colorpixel|000-0-00+
+colorpixel|000--00+-
+colorpixel|000--+0+-
+#B
+colorpixel|000-0+0-+
+colorpixel|000-0+00-
+colorpixel|000-0+000
+colorpixel|000-0+00+
+colorpixel|000-0+0+-
+colorpixel|000-+-0+-
+colorpixel|000-+-000
+colorpixel|000-+-0-+
+colorpixel|000-+000-
+colorpixel|000-+000+
+#T
+colorpixel|0000--0+-
+colorpixel|0000--00+
+colorpixel|0000--000
+colorpixel|0000--00-
+colorpixel|0000--0-+
+colorpixel|000-++0-+
+colorpixel|0000-00-+
+#C
+colorpixel|0000000-+
+colorpixel|00000-0-+
+colorpixel|0000-+00-
+colorpixel|0000-+000
+colorpixel|0000-+00+
+colorpixel|00000-0+-
+colorpixel|0000000+-
+#V
+colorpixel|0000+-0-+
+colorpixel|0000+000-
+colorpixel|0000+0000
+colorpixel|0000++00+
+colorpixel|0000++0+-
+colorpixel|000+--000
+colorpixel|000+--00-
+colorpixel|000+-00-+
+#M
+colorpixel|000+-00+-
+colorpixel|000+-+00+
+colorpixel|000+-+000
+colorpixel|000+0-00-
+colorpixel|000+0-0-+
+colorpixel|000+00000
+colorpixel|000+0000+
+colorpixel|000+000+-
+colorpixel|000+0+00-
+colorpixel|000+0+0-+
+colorpixel|000++-000
+colorpixel|000++-00+
+colorpixel|000++00+-
+textstart
+
+Simple.
+textstop
+buzzer|000-0++++
+textstart
+Balanced.
+textstop
+buzzer|000-0++++
+textstart
+Ternary.
+textstop
+buzzer|000-0++++
+textstart
+Computer.
+textstop
+buzzer|000-0++++
+textstart
+Virtual.
+textstop
+buzzer|000-0++++
+textstart
+Machine.
+
+textstop
+buzzer|000-0++++
+userwait
+TTYclear
+textstart
+             ---------
+            -|Welcome|-
+             ---------
+
+This is SBTCVM Mark 2.
+A Balanced Ternary Virtual
+Machine. 
+
+Escape stopps the VM
+
+see DOCS directory for more help.
+textstop
+userwait
+TTYclear
+#Ye old raster demos. ported to SBTCVM Mark 2
+#first graphics demo.
+TTYclear
+
+colorfill|00000-++-
+setcolorreg|000++-+00
+colorpixel|000000000
+#tidbit 1
+textstart
+top raster info:
+27x27 pixels
+6-trit RGB color (729 colors!)
+needs 2 CPU instructions per pixel.
+(at most 1458 instructions per full
+27x27 image)
+textstop
+userwait
+TTYclear
+monofill|00000000-|gxq
+monopixel|00000000+
+monopixel|000------
+monopixel|000-0---0
+monopixel|000-+---+
+monopixel|0000---0-
+monopixel|00000--00
+monopixel|0000+--0+
+monopixel|000+---+-
+monopixel|000+0--+0
+monopixel|000++--++
+#tidbit 2
+textstart
+
+bottom raster info:
+9x9 pixels
+2-trit greyscale. (9 shades)
+(at most 81 instructions needed to
+draw full 9x9 image)
+textstop
+userwait
+
+#second graphics demo
+TTYclear
+setcolorreg|000--00++
+monofill|00000--00
+setcolorvect|000000000
+colorline|000+++-00
+setcolorvect|000-----+
+colorline|000+++-00
+setcolorvect|00000+00+
+colorrect|000++++++
+monofill|0000000+0
+setmonovect|000--0000
+monorect|000++++00
+monoline|000++00--
+monoline|000++++--
+textstart
+As you can see. lines and filled
+rectangles can be used to draw
+images in much less instructions.
+
+it would be smart to use them to
+speed things up a bit. 
+
+as an example, the background of
+the SBTCVM logo drawn by this
+program uses filled rectangles to
+draw quickly.
+
+textstop
+userwait
+
+TTYclear
+monofill|0000000+0
+setmonovect|000--0000
+monorect|000++++00
+colorfill|0000+0++-
+setcolorreg|000-+0+--
+setcolorvect|000---00+
+colorrect|000++++++
+setcolorreg|000++++-+
+colorpixel|000+0+--+
+setcolorvect|000++---+
+setcolorreg|000-0-0-0
+colorline|000++-+0-
+
+userwait
+TTYclear
+#draw logo again
+#
+#blue
+#setcolorreg|000-0-000
+#setcolorvect|000------
+#colorrect|000-0-+++
+#cyan
+#setcolorreg|000-00000
+#setcolorvect|000-00---
+#colorrect|000-+++++
+#green
+#setcolorreg|000-000-0
+#setcolorvect|0000-----
+#colorrect|00000-+++
+#yellow
+#setcolorreg|0000000-0
+#setcolorvect|000000---
+#colorrect|0000+++++
+#red
+#setcolorreg|00000-0-0
+#setcolorvect|000+-----
+#colorrect|000+0-+++
+#violet
+#setcolorreg|00000-000
+#setcolorvect|000+00---
+#colorrect|000++++++
+#whitepixel
+setcolorreg|000++++++
+#begin pixelpositions
+#S
+colorpixel|000--+0-+
+colorpixel|000-0-0-+
+colorpixel|000--000-
+colorpixel|000--+000
+colorpixel|000-0-00+
+colorpixel|000--00+-
+colorpixel|000--+0+-
+#B
+colorpixel|000-0+0-+
+colorpixel|000-0+00-
+colorpixel|000-0+000
+colorpixel|000-0+00+
+colorpixel|000-0+0+-
+colorpixel|000-+-0+-
+colorpixel|000-+-000
+colorpixel|000-+-0-+
+colorpixel|000-+000-
+colorpixel|000-+000+
+#T
+colorpixel|0000--0+-
+colorpixel|0000--00+
+colorpixel|0000--000
+colorpixel|0000--00-
+colorpixel|0000--0-+
+colorpixel|000-++0-+
+colorpixel|0000-00-+
+#C
+colorpixel|0000000-+
+colorpixel|00000-0-+
+colorpixel|0000-+00-
+colorpixel|0000-+000
+colorpixel|0000-+00+
+colorpixel|00000-0+-
+colorpixel|0000000+-
+#V
+colorpixel|0000+-0-+
+colorpixel|0000+000-
+colorpixel|0000+0000
+colorpixel|0000++00+
+colorpixel|0000++0+-
+colorpixel|000+--000
+colorpixel|000+--00-
+colorpixel|000+-00-+
+#M
+colorpixel|000+-00+-
+colorpixel|000+-+00+
+colorpixel|000+-+000
+colorpixel|000+0-00-
+colorpixel|000+0-0-+
+colorpixel|000+00000
+colorpixel|000+0000+
+colorpixel|000+000+-
+colorpixel|000+0+00-
+colorpixel|000+0+0-+
+colorpixel|000++-000
+colorpixel|000++-00+
+colorpixel|000++00+-
+
+
+textstart
+SBTCVM Mark 2 Specifications:
+>TTY: 36x27 display running at
+324x243, with 9x9 pixel font.
+>9-trit IObus
+>9-trit temp. editable rom bus with
+ up to 6 hot-swappable roms of up to
+ 19,683 instructions each.
+>dual mini raster graphics displays.
+>includes a custom assembler.
+>togglable step-by-step execution.
+>features a buzzer and various
+ status displays and indicators.
+textstop
+userwait
+stop

@@ -1,0 +1,80 @@
+#second version of SBTCVM-MK1's raster demo. :)
+#first graphics demo.
+TTYclear
+
+colorfill|00000-++-
+setcolorreg|000++-+00
+colorpixel|000000000
+#tidbit 1
+textstart
+top raster info:
+27x27 pixels
+6-trit RGB color (729 colors!)
+needs 2 CPU instructions per pixel.
+(at most 1458 instructions per full
+27x27 image)
+textstop
+userwait
+TTYclear
+monofill|00000000-|gxq
+monopixel|00000000+
+monopixel|000------
+monopixel|000-0---0
+monopixel|000-+---+
+monopixel|0000---0-
+monopixel|00000--00
+monopixel|0000+--0+
+monopixel|000+---+-
+monopixel|000+0--+0
+monopixel|000++--++
+#tidbit 2
+textstart
+
+bottom raster info:
+9x9 pixels
+2-trit greyscale. (9 shades)
+(at most 81 instructions needed to
+draw full 9x9 image)
+textstop
+userwait
+
+#second graphics demo
+TTYclear
+setcolorreg|000--00++
+monofill|00000--00
+colorline|000+++-00
+setcolorvect|000-----+
+colorline|000+++-00
+setcolorvect|00000+00+
+colorrect|000++++++
+monofill|0000000+0
+setmonovect|000--0000
+monorect|000++++00
+monoline|000++00--
+monoline|000++++--
+textstart
+As you can see. lines and filled
+rectangles can be used to draw
+images in much less instructions.
+
+it would be smart to use them to
+save space!
+textstop
+userwait
+
+TTYclear
+monofill|0000000+0
+setmonovect|000--0000
+monorect|000++++00
+colorfill000|0+0++-
+setcolorreg|000-+0+--
+setcolorvect|000---00+
+colorrect|000++++++
+setcolorreg|000++++-+
+colorpixel|000+0+--+
+setcolorvect|000++---+
+setcolorreg|000-0-0-0
+colorline|000++-+0-
+
+userwait
+gotoC|---------

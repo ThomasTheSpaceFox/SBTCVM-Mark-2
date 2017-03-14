@@ -1,0 +1,12 @@
+VM Status Displays:
+
+the status displays are below the TUI in the VM window.
+
+By color:
+
+Cyan (inst.)     : current CPU instruction.
+Green (data)     : current CPU data:
+Pink (Reg. 1)    : First CPU Register.
+Orange (Reg. 2)  : Second CPU Register.
+Blue (ROM Addr.) : current adress in ROM
+Purple (Cur. ROM): Current ROM

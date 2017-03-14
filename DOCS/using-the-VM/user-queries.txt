@@ -1,0 +1,5 @@
+User Queries:
+
+YN GOTO:
+use [y] to state yes.
+use [n] to state no.
