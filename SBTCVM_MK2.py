@@ -71,6 +71,7 @@ exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
 tuibig=1
 logromexit=0
 logIOexit=0
+disablereadouts=0
 exec(exconf)
 
 #try:
@@ -166,35 +167,37 @@ while stopflag==0:
 	#some screen display stuff & general blitting
 	#screensurf.fill((0,127,255))
 	#draw Background
-	screensurf.blit(vmbg, (0, 0))
-	#these show the instruction and data in the instruction/data box :)
-	if prevINST!=curinst:
-		insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
-		prevINST=curinst
 	
-	if prevDATA!=curdata:
-		datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
-		prevDATA=curdata
-	screensurf.blit(insttext, (8, 522))
-	screensurf.blit(datatext, (8, 566))
-	#these draw the register displays :)
-	if prevREG1!=REG1:
-		reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
-		prevREG1=REG1
-	if prevREG2!=REG2:
-		reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
-		prevREG2=REG2
-	screensurf.blit(reg1text, (219, 521))
-	screensurf.blit(reg2text, (219, 564))
-	#and here is what draws the ROM address display :)
-	ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
-	screensurf.blit(ROMadrtex, (425, 564))
-	#and the current rom display :)
-	CURROMTEXT=(ROMLAMPFLG)
-	if prevROM!=CURROMTEXT:
-		curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
-		prevROM=CURROMTEXT
-	screensurf.blit(curROMtex, (126, 522))
+	if disablereadouts==0 or stepbystep==1:
+		#screensurf.blit(vmbg, (0, 0))
+		#these show the instruction and data in the instruction/data box :)
+		if prevINST!=curinst:
+			insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
+			prevINST=curinst
+		
+		if prevDATA!=curdata:
+			datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
+			prevDATA=curdata
+		screensurf.blit(insttext, (8, 522))
+		screensurf.blit(datatext, (8, 566))
+		#these draw the register displays :)
+		if prevREG1!=REG1:
+			reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
+			prevREG1=REG1
+		if prevREG2!=REG2:
+			reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
+			prevREG2=REG2
+		screensurf.blit(reg1text, (219, 521))
+		screensurf.blit(reg2text, (219, 564))
+		#and here is what draws the ROM address display :)
+		ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
+		screensurf.blit(ROMadrtex, (425, 564))
+		#and the current rom display :)
+		CURROMTEXT=(ROMLAMPFLG)
+		if prevROM!=CURROMTEXT:
+			curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
+			prevROM=CURROMTEXT
+		screensurf.blit(curROMtex, (126, 522))
 	#LED LAMPS
 	#CPU
 	screensurf.blit(CPULEDACT, (749, 505))
@@ -545,7 +548,7 @@ while stopflag==0:
 	
 	#needed by user quering opcodes such as 0+--	
 	if extradraw==1:
-		screensurf.blit(vmbg, (0, 0))
+		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
 		insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
 		datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
@@ -631,6 +634,15 @@ while stopflag==0:
 					ramdmp.close()
 					libtrom.manualdumptroms()
 					break
+				if event.type == KEYDOWN and event.key == K_F4:
+					if disablereadouts==1:
+						disablereadouts=0
+						print "readouts enabled"
+					elif disablereadouts==0:
+						print "readouts disabled"
+						disablereadouts=1
+					#STEPLED=LEDGREENON
+					break
 		abt=libSBTCVM.abtslackline(abt, ("\n"))
 		USRWAIT=0
 	
@@ -672,6 +684,15 @@ while stopflag==0:
 						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 					ramdmp.close()
 					libtrom.manualdumptroms()
+					break
+				if event.type == KEYDOWN and event.key == K_F4:
+					if disablereadouts==1:
+						disablereadouts=0
+						print "readouts enabled"
+					elif disablereadouts==0:
+						print "readouts disabled"
+						disablereadouts=1
+					#STEPLED=LEDGREENON
 					break
 		abt=libSBTCVM.abtslackline(abt, ("\n"))
 		USRYN=0
@@ -740,6 +761,15 @@ while stopflag==0:
 				stepbystep=1
 				STEPLED=LEDGREENON
 				break
+			if event.type == KEYDOWN and event.key == K_F4:
+				if disablereadouts==1:
+					disablereadouts=0
+					print "readouts enabled"
+				elif disablereadouts==0:
+					print "readouts disabled"
+					disablereadouts=1
+				#STEPLED=LEDGREENON
+				break
 	#pygame.event.clear()
 	
 	
@@ -771,8 +801,8 @@ while stopflag==0:
 		#print EXECADDR
 	if stopflag==1:
 		abt=libSBTCVM.abtslackline(abt, "Press enter to exit.")
-		screensurf.fill((0,127,255))
-		screensurf.blit(vmbg, (0, 0))
+		#screensurf.fill((0,127,255))
+		#screensurf.blit(vmbg, (0, 0))
 	
 		#these show the instruction and data in the instruction/data box :)
 		insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
