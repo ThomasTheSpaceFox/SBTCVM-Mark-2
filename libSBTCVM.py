@@ -194,14 +194,14 @@ def mk1buzz(code):
 	#sampltnk=samplmag[:6480]
 	if timechar=="+":
 		#sampltnk=(sampltnk + sampltnk + sampltnk + sampltnk + sampltnk)
-		sampltnk=autosquare(repadd, 0.31)
+		sampltnk=autosquare(repadd, 0.3)
 	elif timechar=="-":
-		sampltnk=autosquare(repadd, 0.11)
+		sampltnk=autosquare(repadd, 0.1)
 		#sampltnk=(sampltnk)
 		
 	else:
 		#sampltnk=(sampltnk + sampltnk + sampltnk)
-		sampltnk=autosquare(repadd, 0.21)
+		sampltnk=autosquare(repadd, 0.2)
 	#print sampltnk
 	return sampltnk
 

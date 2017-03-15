@@ -160,6 +160,8 @@ prevEXECADDR="diff"
 prevROM="diff"
 prevINST="diff"
 prevDATA="diff"
+updtcdisp=1
+updtmdisp=1
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
@@ -203,8 +205,12 @@ while stopflag==0:
 	screensurf.blit(CPULEDACT, (749, 505))
 	#STEP
 	screensurf.blit(STEPLED, (750, 512))
-	screensurf.blit(COLORDISPBIG, (649, 1))
-	screensurf.blit(MONODISPBIG, (649, 150))
+	if updtcdisp==1:
+		updtcdisp=0
+		screensurf.blit(COLORDISPBIG, (649, 1))
+	if updtmdisp==1:
+		updtmdisp=0
+		screensurf.blit(MONODISPBIG, (649, 150))
 	#TTY drawer :)
 	#for fnx in abt:
 	#	fnx=fnx.replace('\n', '')
@@ -230,7 +236,7 @@ while stopflag==0:
 		
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-	screensurf.blit(biglibSBTCVM, (0, 0))
+		screensurf.blit(biglibSBTCVM, (0, 0))
 	#aaaaannnnddd update display! :D
 	pygame.display.update()
 	
@@ -307,6 +313,7 @@ while stopflag==0:
 		EXECCHANGE=1
 	#color draw
 	elif curinst=="--0---":
+		updtcdisp=1
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
 		jy=libSBTCVM.drawnumstruct3((curdata[6] + curdata[7] + curdata[8]))
 		RGBcol=libSBTCVM.colorfind(colorreg)
@@ -314,17 +321,23 @@ while stopflag==0:
 		pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [jx, jy], 1)
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#set PPU color Register
+		
 	elif curinst=="--0--0":
+		updtcdisp=1
 		colorreg=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 	elif curinst=="--0--+":
+		updtcdisp=1
 		RGBcol=libSBTCVM.colorfind((curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8]))
 		#print monocol
 		COLORDISP.fill(RGBcol)
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#set PPU color vector Register
+		
 	elif curinst=="--0-0-":
+		updtcdisp=1
 		colvectorreg=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 	elif curinst=="--0-00":
+		updtcdisp=1
 		#print curdata
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
 		jy=libSBTCVM.drawnumstruct3((curdata[6] + curdata[7] + curdata[8]))
@@ -336,6 +349,7 @@ while stopflag==0:
 		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#color draw rect
 	elif curinst=="--0-0+":
+		updtcdisp=1
 		#print curdata
 		jx=libSBTCVM.drawnumstruct3((curdata[3] + curdata[4] + curdata[5]))
 		jy=libSBTCVM.drawnumstruct3((curdata[6] + curdata[7] + curdata[8]))
@@ -350,6 +364,7 @@ while stopflag==0:
 	#mono draw
 	#mono draw pixel
 	elif curinst=="--0-+-":
+		updtmdisp=1
 		jx=libSBTCVM.drawnumstruct2((curdata[3] + curdata[4]))
 		jy=libSBTCVM.drawnumstruct2((curdata[5] + curdata[6]))
 		monocol=(int(libSBTCVM.dollytell((curdata[7] + curdata[8]))))
@@ -358,15 +373,18 @@ while stopflag==0:
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono fill
 	elif curinst=="--0-+0":
+		updtmdisp=1
 		monocol=(int(libSBTCVM.dollytell((curdata[7] + curdata[8]))))
 		#print monocol
 		MONODISP.fill((monocol, monocol, monocol))
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#set PPU mono vector Register
 	elif curinst=="--0-++":
+		updtmdisp=1
 		monovectorreg=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 	#draw mono line
 	elif curinst=="--00--":
+		updtmdisp=1
 		jx=libSBTCVM.drawnumstruct2((curdata[3] + curdata[4]))
 		jy=libSBTCVM.drawnumstruct2((curdata[5] + curdata[6]))
 		kx=libSBTCVM.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
@@ -377,6 +395,7 @@ while stopflag==0:
 		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono draw rect
 	elif curinst=="--00-0":
+		updtmdisp=1
 		jx=libSBTCVM.drawnumstruct2((curdata[3] + curdata[4]))
 		jy=libSBTCVM.drawnumstruct2((curdata[5] + curdata[6]))
 		kx=libSBTCVM.drawnumstruct2((monovectorreg[0] + monovectorreg[1]))
