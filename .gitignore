@@ -5,3 +5,4 @@ CAP/*
 !CAP/dummy.txt
 #assembler output
 assmout.trom
+*.pyc
