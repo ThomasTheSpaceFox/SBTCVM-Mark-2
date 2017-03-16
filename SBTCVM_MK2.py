@@ -563,6 +563,11 @@ while stopflag==0:
 	
 	
 	
+	#NULL INSTRUCTION (new variant) (compilers should use this in place of the legacy code.)
+	elif curinst=="000000":
+		
+		print("")
+	
 	
 	
 	#needed by user quering opcodes such as 0+--	

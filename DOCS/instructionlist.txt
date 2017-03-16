@@ -38,7 +38,7 @@
 --00-0|draw filled rectangle XXYYMM where MM is a 2 trit greyscale color value.
 --00-+
 --000-|stop (shuts down VM)
---0000|null
+--0000|legacy null
 --000+|goto data specified ROM adress
 --00+-|goto reg1 specified ROM adress
 --00+0|goto data specified ROM adress IF REG 1 & 2 ARE EQUAL
@@ -106,7 +106,7 @@
 -0-++-
 -0-++0
 -0-+++
--00---
+-00---|tty character interrupt (data)DDDDDDDDD=rom address to goto on interrupt. set REG1 as such: ???CCCCCC=character code [reserved for implimentation]
 -00--0
 -00--+
 -00-0-
@@ -362,7 +362,7 @@
 0000-0
 0000-+
 00000-
-000000
+000000|null
 00000+
 0000+-
 0000+0

@@ -9,7 +9,7 @@ assmoverrun=19683
 instcnt=0
 txtblk=0
 
-
+critcomperr=0
 
 outfile="assmout.trom"
 
@@ -166,7 +166,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			instcnt += 1
 		elif instword=="monorect":
 			instcnt += 1
-		#----opcode 00-+ unused----
+		#----opcode --00-+ unused----
 		elif instword=="stop":
 			instcnt += 1
 		elif instword=="null":
@@ -240,7 +240,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 	for linen in sourcefileB:
 		srcline += 1
 		if firstloop==1:
-			print "preforming firstloop startup..."
+			print "preforming compileloop startup..."
 			assmflename=arg
 			assmnamelst=assmflename.rsplit('.', 1)
 			outfile=(assmnamelst[0] + (".trom"))
@@ -258,6 +258,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 		else:
 			instword=(linelist[0])
 			instdat="000000000"
+		if instdat=="":
+			instdat="000000000"
+			print "NOTICE: data portion at source line:\"" + str(srcline) + "\" blank, defaulting to ground..."
 		if len(instdat)==6 and instdat[0]!=">":
 			print "Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually."
 			instdat=("000" + instdat)
@@ -274,11 +277,40 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			txtblk=1
 		#raw class
 		elif instword=="romread1":
-			outn.write("------" + instdat + "\n")
-			instcnt += 1
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("------" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				gtpoint=instgpe[1]
+				gtmatch=0
+				instcnt += 1
+				for fx in gotoreflist:
+					if fx.gtname==gtpoint:
+						outn.write("------" + fx.tline + "\n")
+						gtmatch=1
+				if gtmatch==0:
+					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+			
 		elif instword=="romread2":
-			outn.write("-----0" + instdat + "\n")
-			instcnt += 1
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("-----0" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				gtpoint=instgpe[1]
+				gtmatch=0
+				instcnt += 1
+				for fx in gotoreflist:
+					if fx.gtname==gtpoint:
+						outn.write("-----0" + fx.tline + "\n")
+						gtmatch=1
+				if gtmatch==0:
+					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
 		elif instword=="IOread1":
 			outn.write("-----+" + instdat + "\n")
 			instcnt += 1
@@ -397,13 +429,13 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 		elif instword=="monorect":
 			outn.write("--00-0" + instdat + "\n")
 			instcnt += 1
-		#----opcode 00-+ unused----
+		#----opcode --00-+ unused----
 		elif instword=="stop":
 			outn.write("--000-" + instdat + "\n")
 			instcnt += 1
 			autostpflg=1
 		elif instword=="null":
-			outn.write("--0000" + instdat + "\n")
+			outn.write("000000" + instdat + "\n")
 			instcnt += 1
 		elif instword=="gotodata":
 			instgpe=instdat.split(">")
@@ -542,7 +574,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 	
 	instpad=instcnt
 	while instpad!=19683:
-		outn.write("--0000" + "000000000" + "\n")
+		outn.write("000000" + "000000000" + "\n")
 		instpad += 1
 	
 	instextra=(instpad - instcnt)
