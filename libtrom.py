@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import libSBTCVM
 import os
-
+TROMA="intro.trom"
 TROMB=("DEFAULT.TROM")
 TROMC=("DEFAULT.TROM")
 TROMD=("DEFAULT.TROM")

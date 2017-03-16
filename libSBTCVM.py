@@ -143,7 +143,12 @@ def trunkto6math(code):
 	#code=libbaltcalc.BTINVERT(code)
 	if codecnt>9:
 		print "integer overflow"
-		code="---------"
+		if code[0]=="+":
+			code="---------"
+		elif code[0]=="-":
+			code="+++++++++"
+		else:
+			code="---------"
 	return((code[0]) + (code[1]) + (code[2]) + (code[3]) + (code[4]) + (code[5]) + (code[6]) + (code[7]) + (code[8]))
 
 #print(trunkto6("---0+++"))

@@ -19,9 +19,11 @@ commands:
 MK2-GFX.py -h (--help): this text
 MK2-GFX.py -v (--version)
 MK2-GFX.py -a (--about): about MK2-GFX.py
-MK2-GFX.py -c (--colraster) [imagefile]: convert a 27x27 pixel or smaller
+MK2-GFX.py -c (--colraster) [imagefile]: convert a 27x27 pixel or smaller image to color raster instrucions (exported as a *.tasm)
+MK2-GFX.py -cg (--colraster_groupcolor) [imagefile]: same as -c, but groups colors together as a compression scheme.
+MK2-GFX.py -cg2 (--colraster_groupcolor2) [imagefile]: same as -cg, but tracks the most common color and uses a single fill instruction to further compress the image.
 
-image to color raster instrucions (exported as a *.tasm)
+
 
 
 MK2-RUN.py
