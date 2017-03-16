@@ -534,14 +534,14 @@ while stopflag==0:
 	
 	#dump register 1 to TTY
 	elif curinst=="--++0+":
-		print ("REG1 DUMP:" + REG1)
+		print ("REG1 DUMP:" + REG1 + " " + str(libbaltcalc.BTTODEC(REG1)))
 		ttyredraw=1
-		abt=libSBTCVM.abtslackline(abt, ("REG1 DUMP:" + REG1))
+		abt=libSBTCVM.abtslackline(abt, ("REG1 DUMP:" + REG1 + " " + str(libbaltcalc.BTTODEC(REG1))))
 	#dump Register 2 to TTY
 	elif curinst=="--+++-":
-		print ("REG2 DUMP:" + REG2)
+		print ("REG2 DUMP:" + REG2 + " " + str(libbaltcalc.BTTODEC(REG2)))
 		ttyredraw=1
-		abt=libSBTCVM.abtslackline(abt, ("REG2 DUMP:" + REG2))
+		abt=libSBTCVM.abtslackline(abt, ("REG2 DUMP:" + REG2 + " " + str(libbaltcalc.BTTODEC(REG2))))
 	#tty write port (direct)
 	elif curinst=="--+++0":
 		abt=libSBTCVM.abtcharblit(abt, (libSBTCVM.charcodelook((curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8]))))
