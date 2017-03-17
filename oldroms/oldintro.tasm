@@ -58,41 +58,30 @@ userwait
 TTYclear
 
 
-TTYbg|000000+00|menu
-setkeyint|:1
-keyint|>1
-setkeyint|:2
-keyint|>2
-setkeyint|:3
-keyint|>3
-setkeyint|:4
-keyint|>4
-setkeyint|:5
-keyint|>5
-setkeyint|:q
-keyint|>q
-#TTYbg|0,0,0
-textstart
-Welcome To SBTCVM Mark 2.
+#TTYbg|00000++00
 
-Please choose an option:
-press 1 for color graphics demo
-press 2 for mono graphics demo
-press 3 for vector operations demo
-press 4 for a text screen intro.
-press 5 for SBTCVM Mark 2 specs.
-press q to quit.
+TTYbg|0,0,0
+textstart
+             ---------
+            -|Welcome|-
+             ---------
+
+This is SBTCVM Mark 2.
+A Balanced Ternary Virtual
+Machine. 
+
+Escape stopps the VM
+
+see DOCS directory for more help.
 textstop
-null||menuloop
-null
-gotodata|>menuloop
+userwait
 TTYclear
 #Ye old raster demos. ported to SBTCVM Mark 2
 #first graphics demo.
-TTYclear||1
-clearkeyint|00000000+
+TTYclear
 TTYbg|0,0,127
-gotodata|>pixart1|
+
+gotodata|>pixart1
 #tidbit 1
 textstart
 top raster info:
@@ -110,11 +99,8 @@ pixart1.png to be exact.
 but was autoconverted into tasm code
 with MK2-GFX's -cg2 conversion mode.
 textstop
+userwait
 TTYclear
-gotodata|>menu
-TTYclear||2
-clearkeyint|00000000+
-TTYbg|0,127,0
 monofill|00000000-|gxq
 monopixel|00000000+
 monopixel|000------
@@ -136,13 +122,9 @@ bottom raster info:
 draw full 9x9 image)
 textstop
 userwait
-TTYclear
-gotodata|>menu
 
 #second graphics demo
-TTYclear||3
-clearkeyint|00000000+
-TTYbg|0,127,255
+TTYclear
 colorfill|00000-++-
 setcolorreg|000--00++
 #colorfill|255,20,255
@@ -186,22 +168,8 @@ colorline|000++-+0-
 
 userwait
 TTYclear
-gotodata|>menu
-TTYclear||5
-clearkeyint|00000000+
-colorfill|0000+0++-
-setcolorreg|000-+0+--
-setcolorvect|000---00+
-colorrect|000++++++
-setcolorreg|000++++-+
-colorpixel|000+0+--+
-setcolorvect|000++---+
-setcolorreg|000-0-0-0
-colorline|000++-+0-
-TTYbg|0,127,127
 #call logo text drawer again
 gotodata|>drawlogotext
-
 
 
 
@@ -218,13 +186,9 @@ SBTCVM Mark 2 Specifications:
 >togglable step-by-step execution.
 >features a buzzer and various
  status displays and indicators.
->keyboard interrupt system.
 textstop
 userwait
 TTYclear
-gotodata|>menu
-TTYclear||4
-clearkeyint|00000000+
 TTYbg|0,0,0
 gotodata|>newminilogo
 textstart
@@ -255,11 +219,9 @@ textstart
 ------------------------------------
 textstop
 userwait
-TTYclear
-gotodata|>menu
 
 
-stop||q
+stop
 
 #
 #SUBFUNCTIONS BELOW

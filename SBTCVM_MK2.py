@@ -29,6 +29,9 @@ pixcnt1=40
 pixjmp=14
 USRYN=0
 USRWAIT=0
+
+keyintreg="0000"
+
 #graphics:
 #background pixmap
 vmbg=pygame.image.load(os.path.join('GFX', 'VMBG.png'))
@@ -82,6 +85,49 @@ exec(exconf)
 #except IndexError:
 	#print "no command line run argument found. do normal execution..."
 
+key1=0
+key2=0
+key3=0
+key4=0
+key5=0
+key6=0
+key7=0
+key8=0
+key9=0
+key0=0
+keypos=0
+keyhyp=0
+keyq=0
+keyw=0
+keye=0
+keyr=0
+keyt=0
+keyy=0
+keyu=0
+keyi=0
+keyo=0
+keyp=0
+keya=0
+keysx=0
+keyd=0
+keyf=0
+keyg=0
+keyh=0
+keyj=0
+keyk=0
+keyl=0
+keyz=0
+keyx=0
+keyc=0
+keyv=0
+keyb=0
+keyn=0
+keym=0
+keyspace=0
+keyret=0
+
+
+
 if 'GLOBRUNFLG' in globals():
 	
 	TROMA=GLOBRUNFLG
@@ -89,7 +135,8 @@ if 'GLOBRUNFLG' in globals():
 	print ("GLOBRUNFLG found... \n running trom: \"" + TROMA + "\" as TROMA")
 
 
-
+TTYBGCOL=libSBTCVM.colorfind("000000")
+TTYBGCOLREG="000000"
 
 #print BOOTUPFILE
 
@@ -109,7 +156,7 @@ else:
 
 
 libSBTCVMsurf=pygame.Surface((324, 243))
-libSBTCVMsurf.fill((127, 127, 127))
+libSBTCVMsurf.fill(TTYBGCOL)
 #RAMBANK startup begin
 RAMbank = {}
 
@@ -160,6 +207,7 @@ prevEXECADDR="diff"
 prevROM="diff"
 prevINST="diff"
 prevDATA="diff"
+regsetpoint="000000000"
 updtcdisp=1
 updtmdisp=1
 print "SBTCVM Mark 2 Ready. the VM will now begin."
@@ -222,7 +270,7 @@ while stopflag==0:
 		abtpref=abt
 		ttyredraw=0
 		lineq=0
-		libSBTCVMsurf.fill((127, 127, 127))
+		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
@@ -412,9 +460,9 @@ while stopflag==0:
 		abt=libSBTCVM.abtslackline(abt, "soft stop.")
 		ttyredraw=1
 	#NULL INSTRUCTION (DOES NOTHING) USE WHEN YOU WISH TO DO NOTHING :p
-	elif curinst=="--0000":
-		
-		print("")
+	#elif curinst=="--0000":
+		#commented out due to doing nothing.
+		#print("")
 	#goto rom adress specified by CURRENT DATA
 	elif curinst=="--000+":
 		EXECADDRNEXT=curdata
@@ -560,13 +608,274 @@ while stopflag==0:
 			time.sleep(0.1)
 		else:
 			time.sleep(0.2)
-	
-	
-	
-	#NULL INSTRUCTION (new variant) (compilers should use this in place of the legacy code.)
-	elif curinst=="000000":
+	#set regset pointer
+	elif curinst=="-0-000":
+		regsetpoint=curdata
+	#regset
+	elif curinst=="-0-00+":
+		if regsetpoint=="---------":
+			TTYBGCOLREG=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
+			TTYBGCOL=libSBTCVM.colorfind(TTYBGCOLREG)
+			ttyredraw=1
+	#set ketinterupt register
+	elif curinst=="-0-+++":
+		keyintreg=(curdata[5] + curdata[6] + curdata[7] + curdata[8])
+	#keyinterupt activate
+	elif curinst=="-00---":
+		if keyintreg=="----":
+			key1=1
+			key1adr=curdata
+		if keyintreg=="---0":
+			key2=1
+			key2adr=curdata
+		if keyintreg=="---+":
+			key3=1
+			key3adr=curdata
+		if keyintreg=="--0-":
+			key4=1
+			key4adr=curdata
+		if keyintreg=="--00":
+			key5=1
+			key5adr=curdata
+		if keyintreg=="--0+":
+			key6=1
+			key6adr=curdata
+		if keyintreg=="--+-":
+			key7=1
+			key7adr=curdata
+		if keyintreg=="--+0":
+			key8=1
+			key8adr=curdata
+		if keyintreg=="--++":
+			key9=1
+			key9adr=curdata
+		if keyintreg=="-0--":
+			key0=1
+			key0adr=curdata
+		if keyintreg=="-0-0":
+			keyhyp=1
+			keyhypadr=curdata
+		if keyintreg=="-0-+":
+			keypos=1
+			keyposadr=curdata
+		if keyintreg=="-00-":
+			keya=1
+			keyaadr=curdata
+		if keyintreg=="-000":
+			keyb=1
+			keybadr=curdata
+		if keyintreg=="-00+":
+			keyc=1
+			keycadr=curdata
+		if keyintreg=="-0+-":
+			keyd=1
+			keydadr=curdata
+		if keyintreg=="-0+0":
+			keye=1
+			keyeadr=curdata
+		if keyintreg=="-0++":
+			keyf=1
+			keyfadr=curdata
+		if keyintreg=="-+--":
+			keyg=1
+			keygadr=curdata
+		if keyintreg=="-+-0":
+			keyh=1
+			keyhadr=curdata
+		if keyintreg=="-+-+":
+			keyi=1
+			keyiadr=curdata
+		if keyintreg=="-+0-":
+			keyj=1
+			keyjadr=curdata
+		if keyintreg=="-+00":
+			keyk=1
+			keykadr=curdata
+		if keyintreg=="-+0+":
+			keyl=1
+			keyladr=curdata
+		if keyintreg=="-++-":
+			keym=1
+			keymadr=curdata
+		if keyintreg=="-++0":
+			keyn=1
+			keynadr=curdata
+		if keyintreg=="-+++":
+			keyo=1
+			keyoadr=curdata
+		if keyintreg=="0---":
+			keyp=1
+			keypadr=curdata
+		if keyintreg=="0--0":
+			keyq=1
+			keyqadr=curdata
+		if keyintreg=="0--+":
+			keyr=1
+			keyradr=curdata
+		if keyintreg=="0-0-":
+			keysx=1
+			keysadr=curdata
+		if keyintreg=="0-00":
+			keyt=1
+			keytadr=curdata
+		if keyintreg=="0-0+":
+			keyu=1
+			keyuadr=curdata
+		if keyintreg=="0-+-":
+			keyv=1
+			keyvadr=curdata
+		if keyintreg=="0-+0":
+			keyw=1
+			keywadr=curdata
+		if keyintreg=="0-++":
+			keyx=1
+			keyxadr=curdata
+		if keyintreg=="00--":
+			keyy=1
+			keyyadr=curdata
+		if keyintreg=="00-0":
+			keyz=1
+			keyzadr=curdata
+		if keyintreg=="00-+":
+			keyspace=1
+			keyspaceadr=curdata
+		if keyintreg=="000-":
+			keyret=1
+			keyretadr=curdata
 		
-		print("")
+		
+		
+		
+	#clear keyinterupt
+	elif curinst=="-00--0":
+		if curdata[8]=="+":
+			key1=0
+			key2=0
+			key3=0
+			key4=0
+			key5=0
+			key6=0
+			key7=0
+			key8=0
+			key9=0
+			key0=0
+			keypos=0
+			keyhyp=0
+			keyq=0
+			keyw=0
+			keye=0
+			keyr=0
+			keyt=0
+			keyy=0
+			keyu=0
+			keyi=0
+			keyo=0
+			keyp=0
+			keya=0
+			keysx=0
+			keyd=0
+			keyf=0
+			keyg=0
+			keyh=0
+			keyj=0
+			keyk=0
+			keyl=0
+			keyz=0
+			keyx=0
+			keyc=0
+			keyv=0
+			keyb=0
+			keyn=0
+			keym=0
+			keyspace=0
+			keyret=0
+		else:
+			if keyintreg=="----":
+				key1=0
+			if keyintreg=="---0":
+				key2=0
+			if keyintreg=="---+":
+				key3=0
+			if keyintreg=="--0-":
+				key4=0
+			if keyintreg=="--00":
+				key5=0
+			if keyintreg=="--0+":
+				key6=0
+			if keyintreg=="--+-":
+				key7=0
+			if keyintreg=="--+0":
+				key8=0
+			if keyintreg=="--++":
+				key9=0
+			if keyintreg=="-0--":
+				key0=0
+			if keyintreg=="-0-0":
+				keyhyp=0
+			if keyintreg=="-0-+":
+				keypos=0
+			if keyintreg=="-00-":
+				keya=0
+			if keyintreg=="-000":
+				keyb=0
+			if keyintreg=="-00+":
+				keyc=0
+			if keyintreg=="-0+-":
+				keyd=0
+			if keyintreg=="-0+0":
+				keye=0
+			if keyintreg=="-0++":
+				keyf=0
+			if keyintreg=="-+--":
+				keyg=0
+			if keyintreg=="-+-0":
+				keyh=0
+			if keyintreg=="-+-+":
+				keyi=0
+			if keyintreg=="-+0-":
+				keyj=0
+			if keyintreg=="-+00":
+				keyk=0
+			if keyintreg=="-+0+":
+				keyl=0
+			if keyintreg=="-++-":
+				keym=0
+			if keyintreg=="-++0":
+				keyn=0
+			if keyintreg=="-+++":
+				keyo=0
+			if keyintreg=="0---":
+				keyp=0
+			if keyintreg=="0--0":
+				keyq=0
+			if keyintreg=="0--+":
+				keyr=0
+			if keyintreg=="0-0-":
+				keysx=0
+			if keyintreg=="0-00":
+				keyt=0
+			if keyintreg=="0-0+":
+				keyu=0
+			if keyintreg=="0-+-":
+				keyv=0
+			if keyintreg=="0-+0":
+				keyw=0
+			if keyintreg=="0-++":
+				keyx=0
+			if keyintreg=="00--":
+				keyy=0
+			if keyintreg=="00-0":
+				keyz=0
+			if keyintreg=="00-+":
+				keyspace=0
+			if keyintreg=="000-":
+				keyret=0
+		
+		
+	#NULL INSTRUCTION (new variant) (compilers should use this in place of the legacy code.)
+	#elif curinst=="000000":
+	#	
+	#	print("")
 	
 	
 	
@@ -606,7 +915,7 @@ while stopflag==0:
 		#pixcnt1=40
 		lineq=0
 		
-		libSBTCVMsurf.fill((127, 127, 127))
+		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
@@ -794,6 +1103,167 @@ while stopflag==0:
 					disablereadouts=1
 				#STEPLED=LEDGREENON
 				break
+			if event.type == KEYDOWN and (event.key == K_1 or event.key == K_KP1) and key1 == 1:
+				EXECADDRNEXT=key1adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_2 or event.key == K_KP2) and key2 == 1:
+				EXECADDRNEXT=key2adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_3 or event.key == K_KP3) and key3 == 1:
+				EXECADDRNEXT=key3adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_4 or event.key == K_KP4) and key4 == 1:
+				EXECADDRNEXT=key4adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_5 or event.key == K_KP5) and key5 == 1:
+				EXECADDRNEXT=key5adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_6 or event.key == K_KP6) and key6 == 1:
+				EXECADDRNEXT=key6adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_7 or event.key == K_KP7) and key7 == 1:
+				EXECADDRNEXT=key7adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_8 or event.key == K_KP8) and key8 == 1:
+				EXECADDRNEXT=key8adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_9 or event.key == K_KP9) and key9 == 1:
+				EXECADDRNEXT=key9adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_0 or event.key == K_KP0) and key0 == 1:
+				EXECADDRNEXT=key0adr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_MINUS or event.key == K_UNDERSCORE or event.key == K_KP_MINUS) and keyhyp == 1:
+				EXECADDRNEXT=keyhypadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_PLUS or event.key == K_EQUALS or event.key == K_KP_PLUS) and keypos == 1:
+				EXECADDRNEXT=keyposadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_a and keya == 1:
+				EXECADDRNEXT=keyaadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_b and keyb == 1:
+				EXECADDRNEXT=keybadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_c and keyc == 1:
+				EXECADDRNEXT=keycadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_d and keyd == 1:
+				EXECADDRNEXT=keydadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_e and keye == 1:
+				EXECADDRNEXT=keyeadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_f and keyf == 1:
+				EXECADDRNEXT=keyfadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_g and keyg == 1:
+				EXECADDRNEXT=keygadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_h and keyh == 1:
+				EXECADDRNEXT=keyhadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_i and keyi == 1:
+				EXECADDRNEXT=keyiadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_j and keyj == 1:
+				EXECADDRNEXT=keyjadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_k and keyk == 1:
+				EXECADDRNEXT=keykadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_l and keyl == 1:
+				EXECADDRNEXT=keyladr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_m and keym == 1:
+				EXECADDRNEXT=keymadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_n and keyn == 1:
+				EXECADDRNEXT=keynadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_o and keyo == 1:
+				EXECADDRNEXT=keyoadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_p and keyp == 1:
+				EXECADDRNEXT=keypadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_q and keyq == 1:
+				EXECADDRNEXT=keyqadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_r and keyr == 1:
+				EXECADDRNEXT=keyradr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_s and keysx == 1:
+				EXECADDRNEXT=keysadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_t and keyt == 1:
+				EXECADDRNEXT=keytadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_u and keyu == 1:
+				EXECADDRNEXT=keyuadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_v and keyv == 1:
+				EXECADDRNEXT=keyvadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_w and keyw == 1:
+				EXECADDRNEXT=keywadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_x and keyx == 1:
+				EXECADDRNEXT=keyxadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_y and keyy == 1:
+				EXECADDRNEXT=keyyadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_z and keyz == 1:
+				EXECADDRNEXT=keyzadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and event.key == K_SPACE and keyspace == 1:
+				EXECADDRNEXT=keyspaceadr
+				EXECCHANGE=1
+				break
+			if event.type == KEYDOWN and (event.key == K_RETURN or event.key == K_KP_ENTER) and keyret == 1:
+				EXECADDRNEXT=keyretadr
+				EXECCHANGE=1
+				break
+			
 	#pygame.event.clear()
 	
 	
@@ -864,7 +1334,7 @@ while stopflag==0:
 		#	pixcnt1 += pixjmp
 		#pixcnt1=38
 		lineq=0
-		libSBTCVMsurf.fill((127, 127, 127))
+		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0

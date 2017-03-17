@@ -258,7 +258,42 @@ def charblit(chsurface, colx, liney, charcode):
 	chsurface.blit(glif, (colx, liney))
 	return chsurface
 
-
+def codeshift(colch):
+	colch=int(colch)
+	#print colch
+	if colch<16:
+		return("--")
+	if colch<32:
+		return("-0")
+	if colch<48:
+		return("-0")
+	if colch<64:
+		return("-+")
+	if colch<80:
+		return("-+")
+	if colch<96:
+		return("0-")
+	if colch<111:
+		return("0-")
+	if colch<127:
+		return("00")
+	if colch<143:
+		return("00")
+	if colch<159:
+		return("0+")
+	if colch<175:
+		return("0+")
+	if colch<191:
+		return("+-")
+	if colch<207:
+		return("+-")
+	if colch<223:
+		return("+0")
+	if colch<239:
+		return("++")
+	if colch<=255:
+		return("++")
+	return"00"
 
 
 #Text encoding tables
@@ -271,6 +306,15 @@ chargliph={"a": "chara.gif", "b": "charb.gif", "c": "charc.gif", "d": "chard.gif
 
 #primary character list. use to check if a character has a valid code
 charscrossck=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "=", "_", "+", "[", "]", "\\", "{", "}", "|", ";", "\'", ",", ".", "/", ":", '\"', "<", ">", "?", "\n", " "]
+
+#4-trit keyscan tables:
+texttoscan={"1": "----","2": "---0","3": "---+","4": "--0-","5": "--00","6": "--0+","7": "--+-","8": "--+0","9": "--++","0": "-0--","-": "-0-0","+": "-0-+","a": "-00-","b": "-000","c": "-00+","d": "-0+-","e": "-0+0","f": "-0++","g": "-+--","h": "-+-0","i": "-+-+","j": "-+0-","k": "-+00","l": "-+0+","m": "-++-","n": "-++0","o": "-+++","p": "0---","q": "0--0","r": "0--+","s": "0-0-","t": "0-00","u": "0-0+","v": "0-+-","w": "0-+0","x": "0-++","y": "00--","z": "00-0"," ": "00-+","\n": "000-"}
+scantotext={}
+for keyscrev in texttoscan:
+	keysccode=texttoscan[keyscrev]
+	scantotext[keysccode]=keyscrev
+	
+#print scantotext
 
 def charcodelook(code):
 	return(charcodedict[code])

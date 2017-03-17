@@ -18,6 +18,16 @@ for example, a source file called "file.tasm", will be compiled into the SBTCVM 
 it is possible to edit the trom directly, but can be more difficult.
 
 
+instructions that need 6-trit RGB colors as data (listed below) can use this special formatting:
+R,G,B where R G and B are respective color channels with values ranging from 0 to 255
+example:
+colorfill|255,255,255 is white
+
+	colorfill
+	setcolorreg
+	TTYbg
+
+
 note: while SBTCVM-asm does make programming for SBTCVM mark 2 easier
 a basic understanding of both how conventional computers work, 
 and balanced ternary mathematics, is still needed.
@@ -323,7 +333,8 @@ dump register 2 to TTY
 "TTYwrite"
 --+++0
 tty write port (direct) (???CCCCCC) where CCCCCC is the SBTCVMtext 6-trit character code.
-
+or you can use 
+TTYwrite|:? where ?=single character (or "space" for a space or "enter" for a newline)
 "buzzer"
 --++++
 buzzer port (direct)
@@ -332,3 +343,35 @@ buzzer port (direct)
 	+   0.3 seconds
 	0   0.2 seconds
 	-   0.1 seconds
+
+"setregset" (see regset.txt)
+-0-000
+
+
+"regset" (see regset.txt)
+-0-00+
+
+
+
+"setkeyint"
+-0-+++
+(see keyboard-inter.txt)
+set keyinterrupt register. (used to select a key interrupt to activate.)
+ ?????DDDD=4-trit scancode
+you can use setkeyint|:? where ?=codelabel (see list in keyboard-inter.txt)
+
+"keyint"
+-00---
+(see keyboard-inter.txt)
+keyboard interrupt. (data)DDDDDDDDD=rom address to goto on interrupt.
+
+
+
+"clearkeyint"
+-00--0
+(see keyboard-inter.txt)
+clear key interrupt| ????????0=clear keyinterrupt chosen by ketinterrupt,
+ ????????+=clear all keyinterrupts.
+
+"TTYbg" 6-trit-color-instruction-enhanced shortcut for setting the TTY background color register.
+

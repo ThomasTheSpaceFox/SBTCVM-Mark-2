@@ -221,6 +221,18 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			instcnt += 1
 		elif instword=="buzzer":
 			instcnt += 1
+		elif instword=="setregset":
+			instcnt += 1
+		elif instword=="regset":
+			instcnt += 1
+		elif instword=="setkeyint":
+			instcnt += 1
+		elif instword=="keyint":
+			instcnt += 1
+		elif instword=="clearkeyint":
+			instcnt += 1
+		elif instword=="TTYbg":
+			instcnt += 2
 		else:
 			gtflag=0
 		if (len(linelist))==3 and gtflag==1 and txtblk==0 and instword[0]!="#":
@@ -248,6 +260,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			firstloop=0
 			print "done. begin compile."
 		lined=linen
+		linen=(linen.split("#"))[0]
 		linen=linen.replace("\n", "")
 		linen=linen.replace("	", "")
 		linelist=linen.split("|")
@@ -261,7 +274,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 		if instdat=="":
 			instdat="000000000"
 			print "NOTICE: data portion at source line:\"" + str(srcline) + "\" blank, defaulting to ground..."
-		if len(instdat)==6 and instdat[0]!=">":
+		if len(instdat)==6 and instdat[0]!=">" and instdat[0]!=":":
 			print "Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually."
 			instdat=("000" + instdat)
 		if instword=="textstop":
@@ -399,10 +412,25 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			outn.write("--0---" + instdat + "\n")
 			instcnt += 1
 		elif instword=="setcolorreg":
-			outn.write("--0--0" + instdat + "\n")
+			instclst=instdat.split(',')
+			if len(instclst)==3:
+				vxR=libSBTCVM.codeshift(instclst[0])
+				vxB=libSBTCVM.codeshift(instclst[1])
+				vxG=libSBTCVM.codeshift(instclst[2])
+				outn.write("--0--0" + ("000" + vxR + vxB + vxG) + "\n")
+			else:
+				outn.write("--0--0" + instdat + "\n")
 			instcnt += 1
 		elif instword=="colorfill":
-			outn.write("--0--+" + instdat + "\n")
+			instclst=instdat.split(',')
+			if len(instclst)==3:
+				vxR=libSBTCVM.codeshift(instclst[0])
+				vxB=libSBTCVM.codeshift(instclst[1])
+				vxG=libSBTCVM.codeshift(instclst[2])
+				
+				outn.write("--0--+" + ("000" + vxR + vxB + vxG) + "\n")
+			else:
+				outn.write("--0--+" + instdat + "\n")
 			instcnt += 1
 		elif instword=="setcolorvect":
 			outn.write("--0-0-" + instdat + "\n")
@@ -553,11 +581,77 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			outn.write("--+++-" + instdat + "\n")
 			instcnt += 1
 		elif instword=="TTYwrite":
-			outn.write("--+++0" + instdat + "\n")
-			instcnt += 1
+			#outn.write("--+++0" + instdat + "\n")
+			#instcnt += 1
+			instgpe=instdat.split(":")
+			if (len(instgpe))==1:
+				outn.write("--+++0" + instdat + "\n")
+				instcnt += 1
+			else:
+				if instgpe[1]=="enter":
+					ksc=" "
+				elif instgpe[1]=="space":
+					ksc="\n"
+				else:
+					ksc=(instgpe[1])[0]
+				outn.write("--+++0" + "000" + (libSBTCVM.charlook(ksc)) + "\n")
+				instcnt += 1
 		elif instword=="buzzer":
 			outn.write("--++++" + instdat + "\n")
 			instcnt += 1
+		elif instword=="setregset":
+			outn.write("-0-000" + instdat + "\n")
+			instcnt += 1
+		elif instword=="regset":
+			outn.write("-0-00+" + instdat + "\n")
+			instcnt += 1
+		elif instword=="setkeyint":
+			instgpe=instdat.split(":")
+			if (len(instgpe))==1:
+				outn.write("-0-+++" + instdat + "\n")
+				instcnt += 1
+			else:
+				if instgpe[1]=="enter":
+					ksc=" "
+				elif instgpe[1]=="space":
+					ksc="\n"
+				else:
+					ksc=(instgpe[1])[0]
+				outn.write("-0-+++" + "00000" + (libSBTCVM.texttoscan[ksc]) + "\n")
+				instcnt += 1
+		elif instword=="keyint":
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("-00---" + instdat + "\n")#
+				instcnt += 1
+			else:
+				gtpoint=instgpe[1]
+				gtmatch=0
+				instcnt += 1
+				for fx in gotoreflist:
+					if fx.gtname==gtpoint:
+						outn.write("-00---" + fx.tline + "\n")
+						gtmatch=1
+				if gtmatch==0:
+					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+		elif instword=="clearkeyint":
+			outn.write("-00--0" + instdat + "\n")
+			instcnt += 1
+		#special regset shortcut commands
+		elif instword=="TTYbg":
+			instclst=instdat.split(",")
+			if len(instclst)==3:
+				vxR=libSBTCVM.codeshift(instclst[0])
+				vxB=libSBTCVM.codeshift(instclst[1])
+				vxG=libSBTCVM.codeshift(instclst[2])
+				outn.write("-0-000" + "---------" + "\n")
+				outn.write("-0-00+" + ("000" + vxR + vxB + vxG) + "\n")
+			else:
+				outn.write("-0-000" + "---------" + "\n")
+				outn.write("-0-00+" + instdat + "\n")
+			
+			instcnt += 2
 		if instcnt>assmoverrun:
 			print("ERROR!: assembler has exceded rom size limit of 19683!")
 	

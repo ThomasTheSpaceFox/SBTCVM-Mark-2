@@ -1,0 +1,18 @@
+-0-000|regset pointer (see regset.txt)
+-0-00+|regset operation (DDDDDDDDD) (data) (see regset.txt)
+
+
+additional documentation of regset system:
+
+any SBTCVM SYSTEM registers deemed not important enough to have an 
+exclusive opcode should be added to the regset system.
+
+step 1: set regset pointer register (-0-000) (tasm: "setregset") using current data
+step 2: set selected register with regset operation (-0-00+) (tasm: "regset") using current data
+
+register pointers:
+---------
+TTY BG color
+	(???CCCCCC) (6-trit RGB) DEFAULT=000000
+	set the background of the TTY
+	(tasm: "TTYbg", 6-trit color enhanced)
