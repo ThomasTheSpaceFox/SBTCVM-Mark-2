@@ -1,5 +1,9 @@
 textstart
 test keyboard interrupt system
+during mainloop, to show that the
+mainloop can do other things,
+the random integer port is read into
+register 1.
 current supported keys:
 1234567890-+
 qwertyuiop
@@ -97,6 +101,7 @@ textstop
 
 null||goback
 null
+IOread1|--0------
 gotodata|>goback
 
 

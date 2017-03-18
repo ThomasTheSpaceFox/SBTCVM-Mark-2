@@ -727,7 +727,7 @@
 ---+++++-
 ---+++++0
 ---++++++[end scratch memory]
---0------
+--0------[random 9-trit integer port (updated per clock cycle)]
 --0-----0
 --0-----+
 --0----0-

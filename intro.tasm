@@ -69,6 +69,8 @@ setkeyint|:4
 keyint|>4
 setkeyint|:5
 keyint|>5
+setkeyint|:6
+keyint|>6
 setkeyint|:q
 keyint|>q
 #TTYbg|0,0,0
@@ -81,6 +83,7 @@ press 2 for mono graphics demo
 press 3 for vector operations demo
 press 4 for a text screen intro.
 press 5 for SBTCVM Mark 2 specs.
+press 6 for a flower.
 press q to quit.
 textstop
 null||menuloop
@@ -110,6 +113,7 @@ pixart1.png to be exact.
 but was autoconverted into tasm code
 with MK2-GFX's -cg2 conversion mode.
 textstop
+userwait
 TTYclear
 gotodata|>menu
 TTYclear||2
@@ -260,6 +264,775 @@ gotodata|>menu
 
 
 stop||q
+
+TTYclear||6
+clearkeyint|00000000+
+textstart
+have a flower. :)
+textstop
+colorfill|000++-+0+
+#color change 
+setcolorreg|000++00--
+colorpixel|00000-0-0
+colorpixel|0000-+00+
+colorpixel|0000-00+-
+#color change 
+setcolorreg|000+-0-0-
+colorpixel|0000-+-+-
+colorpixel|00000--+0
+colorpixel|000+++-+0
+colorpixel|000-++0-+
+colorpixel|000--0+0-
+#color change 
+setcolorreg|000++-00-
+colorpixel|000+0-000
+#color change 
+setcolorreg|0000+0-0-
+colorpixel|0000-++-+
+colorpixel|000++0+0+
+colorpixel|000++-++-
+#color change 
+setcolorreg|000+00---
+colorpixel|0000000-+
+#color change 
+setcolorreg|000+--0-+
+colorpixel|000+-0--+
+colorpixel|0000+--0+
+colorpixel|0000++-0+
+colorpixel|00000+-+-
+colorpixel|0000++-+-
+colorpixel|0000---+0
+colorpixel|000000-+0
+colorpixel|00000+-+0
+colorpixel|0000-0-++
+colorpixel|00000+-++
+colorpixel|0000+0-++
+colorpixel|000+-0-++
+colorpixel|00000+0--
+colorpixel|000+--0--
+colorpixel|0000--0-0
+colorpixel|0000-00-0
+colorpixel|0000++0-0
+colorpixel|000++00-0
+colorpixel|000+++0-0
+colorpixel|000-++00-
+colorpixel|0000++0+-
+colorpixel|000+-00+-
+colorpixel|000-+00+0
+colorpixel|000-++0+0
+colorpixel|000+000+0
+colorpixel|000+0+0+0
+colorpixel|000++00+0
+colorpixel|000-000++
+colorpixel|00000+0++
+colorpixel|0000++0++
+colorpixel|0000-++++
+colorpixel|0000+-+++
+#color change 
+setcolorreg|000-+0--0
+colorpixel|000--+---
+colorpixel|000--+--+
+colorpixel|000+++-0-
+colorpixel|000++++0+
+colorpixel|000---++-
+colorpixel|000-00+++
+#color change 
+setcolorreg|000+00-00
+colorpixel|000-+-0--
+#color change 
+setcolorreg|000+00--+
+colorpixel|0000-+0--
+#color change 
+setcolorreg|0000+-0-0
+colorpixel|00000+0-+
+colorpixel|0000+-0-+
+colorpixel|0000++0-+
+colorpixel|0000--00-
+colorpixel|0000-000-
+colorpixel|00000000-
+colorpixel|0000+-00-
+colorpixel|00000-000
+colorpixel|000000000
+colorpixel|0000+0000
+colorpixel|00000-00+
+colorpixel|00000000+
+colorpixel|00000+00+
+colorpixel|0000+-00+
+colorpixel|0000+000+
+colorpixel|0000000+-
+colorpixel|00000+0+-
+colorpixel|0000+00+-
+#color change 
+setcolorreg|0000+0+-+
+colorpixel|000+++-+-
+colorpixel|000--0+00
+#color change 
+setcolorreg|000++0++-
+colorpixel|000+--0+0
+#color change 
+setcolorreg|000-0-0--
+colorpixel|000-----+
+colorpixel|000----0-
+#color change 
+setcolorreg|000++0-00
+colorpixel|000+0-00-
+#color change 
+setcolorreg|000++00-+
+colorpixel|0000--0+-
+#color change 
+setcolorreg|0000+-00-
+colorpixel|0000-0+-0
+#color change 
+setcolorreg|000+-0-00
+colorpixel|000--0-0-
+#color change 
+setcolorreg|0000++-0-
+colorpixel|000+00---
+colorpixel|000+0+---
+colorpixel|000++----
+colorpixel|000+0+--0
+colorpixel|000++---0
+colorpixel|000+0+--+
+colorpixel|000++---+
+colorpixel|000+0+-0-
+colorpixel|000++--0-
+colorpixel|000++0-0-
+colorpixel|000++--00
+colorpixel|000--0++0
+colorpixel|000--+++0
+colorpixel|000--0+++
+colorpixel|000--++++
+#color change 
+setcolorreg|000+0-00-
+colorpixel|0000-----
+colorpixel|000-++--0
+colorpixel|0000----0
+colorpixel|0000+---0
+colorpixel|00000---+
+colorpixel|000000--+
+colorpixel|00000+--+
+colorpixel|0000+---+
+colorpixel|00000--0-
+colorpixel|000000-0-
+colorpixel|00000+-0-
+colorpixel|0000+--0-
+colorpixel|000+---0-
+colorpixel|000--+-00
+colorpixel|000-+--00
+colorpixel|000-++-00
+colorpixel|0000-0-00
+colorpixel|00000--00
+colorpixel|000000-00
+colorpixel|000+-+-00
+colorpixel|000+0--00
+colorpixel|000-+0-0+
+colorpixel|000-++-0+
+colorpixel|0000---0+
+colorpixel|0000-0-0+
+colorpixel|00000--0+
+colorpixel|000000-0+
+colorpixel|000+---0+
+colorpixel|000+-0-0+
+colorpixel|000+-+-0+
+colorpixel|000-+--+-
+colorpixel|000-+0-+-
+colorpixel|0000---+-
+colorpixel|0000+0-+-
+colorpixel|000+---+-
+colorpixel|000+00-+-
+colorpixel|000-0+-+0
+colorpixel|000-+0-+0
+colorpixel|000-++-+0
+colorpixel|000+0--+0
+colorpixel|000-0+-++
+colorpixel|000-+--++
+colorpixel|000-+0-++
+colorpixel|000-++-++
+colorpixel|0000---++
+colorpixel|0000++-++
+colorpixel|000-000--
+colorpixel|000-++0--
+colorpixel|0000--0--
+colorpixel|0000-00--
+colorpixel|000-000-0
+colorpixel|000-0+0-0
+colorpixel|000-+-0-+
+colorpixel|000+0+0-+
+colorpixel|000--+00-
+colorpixel|000-0-00-
+colorpixel|000-+-00-
+colorpixel|000-+-000
+colorpixel|000-+0000
+colorpixel|000-++000
+colorpixel|000+00000
+colorpixel|000+0+000
+colorpixel|000-0+00+
+colorpixel|000-+-00+
+colorpixel|000-+000+
+colorpixel|000-++00+
+colorpixel|000-000+-
+colorpixel|000-0+0+-
+colorpixel|000-+-0+0
+colorpixel|0000++0+0
+colorpixel|000++-0++
+colorpixel|000-00+--
+colorpixel|000+0-+--
+colorpixel|000++0+-0
+colorpixel|000-00+-+
+colorpixel|000+-0+-+
+colorpixel|000++-+-+
+colorpixel|00000-+0-
+#color change 
+setcolorreg|000+0-+0-
+colorpixel|00000+-00
+colorpixel|000-+--0+
+colorpixel|0000-+-0+
+colorpixel|000-0+-+-
+colorpixel|000-+--+0
+colorpixel|0000-+-+0
+colorpixel|000+-+-++
+colorpixel|000-0+0--
+colorpixel|000-+00--
+colorpixel|0000--0-+
+colorpixel|000+--+--
+#color change 
+setcolorreg|0000+-+-0
+colorpixel|0000+-0-0
+colorpixel|00000-00-
+colorpixel|0000+000-
+colorpixel|0000++00-
+colorpixel|0000-+000
+colorpixel|0000++000
+colorpixel|0000++00+
+colorpixel|00000-0+-
+colorpixel|0000+-0+-
+colorpixel|0000+00+0
+#color change 
+setcolorreg|000+-0--0
+colorpixel|0000000-0
+colorpixel|00000+0-0
+colorpixel|0000-+00-
+#color change 
+setcolorreg|0000+000-
+colorpixel|000--++0+
+#color change 
+setcolorreg|0000-00-+
+colorpixel|000------
+colorpixel|000+++++0
+colorpixel|000++++++
+#color change 
+setcolorreg|0000+-0-+
+colorpixel|0000+-0--
+colorpixel|000++-+0-
+colorpixel|000+0++00
+colorpixel|000++-+00
+colorpixel|000+0++0+
+colorpixel|0000+0++0
+colorpixel|0000++++0
+colorpixel|000+0-++0
+colorpixel|0000-0+++
+colorpixel|0000+0+++
+colorpixel|0000+++++
+colorpixel|000+-0+++
+#color change 
+setcolorreg|000++0+00
+colorpixel|0000+-0+0
+#color change 
+setcolorreg|0000-00-0
+colorpixel|000-00---
+colorpixel|000+++---
+colorpixel|000+++--0
+colorpixel|000+++-00
+colorpixel|000---+0+
+#color change 
+setcolorreg|0000--0-0
+colorpixel|00000+000
+colorpixel|000-00++-
+#color change 
+setcolorreg|000++0+0+
+colorpixel|000+---++
+colorpixel|000+-00+0
+colorpixel|000+-00++
+colorpixel|000+-+0++
+#color change 
+setcolorreg|000++0+--
+colorpixel|0000-+0-+
+colorpixel|00000-0-+
+colorpixel|0000-+0+-
+#color change 
+setcolorreg|000-0-0-0
+colorpixel|000---+++
+#color change 
+setcolorreg|00000-+-+
+colorpixel|000+--+++
+#color change 
+setcolorreg|000+0-000
+colorpixel|000000--0
+colorpixel|000-+--0-
+colorpixel|0000+0-0-
+colorpixel|000-0--00
+colorpixel|0000-+-00
+colorpixel|000+-0-00
+colorpixel|000--0-0+
+colorpixel|000+0--0+
+colorpixel|000+00-0+
+colorpixel|000--0-+-
+colorpixel|000--+-+-
+colorpixel|000-00-+-
+colorpixel|000+-0-+-
+colorpixel|000+-+-+-
+colorpixel|000+---+0
+colorpixel|000+00-+0
+colorpixel|000-00-++
+colorpixel|000-0-0-+
+colorpixel|000+++0-+
+colorpixel|000--+000
+colorpixel|000-0-000
+colorpixel|000-0+000
+colorpixel|000---00+
+colorpixel|000-0000+
+colorpixel|0000--00+
+colorpixel|000-++0+-
+colorpixel|000-000+0
+colorpixel|000-0+0+0
+colorpixel|0000--0+0
+colorpixel|000-0-0++
+colorpixel|000-+00++
+colorpixel|000+000++
+colorpixel|000++00++
+colorpixel|000+++0++
+colorpixel|000-0-+--
+colorpixel|000-0++--
+colorpixel|00000++--
+colorpixel|000++0+--
+colorpixel|000--++-0
+colorpixel|000+-0+-0
+colorpixel|000+0-+-0
+colorpixel|000+00+-0
+colorpixel|000++-+-0
+colorpixel|000--0+-+
+colorpixel|000--++-+
+colorpixel|000++0+-+
+colorpixel|000-00+0-
+colorpixel|000+-0+0-
+colorpixel|000+-++0-
+colorpixel|000+0++0-
+colorpixel|000--++00
+colorpixel|000-0++00
+colorpixel|0000-0+00
+colorpixel|000+-++00
+colorpixel|000+0-+00
+colorpixel|0000-0+0+
+colorpixel|0000-++0+
+colorpixel|000+-0+0+
+colorpixel|000+-++0+
+colorpixel|000-++++-
+colorpixel|0000+-++-
+#color change 
+setcolorreg|000+0-+00
+colorpixel|0000+0-00
+colorpixel|000----0+
+colorpixel|000+-0-+0
+colorpixel|000+++-++
+colorpixel|000+-00--
+colorpixel|000+-00-0
+colorpixel|000+-00-+
+colorpixel|000+-+0-+
+colorpixel|000+-+00-
+colorpixel|000+--000
+colorpixel|000+-000+
+colorpixel|000-0-0+-
+colorpixel|000+000+-
+colorpixel|000--+0+0
+colorpixel|000-0-0+0
+colorpixel|0000+-+--
+colorpixel|0000+0+--
+colorpixel|000++++--
+colorpixel|0000--+-0
+colorpixel|000000+-0
+colorpixel|000-+-+0-
+colorpixel|000-+-+00
+colorpixel|0000--+0+
+colorpixel|0000-+++-
+colorpixel|000+-+++-
+colorpixel|000-+-++0
+colorpixel|000-+-+++
+#color change 
+setcolorreg|000++0-0+
+colorpixel|000+0----
+colorpixel|000-00--0
+colorpixel|000-0--0-
+colorpixel|000+0000-
+colorpixel|0000+-+0-
+colorpixel|0000+-+00
+#color change 
+setcolorreg|000000--+
+colorpixel|000+-++++
+#color change 
+setcolorreg|000+000-0
+colorpixel|0000-+0-0
+#color change 
+setcolorreg|0000+00-0
+colorpixel|00000-+--
+#color change 
+setcolorreg|000+-+-00
+colorpixel|000++0-00
+colorpixel|000++0-0+
+#color change 
+setcolorreg|000+--+-0
+colorpixel|0000000--
+colorpixel|0000+00-+
+colorpixel|0000-0000
+colorpixel|0000000+0
+#color change 
+setcolorreg|000000+0-
+colorpixel|000++0++-
+colorpixel|000+00++0
+colorpixel|000+0+++0
+colorpixel|000++-++0
+colorpixel|000++0++0
+colorpixel|000+0-+++
+colorpixel|000+00+++
+colorpixel|000+0++++
+colorpixel|000++-+++
+colorpixel|000++0+++
+#color change 
+setcolorreg|000+-0+00
+colorpixel|000+00--0
+colorpixel|000+00--+
+colorpixel|000+0+-00
+colorpixel|000++--0+
+#color change 
+setcolorreg|0000+-+0-
+colorpixel|000----00
+colorpixel|000----+-
+colorpixel|0000-++-0
+colorpixel|000++0+00
+colorpixel|000-0+++0
+#color change 
+setcolorreg|000+-000-
+colorpixel|000-+00-0
+#color change 
+setcolorreg|000++0000
+colorpixel|0000++0--
+#color change 
+setcolorreg|00000-0-0
+colorpixel|00000+00-
+colorpixel|0000+-000
+colorpixel|00000+0+0
+#color change 
+setcolorreg|000+000--
+colorpixel|0000-+0++
+#color change 
+setcolorreg|000+-00--
+colorpixel|00000-0+0
+colorpixel|00000-0++
+#color change 
+setcolorreg|000++0-+-
+colorpixel|000-00--+
+colorpixel|000--+-0-
+colorpixel|000++0-+-
+colorpixel|000++0-+0
+colorpixel|000++0-++
+#color change 
+setcolorreg|000+--000
+colorpixel|000--++0-
+colorpixel|0000-0+0-
+colorpixel|0000--+00
+colorpixel|000-+++0+
+colorpixel|000+0-++-
+colorpixel|0000-+++0
+#color change 
+setcolorreg|000+--00-
+colorpixel|000+-0--0
+colorpixel|0000---00
+colorpixel|0000+--00
+colorpixel|000+---00
+colorpixel|000--+-0+
+colorpixel|000-0--0+
+colorpixel|00000+-0+
+colorpixel|0000+0-0+
+colorpixel|000-++-+-
+colorpixel|0000-0-+-
+colorpixel|000000-+-
+colorpixel|0000+--+-
+colorpixel|0000-0-+0
+colorpixel|0000+--+0
+colorpixel|0000+0-+0
+colorpixel|0000++-+0
+colorpixel|0000-+-++
+colorpixel|0000+--++
+colorpixel|000+++0--
+colorpixel|000-+00-+
+colorpixel|000+0-0-+
+colorpixel|000+000-+
+colorpixel|000-0000-
+colorpixel|000-0+00-
+colorpixel|000-+000-
+colorpixel|0000--000
+colorpixel|000+0-0+0
+colorpixel|000++-0+0
+colorpixel|000+++0+0
+colorpixel|000--00++
+colorpixel|000-0+0++
+colorpixel|000-+-0++
+colorpixel|000+0+0++
+colorpixel|000---+--
+colorpixel|000000+--
+colorpixel|0000+++--
+colorpixel|000++-+--
+colorpixel|000---+-0
+colorpixel|000--0+-0
+colorpixel|000+--+-0
+colorpixel|000++++-0
+colorpixel|0000--+-+
+colorpixel|0000-0+-+
+colorpixel|00000-+-+
+colorpixel|000-0++0-
+colorpixel|000-+++0-
+colorpixel|0000--+0-
+colorpixel|000-+++00
+colorpixel|000+00+00
+colorpixel|000-+0+0+
+colorpixel|000+00+0+
+colorpixel|000++-+0+
+colorpixel|000-+-++-
+colorpixel|000-+0++-
+colorpixel|000+--++-
+colorpixel|000+-0++-
+colorpixel|000+00++-
+colorpixel|000+0+++-
+colorpixel|000+--++0
+colorpixel|000+-0++0
+colorpixel|000+-+++0
+colorpixel|00000-+++
+colorpixel|000000+++
+colorpixel|00000++++
+#color change 
+setcolorreg|000000+-+
+colorpixel|000++0---
+colorpixel|000++0--0
+colorpixel|000++0--+
+colorpixel|000+++-0+
+colorpixel|000---+0-
+colorpixel|000---+00
+colorpixel|000++++00
+colorpixel|000--0+0+
+colorpixel|000--0++-
+colorpixel|000-0-++-
+colorpixel|000-0-++0
+#color change 
+setcolorreg|000+0000-
+colorpixel|000-+-0-0
+#color change 
+setcolorreg|0000+-+-+
+colorpixel|000+--00+
+colorpixel|000+-+0+-
+colorpixel|0000000++
+colorpixel|0000+00++
+colorpixel|0000-++--
+colorpixel|00000-+-0
+colorpixel|0000-++0-
+#color change 
+setcolorreg|000++00-0
+colorpixel|0000-+0+0
+#color change 
+setcolorreg|000-+-+-0
+colorpixel|000--0---
+colorpixel|000-0----
+colorpixel|000--0--0
+colorpixel|000--+--0
+colorpixel|000-0---0
+colorpixel|000--0--+
+colorpixel|000---++0
+colorpixel|000-0++++
+#color change 
+setcolorreg|000++-+00
+colorpixel|000+-+--0
+colorpixel|000+----+
+colorpixel|0000-+-0-
+colorpixel|000+0--+-
+colorpixel|000+0+-+-
+colorpixel|000--+-+0
+colorpixel|000+-+-+0
+colorpixel|000+0--++
+colorpixel|000++-0-0
+colorpixel|000++-0-+
+colorpixel|000++00-+
+colorpixel|000+-0000
+colorpixel|000-0-00+
+colorpixel|000+++0+-
+colorpixel|000-++0++
+colorpixel|0000-00++
+colorpixel|000--++--
+colorpixel|000+-0+--
+colorpixel|000+-++--
+colorpixel|0000+-+-0
+colorpixel|000-0-+-+
+colorpixel|000-+++-+
+colorpixel|000000+-+
+colorpixel|0000+-+-+
+colorpixel|000-+0+0-
+colorpixel|000000+0-
+colorpixel|000-00+00
+colorpixel|000+-0+00
+colorpixel|000000+0+
+colorpixel|00000++0+
+colorpixel|0000+-+0+
+colorpixel|000+0-+0+
+colorpixel|0000-0++-
+colorpixel|0000+-++0
+#color change 
+setcolorreg|000++0+-0
+colorpixel|0000-000+
+colorpixel|0000-00+0
+#color change 
+setcolorreg|000+-0000
+colorpixel|000-0+---
+colorpixel|000+0+-0+
+#color change 
+setcolorreg|000+--+0-
+colorpixel|00000--+-
+colorpixel|000-++0-0
+colorpixel|000+--0-0
+colorpixel|000+--0-+
+colorpixel|000+-000-
+colorpixel|000+--0+-
+colorpixel|000+0-0+-
+colorpixel|000+-+0+0
+colorpixel|000---+-+
+colorpixel|0000-++00
+#color change 
+setcolorreg|000++-00+
+colorpixel|0000-0---
+colorpixel|0000+0--0
+colorpixel|0000++--+
+colorpixel|000-00-+0
+colorpixel|000++-00-
+colorpixel|000++000+
+colorpixel|000+++00+
+colorpixel|000-+0+--
+colorpixel|000-+0+-0
+colorpixel|000+00+-+
+colorpixel|00000-+0+
+#color change 
+setcolorreg|000+--0-0
+colorpixel|00000-0--
+#color change 
+setcolorreg|0000+0+0-
+colorpixel|000--+++-
+colorpixel|000-0-+++
+#color change 
+setcolorreg|000-0-+-0
+colorpixel|000-00++0
+#color change 
+setcolorreg|000+--+00
+colorpixel|000----+0
+colorpixel|000++0+0-
+colorpixel|000++++0-
+colorpixel|000-0-+0+
+colorpixel|000-0+++-
+colorpixel|0000-0++0
+#color change 
+setcolorreg|000++-000
+colorpixel|000+-0---
+colorpixel|0000-0--0
+colorpixel|00000---0
+colorpixel|00000+--0
+colorpixel|0000-+--+
+colorpixel|0000+0--+
+colorpixel|000-+0-0-
+colorpixel|0000---0-
+colorpixel|000-0+-00
+colorpixel|000-+0-00
+colorpixel|0000++-00
+colorpixel|000+00-00
+colorpixel|000-00-0+
+colorpixel|000-0+-0+
+colorpixel|000-0--+-
+colorpixel|000--0-++
+colorpixel|000--00--
+colorpixel|000-0-0--
+colorpixel|000--00-0
+colorpixel|000-0-0-0
+colorpixel|000--+0-+
+colorpixel|000-000-+
+colorpixel|000-0+0-+
+colorpixel|000---000
+colorpixel|000-00000
+colorpixel|000+-+000
+colorpixel|000++-000
+colorpixel|000++0000
+colorpixel|000--+00+
+colorpixel|000+0000+
+colorpixel|000+0+00+
+colorpixel|000++-00+
+colorpixel|000-+-0+-
+colorpixel|000-+00+-
+colorpixel|000+0+0+-
+colorpixel|000++-0+-
+colorpixel|000+--0++
+colorpixel|000+0-0++
+colorpixel|000-+-+--
+colorpixel|000+00+--
+colorpixel|000-00+-0
+colorpixel|00000++-0
+colorpixel|000+-++-0
+colorpixel|00000++-+
+colorpixel|000+-++-+
+colorpixel|000++++-+
+colorpixel|00000++0-
+colorpixel|0000+0+0-
+colorpixel|000-+0+00
+colorpixel|00000-+00
+colorpixel|00000++00
+colorpixel|000-+-+0+
+colorpixel|000000++-
+colorpixel|000-+0++0
+#color change 
+setcolorreg|0000-0--0
+colorpixel|000-0---+
+colorpixel|000+++--+
+colorpixel|000+++++-
+#color change 
+setcolorreg|000+--+-+
+colorpixel|00000--++
+colorpixel|000000-++
+colorpixel|0000+00--
+colorpixel|0000+00-0
+colorpixel|0000-00-+
+colorpixel|000+--00-
+colorpixel|0000+-0++
+colorpixel|0000-0+--
+#color change 
+setcolorreg|0000+---+
+colorpixel|000--0+--
+#color change 
+setcolorreg|000++-++-
+colorpixel|000000---
+colorpixel|0000++---
+colorpixel|0000-+--0
+colorpixel|000+0---0
+colorpixel|000-0+--+
+colorpixel|000-+---+
+colorpixel|000+0---+
+colorpixel|000-00-0-
+colorpixel|000++--+-
+colorpixel|000-0--+0
+colorpixel|000--+0--
+colorpixel|000+0+0--
+colorpixel|000++-0--
+colorpixel|000--+0-0
+colorpixel|000++000-
+colorpixel|000+++00-
+colorpixel|000---0+0
+colorpixel|000+--+00
+#color change 
+setcolorreg|000-0----
+colorpixel|000-----0
+userwait
+TTYclear
+gotodata|>menu
 
 #
 #SUBFUNCTIONS BELOW

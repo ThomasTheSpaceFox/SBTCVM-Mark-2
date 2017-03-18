@@ -7,6 +7,7 @@ import os
 import libSBTCVM
 import libbaltcalc
 import sys
+from random import randint
 pygame.display.init()
 
 print "SBTCVM Mark 2 Starting up..."
@@ -185,6 +186,10 @@ print "libtrom ready."
 
 ttyredraw=1
 
+#IO read only list. IO addresses in this list are treated as read only. for example:
+#the random integer port is read only.
+IOreadonly=["--0------"]
+
 MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 #RAMBANK startup end
@@ -210,6 +215,7 @@ prevDATA="diff"
 regsetpoint="000000000"
 updtcdisp=1
 updtmdisp=1
+updtrandport=1
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
@@ -299,17 +305,27 @@ while stopflag==0:
 	#IO READ REG1
 	elif curinst=="-----+":
 		REG1=RAMbank[curdata]
+		if curdata=="--0------":
+			updtrandport=1
 		#print("---+")
 	#IO READ REG2
 	elif curinst=="----0-":
 		REG2=RAMbank[curdata]
+		if curdata=="--0------":
+			updtrandport=1
 		#print("--0-")
 	#IO WRITE REG1
 	elif curinst=="----00":
-		RAMbank[curdata] = REG1	
+		if curdata not in IOreadonly:
+			RAMbank[curdata] = REG1	
+		else:
+			print "address \"" + curdata + "\" is read-only."
 	#IO WRITE REG2
 	elif curinst=="----0+":
-		RAMbank[curdata] = REG2
+		if curdata not in IOreadonly:
+			RAMbank[curdata] = REG2 
+		else:
+			print "address \"" + curdata + "\" is read-only."
 	#swap primary Registers
 	elif curinst=="----+-":
 		REGTEMP = REG1
@@ -876,6 +892,9 @@ while stopflag==0:
 	#elif curinst=="000000":
 	#	
 	#	print("")
+	if updtrandport==1:
+		updtrandport=0
+		RAMbank["--0------"]=libSBTCVM.trunkto6(libbaltcalc.DECTOBT(randint(-9841,9841)))
 	
 	
 	
