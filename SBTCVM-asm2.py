@@ -13,6 +13,24 @@ critcomperr=0
 
 outfile="assmout.trom"
 
+IOmapread={"random": "--0------"}
+IOmapwrite={}
+
+scratchmap={}
+scratchstart="---------"
+shortsccnt=1
+scratchstop="---++++++"
+IOgen=scratchstart
+while IOgen!=scratchstop:
+	#scratchmap[("mem" + str(shortsccnt))] = IOgen
+	IOmapread[("mem" + str(shortsccnt))] = IOgen
+	IOmapwrite[("mem" + str(shortsccnt))] = IOgen
+	IOgen=libSBTCVM.trunkto6(libbaltcalc.btadd(IOgen, "+"))
+	shortsccnt += 1
+#scratchmap[("mem" + str(shortsccnt))] = scratchstop
+IOmapread[("mem" + str(shortsccnt))] = scratchstop
+IOmapwrite[("mem" + str(shortsccnt))] = scratchstop
+
 def getlinetern(line):
 	line=(line-9841)
 	tline=libSBTCVM.trunkto6(libbaltcalc.DECTOBT(line))
@@ -325,8 +343,20 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					sys.exit()
 		elif instword=="IOread1":
-			outn.write("-----+" + instdat + "\n")
-			instcnt += 1
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("-----+" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				try:
+					IOpnk=IOmapread[instgpe[1]]
+					outn.write("-----+" + IOpnk + "\n")
+				except KeyError:
+					print "ERROR: IOshortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+			#outn.write("-----+" + instdat + "\n")
+			#instcnt += 1
 		elif instword=="IOread2":
 			outn.write("----0-" + instdat + "\n")
 			instcnt += 1

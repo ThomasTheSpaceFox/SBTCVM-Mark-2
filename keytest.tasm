@@ -101,7 +101,7 @@ textstop
 
 null||goback
 null
-IOread1|--0------
+IOread1|>random
 gotodata|>goback
 
 

@@ -76,7 +76,9 @@ on the following instructions you may point to a pointer as such:
 'setinst|>thisisanexample'
 
 
-
+similar shortcuts exist for various IOaddress points:
+"random" | random integer port "--0------" (read only)
+"mem1" - "mem729": scratchmemory shortcuts. (write/read)
 
 
 
