@@ -353,19 +353,58 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 					IOpnk=IOmapread[instgpe[1]]
 					outn.write("-----+" + IOpnk + "\n")
 				except KeyError:
-					print "ERROR: IOshortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					sys.exit()
+				instcnt += 1
 			#outn.write("-----+" + instdat + "\n")
 			#instcnt += 1
 		elif instword=="IOread2":
-			outn.write("----0-" + instdat + "\n")
-			instcnt += 1
+			#outn.write("----0-" + instdat + "\n")
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("----0-" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				try:
+					IOpnk=IOmapread[instgpe[1]]
+					outn.write("----0-" + IOpnk + "\n")
+				except KeyError:
+					print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+				instcnt += 1
+			#instcnt += 1
 		elif instword=="IOwrite1":
-			outn.write("----00" + instdat + "\n")
-			instcnt += 1
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("----00" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				try:
+					IOpnk=IOmapwrite[instgpe[1]]
+					outn.write("----00" + IOpnk + "\n")
+				except KeyError:
+					print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+				instcnt += 1
+			#instcnt += 1
 		elif instword=="IOwrite2":
-			outn.write("----0+" + instdat + "\n")
-			instcnt += 1
+			#outn.write("----0+" + instdat + "\n")
+			#instcnt += 1
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("----0+" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				try:
+					IOpnk=IOmapwrite[instgpe[1]]
+					outn.write("----0+" + IOpnk + "\n")
+				except KeyError:
+					print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+				instcnt += 1
 		elif instword=="regswap":
 			outn.write("----+-" + instdat + "\n")
 			instcnt += 1
