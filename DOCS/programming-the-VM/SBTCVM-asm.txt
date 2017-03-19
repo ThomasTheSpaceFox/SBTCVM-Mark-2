@@ -353,7 +353,16 @@ buzzer port (direct)
 "regset" (see regset.txt)
 -0-00+
 
+"TTYlinedraw"
+toggles The regset flag controlling wether the tty updates on each character,
+or just on newlines. (SBTCVM Mark 2 defaults this flag to per character)
+use 
+TTYlinedraw|on to enable and TTYlinedraw|off to disable.
 
+"TTYbg"
+set TTY background color through regset.
+SET using data ???CCCCCC where C is a 6-trit RGB color :D
+(6-trit color enhanced)
 
 "setkeyint"
 -0-+++

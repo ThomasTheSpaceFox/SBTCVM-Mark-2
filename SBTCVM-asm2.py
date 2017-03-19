@@ -251,6 +251,8 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			instcnt += 1
 		elif instword=="TTYbg":
 			instcnt += 2
+		elif instword=="TTYlinedraw":
+			instcnt += 2
 		else:
 			gtflag=0
 		if (len(linelist))==3 and gtflag==1 and txtblk==0 and instword[0]!="#":
@@ -719,8 +721,21 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			else:
 				outn.write("-0-000" + "---------" + "\n")
 				outn.write("-0-00+" + instdat + "\n")
+			instcnt += 2
+		elif instword=="TTYlinedraw":
+			if instdat=="on":
+				outn.write("-0-000" + "--------0" + "\n")
+				outn.write("-0-00+" + "00000000+" + "\n")
+			elif instdat=="off":
+				outn.write("-0-000" + "--------0" + "\n")
+				outn.write("-0-00+" + "000000000" + "\n")
+			else:
+				outn.write("-0-000" + "--------0" + "\n")
+				outn.write("-0-00+" + "00000000+" + "\n")
+				
 			
 			instcnt += 2
+			
 		if instcnt>assmoverrun:
 			print("ERROR!: assembler has exceded rom size limit of 19683!")
 	

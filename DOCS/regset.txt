@@ -16,3 +16,9 @@ TTY BG color
 	(???CCCCCC) (6-trit RGB) DEFAULT=000000
 	set the background of the TTY
 	(tasm: "TTYbg", 6-trit color enhanced)
+
+--------0
+TTY render mode
+	????????0=normal ????????+=draw-on-newline
+	(tasm: "TTYlinedraw" use "TTYlinedraw|on" to enable draw-on-newline,
+	use TTYlinedraw|off to enable normal mode.)

@@ -16,6 +16,7 @@ windowicon=pygame.image.load(os.path.join('GFX', 'icon64.png'))
 pygame.display.set_icon(windowicon)
 
 screensurf=pygame.display.set_mode((800, 600))
+libSBTCVM.glyphoptim(screensurf)
 pygame.display.set_caption("SBTCVM Mark 2", "SBTCVM Mark 2")
 pygame.font.init()
 #used for TTY
@@ -127,7 +128,7 @@ keym=0
 keyspace=0
 keyret=0
 
-
+TTYrenderflg="0"
 
 if 'GLOBRUNFLG' in globals():
 	
@@ -609,7 +610,12 @@ while stopflag==0:
 	#tty write port (direct)
 	elif curinst=="--+++0":
 		abt=libSBTCVM.abtcharblit(abt, (libSBTCVM.charcodelook((curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8]))))
-		ttyredraw=1
+		if TTYrenderflg=="0":
+			ttyredraw=1
+		else:
+			if libSBTCVM.getnewlstate()==1:
+				ttyredraw=1
+			
 	#Buzzer (direct)
 	elif curinst=="--++++":
 		snf.stop()
@@ -633,6 +639,10 @@ while stopflag==0:
 			TTYBGCOLREG=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 			TTYBGCOL=libSBTCVM.colorfind(TTYBGCOLREG)
 			ttyredraw=1
+		if regsetpoint=="--------0":
+			TTYrenderflg=curdata[8]
+			if TTYrenderflg=="-":
+				TTYrenderflg="0"
 	#set ketinterupt register
 	elif curinst=="-0-+++":
 		keyintreg=(curdata[5] + curdata[6] + curdata[7] + curdata[8])

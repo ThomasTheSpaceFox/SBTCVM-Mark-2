@@ -142,7 +142,7 @@ def trunkto6math(code):
 	#print code
 	#code=libbaltcalc.BTINVERT(code)
 	if codecnt>9:
-		print "integer overflow"
+		#print "integer overflow"
 		if code[0]=="+":
 			code="---------"
 		elif code[0]=="-":
@@ -232,9 +232,12 @@ fondir="FONT0"
 def abtslackline(receveabt, linetext):
 	interx=[(receveabt[1]), (receveabt[2]),(receveabt[3]), (receveabt[4]), (receveabt[5]), (receveabt[6]), (receveabt[7]), (receveabt[8]), (receveabt[9]), (receveabt[10]), (receveabt[11]), (receveabt[12]), (receveabt[13]), (receveabt[14]), (receveabt[15]), (receveabt[16]), (receveabt[17]), (receveabt[18]), (receveabt[19]), (receveabt[20]), (receveabt[21]), (receveabt[22]), (receveabt[23]), (receveabt[24]), (receveabt[25]),(receveabt[26]), (linetext)]
 	return interx
-
+newl=1
 def abtcharblit(receveabtb, charblit):
+	global newl
+	newl=0
 	if charblit=="\n":
+		newl=1
 		receveabtb=abtslackline(receveabtb, "")
 	else:
 		charnum=0
@@ -242,9 +245,18 @@ def abtcharblit(receveabtb, charblit):
 		for f in curr:
 			if charnum==36:
 				receveabtb=abtslackline(receveabtb, "")
+				newl=1
 			charnum += 1
 		receveabtb[26]=((receveabtb[26]) + charblit)
 	return(receveabtb)
+
+def getnewlstate():
+	global newl
+	if newl==1:
+		return(1)
+		newl=0
+	else:
+		return(0)
 
 def charblit(chsurface, colx, liney, charcode):
 	colx=(colx*9)
@@ -254,7 +266,7 @@ def charblit(chsurface, colx, liney, charcode):
 	gliffile=(chargliph.get(glifcode))
 	#print gliffile
 	#glif=pygame.image.load(os.path.join(fondir, (chargliph.get(glifcode))))
-	glif=chargliphfile[glifcode]
+	glif=chargliphfileopt[glifcode]
 	chsurface.blit(glif, (colx, liney))
 	return chsurface
 
@@ -328,4 +340,14 @@ chargliphfile={}
 for fxq in chargliph:
 	imgdat=chargliph[fxq]
 	chargliphfile[fxq]=(pygame.image.load(os.path.join(fondir, (imgdat))))
+
+
+chargliphfileopt=chargliphfile.copy()
+def glyphoptim(surface):
+	global chargliphfileopt
+	for fxq in chargliphfile:
+		imgpreconv=chargliphfile[fxq]
+		imgpostconv=imgpreconv.convert(surface)
+		chargliphfileopt[fxq]=imgpostconv
+		
 

@@ -11,18 +11,18 @@ setcolorreg|00000000+
 setreg1|00000000+
 setreg2|00000000+
 
-dumpreg1|000000000|loopback
-colorline|00000000+|collinevx
-setcolorreg|00000000+|colreg
+dumpreg1|000000000|fibloopback
+colorline|00000000+|fibcollinevx
+setcolorreg|00000000+|fibcolreg
 #wait|00000000-
 add
 IOwrite2|>mem1
 setreg2|---------
-gotodataif|>done
+gotodataif|>fibdone
 copy1to2
 IOread1|>mem1
-setdata|>collinevx
-setdata|>colreg
-gotodata|>loopback
-userwait|000000000|done
+setdata|>fibcollinevx
+setdata|>fibcolreg
+gotodata|>fibloopback
+userwait|000000000|fibdone
 

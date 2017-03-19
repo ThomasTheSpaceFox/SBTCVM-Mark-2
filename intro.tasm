@@ -57,42 +57,65 @@ buzzer|000-0++++
 userwait
 TTYclear
 
-
+TTYlinedraw|on
 TTYbg|000000+00|menu
 setkeyint|:1
-keyint|>1
+keyint|>textsc1demo
 setkeyint|:2
-keyint|>2
+keyint|>specsscdemo
 setkeyint|:3
-keyint|>3
+keyint|>colordemo
 setkeyint|:4
-keyint|>4
+keyint|>monodemo
 setkeyint|:5
-keyint|>5
+keyint|>vectdemo
 setkeyint|:6
-keyint|>6
+keyint|>flowerdemo
+setkeyint|:7
+keyint|>fibdemo
 setkeyint|:q
 keyint|>q
-#TTYbg|0,0,0
-textstart
-Welcome To SBTCVM Mark 2.
+#fill monodisp
+monofill|0000000--
+#set random mono vector
+IOread1|>random
+setdata|>idlelooplinevec
+setmonovect||idlelooplinevec
+#get seed.
+IOread1|>random
 
-Please choose an option:
-press 1 for color graphics demo
-press 2 for mono graphics demo
-press 3 for vector operations demo
-press 4 for a text screen intro.
-press 5 for SBTCVM Mark 2 specs.
-press 6 for a flower.
-press q to quit.
+#TTYbg|0,0,0
+#set addlev
+setreg2|0000-0++-
+textstart
+Main Menu
+
+Info:
+1 for text intro.
+2 for specs.
+
+demos:
+3 for color graphics
+4 for mono graphics
+5 for vector operations
+6 for a flower.
+7 for Fibonacci seq.
+
+q to quit.
 textstop
 null||menuloop
 null
+null
+#add addlev to seed
+add
+#write current reg1 to monorect instruction.
+setdata|>loopfidget
+monorect||loopfidget
 gotodata|>menuloop
 TTYclear
 #Ye old raster demos. ported to SBTCVM Mark 2
 #first graphics demo.
-TTYclear||1
+TTYclear||colordemo
 clearkeyint|00000000+
 TTYbg|0,0,127
 gotodata|>pixart1|
@@ -116,7 +139,7 @@ textstop
 userwait
 TTYclear
 gotodata|>menu
-TTYclear||2
+TTYclear||monodemo
 clearkeyint|00000000+
 TTYbg|0,127,0
 monofill|00000000-|gxq
@@ -144,7 +167,7 @@ TTYclear
 gotodata|>menu
 
 #second graphics demo
-TTYclear||3
+TTYclear||vectdemo
 clearkeyint|00000000+
 TTYbg|0,127,255
 colorfill|00000-++-
@@ -191,7 +214,7 @@ colorline|000++-+0-
 userwait
 TTYclear
 gotodata|>menu
-TTYclear||5
+TTYclear||specsscdemo
 clearkeyint|00000000+
 colorfill|0000+0++-
 setcolorreg|000-+0+--
@@ -227,7 +250,7 @@ textstop
 userwait
 TTYclear
 gotodata|>menu
-TTYclear||4
+TTYclear||textsc1demo
 clearkeyint|00000000+
 TTYbg|0,0,0
 gotodata|>newminilogo
@@ -265,7 +288,7 @@ gotodata|>menu
 
 stop||q
 
-TTYclear||6
+TTYclear||flowerdemo
 clearkeyint|00000000+
 textstart
 have a flower. :)
@@ -1808,3 +1831,39 @@ colorpixel|000-00-00
 colorpixel|000-00-0+
 colorpixel|000-00-+-
 continue
+
+#fib demo.
+#fib. sequence
+null||fibdemo
+clearkeyint|00000000+
+TTYclear
+textstart
+Fibonacci sequence.
+Starting with params 1 , 1
+textstop
+colorfill|---------
+
+setcolorvect|000------
+setcolorreg|00000000+
+
+setreg1|00000000+
+setreg2|00000000+
+
+dumpreg1|000000000|fibloopback
+colorline|00000000+|fibcollinevx
+setcolorreg|00000000+|fibcolreg
+#wait|00000000-
+add
+IOwrite2|>mem1
+setreg2|---------
+gotodataif|>fibdone
+copy1to2
+IOread1|>mem1
+setdata|>fibcollinevx
+setdata|>fibcolreg
+gotodata|>fibloopback
+userwait|000000000|fibdone
+TTYclear
+gotodata|>menu
+
+
