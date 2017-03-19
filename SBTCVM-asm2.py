@@ -247,7 +247,11 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 			instcnt += 1
 		elif instword=="keyint":
 			instcnt += 1
+		elif instword=="offsetlen":
+			instcnt += 1
 		elif instword=="clearkeyint":
+			instcnt += 1
+		elif instword=="gotoifgreater":
 			instcnt += 1
 		elif instword=="TTYbg":
 			instcnt += 2
@@ -575,6 +579,25 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 				if gtmatch==0:
 					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					sys.exit()
+					
+		elif instword=="gotoifgreater":
+			instgpe=instdat.split(">")
+			if (len(instgpe))==1:
+				outn.write("--0+0-" + instdat + "\n")#
+				instcnt += 1
+				autostpflg=1
+			else:
+				gtpoint=instgpe[1]
+				gtmatch=0
+				instcnt += 1
+				for fx in gotoreflist:
+					if fx.gtname==gtpoint:
+						outn.write("--0+0-" + fx.tline + "\n")
+						gtmatch=1
+				if gtmatch==0:
+					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					sys.exit()
+			#instcnt += 1
 		elif instword=="wait":
 			outn.write("--00++" + instdat + "\n")
 			instcnt += 1
@@ -676,6 +699,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 		elif instword=="regset":
 			outn.write("-0-00+" + instdat + "\n")
 			instcnt += 1
+		
 		elif instword=="setkeyint":
 			instgpe=instdat.split(":")
 			if (len(instgpe))==1:
@@ -708,6 +732,60 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-":
 					sys.exit()
 		elif instword=="clearkeyint":
 			outn.write("-00--0" + instdat + "\n")
+			instcnt += 1
+		elif instword=="offsetlen":
+			instclst=instdat.split(",")
+			if len(instclst)==3:
+				tritgnd=instclst[0]
+				tritoffset=int(instclst[1])
+				tritlen=int(instclst[2])
+				if tritgnd=="on":
+					tritgndpar="+"
+				else:
+					tritgndpar="0"
+				if tritoffset==0:
+					tritoffsetpar="--"
+				elif tritoffset==1:
+					tritoffsetpar="-0"
+				elif tritoffset==2:
+					tritoffsetpar="-+"
+				elif tritoffset==3:
+					tritoffsetpar="0-"
+				elif tritoffset==4:
+					tritoffsetpar="00"
+				elif tritoffset==5:
+					tritoffsetpar="0+"
+				elif tritoffset==6:
+					tritoffsetpar="+-"
+				elif tritoffset==7:
+					tritoffsetpar="+0"
+				elif tritoffset==8:
+					tritoffsetpar="++"
+				else:
+					tritoffsetpar="--"
+				if tritlen==1:
+					tritlenpar="--"
+				elif tritlen==2:
+					tritlenpar="-0"
+				elif tritlen==3:
+					tritlenpar="-+"
+				elif tritlen==4:
+					tritlenpar="0-"
+				elif tritlen==5:
+					tritlenpar="00"
+				elif tritlen==6:
+					tritlenpar="0+"
+				elif tritlen==7:
+					tritlenpar="+-"
+				elif tritlen==8:
+					tritlenpar="+0"
+				elif tritlen==9:
+					tritlenpar="++"
+				else:
+					tritlenpar="++"
+				outn.write("-0-++0" + "0000" + tritgndpar + tritoffsetpar + tritlenpar + "\n")
+			else:
+				outn.write("-0-++0" + instdat + "\n")
 			instcnt += 1
 		#special regset shortcut commands
 		elif instword=="TTYbg":

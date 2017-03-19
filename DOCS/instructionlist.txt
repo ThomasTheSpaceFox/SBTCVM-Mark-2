@@ -46,7 +46,7 @@
 --0+--|YN user goto. asks user to confirm goto. (best used with a label)
 --0+-0|user wait.
 --0+-+|TTY clear
---0+0-
+--0+0-|goto data specified ROM adress ID REG 1 > REG 2
 --0+00
 --0+0+
 --0++-
@@ -104,7 +104,7 @@
 -0-+00
 -0-+0+
 -0-++-
--0-++0
+-0-++0|readwrite offset length. control. (see offsetlength.txt)
 -0-+++|set keyinterrupt register. (used to select a key interrupt to activate.) ?????DDDD=4-trit scancode (see keyboard-inter.txt)
 -00---|keyboard interrupt. (data)DDDDDDDDD=rom address to goto on interrupt. (see keyboard-inter.txt)
 -00--0|clear key interrupt| ????????0=clear keyinterrupt chosen by ketinterrupt, ????????+=clear all keyinterrupts.

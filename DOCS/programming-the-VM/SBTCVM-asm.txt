@@ -251,6 +251,12 @@ goto reg1 specified ROM address
 goto data specified ROM address IF REG 1 & 2 ARE EQUAL
 -supports pointer referencing (see above)
 
+"gotoifgreater"
+--0+0-
+goto data specified ROM address IF REG 1 is greater than REG 2.
+-supports pointer referencing (see above)
+
+
 "wait"
 --00++
 wait 0.1, 0.2, or 0.3
@@ -377,6 +383,18 @@ you can use setkeyint|:? where ?=codelabel (see list in keyboard-inter.txt)
 keyboard interrupt. (data)DDDDDDDDD=rom address to goto on interrupt.
 
 
+"offsetlen"
+-0-++0
+
+A is either "on" or "off" if on, the offset length system will use ground 
+	states in place of the states of the destination data. (default is off.)
+	leave off if you are doing things like manipulating part of a number,
+B is 0-8 and controls offset from radix point (default 0)
+C is 1-9 and controls the offset length trit length. (default is 9)
+
+offsetlen|A,B,C
+
+see offsetlength.txt for more information.
 
 "clearkeyint"
 -00--0

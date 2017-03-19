@@ -136,6 +136,57 @@ if 'GLOBRUNFLG' in globals():
 	libtrom.redefA(TROMA)
 	print ("GLOBRUNFLG found... \n running trom: \"" + TROMA + "\" as TROMA")
 
+#tritlength defaults
+tritloadlen=9
+tritoffset=0
+tritdestgnd=0
+
+def tritlen(srcdata, destdata):
+	#just return srcdata if tritloadlen=9 and tritoffset=0
+	if tritdestgnd==1:
+		destdata="000000000"
+	if tritloadlen==9 and tritoffset==0:
+		#print srcdata
+		return (srcdata)
+	destdict={}
+	destcnt=0
+	tritstart=(8 - tritoffset)
+	tritstop=(tritstart - tritloadlen)
+	#print tritstop
+	tritstack=1
+	iterlist=[0, 1, 2, 3, 4, 5, 6, 7, 8]
+	#parse destination data into a dict
+	for f in destdata:
+		destdict[destcnt]=f
+		destcnt += 1
+	#modify destination dict 
+	for f in iterlist:
+		#print tritstart
+		destdict[tritstart]=srcdata[tritstart]
+		tritstart -= 1
+		tritstack += 1
+		if tritstart==tritstop or tritstart==-1:
+			break
+	#print destdict
+	destdataout=""
+	#parse destination dict back into string and return result.
+	for f in iterlist:
+		destdataout=(destdataout + destdict[f])
+	#print destdataout
+	return destdataout
+		
+		
+	
+	
+
+
+
+#tritloadlen=1
+#tritoffset=0
+#dataret=tritlen("---------", "+++++++++")
+#print (dataret)
+#sys.exit()
+
 
 TTYBGCOL=libSBTCVM.colorfind("000000")
 TTYBGCOLREG="000000"
@@ -173,11 +224,17 @@ pygame.display.update()
 #	ramadr=ramadr.replace("\n", "")
 #	RAMbank[ramadr] = "000000"
 	#
+
+
+
 IOgen="---------"
+RAMbank["---------"] = "000000000"
 while IOgen!="+++++++++":
 	IOgen=libSBTCVM.trunkto6(libbaltcalc.btadd(IOgen, "+"))
 	RAMbank[IOgen] = "000000000"
 RAMbank["+++++++++"] = "000000000"
+
+
 tromready=0
 print "waiting for libtrom"
 while tromready==0:
@@ -297,34 +354,36 @@ while stopflag==0:
 	
 	#ROM READ (first register)
 	if curinst=="------":
-		REG1=(libtrom.tromreaddata(EXECADDR,ROMFILE))
+		REG1=(tritlen(libtrom.tromreaddata(EXECADDR,ROMFILE), REG1))
 		#print("----")
 	#ROM READ (second register)
 	elif curinst=="-----0":
-		REG2=(libtrom.tromreaddata(EXECADDR,ROMFILE))
+		REG2=(tritlen(libtrom.tromreaddata(EXECADDR,ROMFILE), REG2))
 		#print("---0")
 	#IO READ REG1
 	elif curinst=="-----+":
-		REG1=RAMbank[curdata]
+		REG1=tritlen(RAMbank[curdata], REG1)
 		if curdata=="--0------":
 			updtrandport=1
 		#print("---+")
 	#IO READ REG2
 	elif curinst=="----0-":
-		REG2=RAMbank[curdata]
+		REG2=tritlen(RAMbank[curdata], REG2)
 		if curdata=="--0------":
 			updtrandport=1
 		#print("--0-")
 	#IO WRITE REG1
 	elif curinst=="----00":
 		if curdata not in IOreadonly:
-			RAMbank[curdata] = REG1	
+			rambnkcur=RAMbank[curdata]
+			RAMbank[curdata] = tritlen(REG1, rambnkcur)
 		else:
 			print "address \"" + curdata + "\" is read-only."
 	#IO WRITE REG2
 	elif curinst=="----0+":
 		if curdata not in IOreadonly:
-			RAMbank[curdata] = REG2 
+			rambnkcur=RAMbank[curdata]
+			RAMbank[curdata] = tritlen(REG2, rambnkcur)
 		else:
 			print "address \"" + curdata + "\" is read-only."
 	#swap primary Registers
@@ -371,7 +430,7 @@ while stopflag==0:
 		libtrom.tromsetinst(curdata, instsetto, ROMFILE)
 	#set data
 	elif curinst=="---+--":
-		libtrom.tromsetdata(curdata, REG1, ROMFILE)
+		libtrom.tromsetdata(curdata, tritlen(REG1, libtrom.tromreaddata(curdata, ROMFILE)), ROMFILE)
 	#continue
 	elif curinst=="---+++":
 		EXECADDRNEXT=contaddr
@@ -517,6 +576,13 @@ while stopflag==0:
 	#TTY clear
 	elif curinst=="--0+-+":
 		abt=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+	#Goto data if Reg 1 greater
+	elif curinst=="--0+0-":
+		if libbaltcalc.BTTODEC(REG1)>libbaltcalc.BTTODEC(REG2):
+			EXECADDRNEXT=curdata
+			EXECCHANGE=1
+	
+	
 	#note these swap TROMS
 	#TROMA: goto rom adress on TROMA specified by CURRENT DATA
 	elif curinst=="--+---":
@@ -643,6 +709,56 @@ while stopflag==0:
 			TTYrenderflg=curdata[8]
 			if TTYrenderflg=="-":
 				TTYrenderflg="0"
+	#offset length
+	elif curinst=="-0-++0":
+		offlen1=(curdata[7] + curdata[8])
+		offlen2=(curdata[5] + curdata[6])
+		offlen3=(curdata[4])
+		if offlen3=="+":
+			tritdestgnd=1
+		else:
+			tritdestgnd=0
+		if offlen2=="--":
+			tritoffset=0
+		elif offlen2=="-0":
+			tritoffset=1
+		elif offlen2=="-+":
+			tritoffset=2
+		elif offlen2=="0-":
+			tritoffset=3
+		elif offlen2=="00":
+			tritoffset=4
+		elif offlen2=="0+":
+			tritoffset=5
+		elif offlen2=="+-":
+			tritoffset=6
+		elif offlen2=="+0":
+			tritoffset=7
+		elif offlen2=="++":
+			tritoffset=8
+		
+		if offlen1=="--":
+			tritloadlen=1
+		elif offlen1=="-0":
+			tritloadlen=2
+		elif offlen1=="-+":
+			tritloadlen=3
+		elif offlen1=="0-":
+			tritloadlen=4
+		elif offlen1=="00":
+			tritloadlen=5
+		elif offlen1=="0+":
+			tritloadlen=6
+		elif offlen1=="+-":
+			tritloadlen=7
+		elif offlen1=="+0":
+			tritloadlen=8
+		elif offlen1=="++":
+			tritloadlen=9
+	
+	
+	
+	
 	#set ketinterupt register
 	elif curinst=="-0-+++":
 		keyintreg=(curdata[5] + curdata[6] + curdata[7] + curdata[8])
