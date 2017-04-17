@@ -1,0 +1,13 @@
+#this is a simple test/example of romread instructions.
+textstart
+this will read a value further in
+the program memory into reg1, then reg2
+textstop
+userwait
+romread1|>tromval1
+romread2|>tromval1
+#tip: you can use null when you want to pad memory and store variables in exec memory.
+null
+null
+null|+++++++++|tromval1
+

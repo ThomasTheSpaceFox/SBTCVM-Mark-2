@@ -118,7 +118,7 @@ TTYclear
 TTYclear||colordemo
 clearkeyint|00000000+
 TTYbg|0,0,127
-gotodata|>pixart1|
+gotodata|>pixart1
 #tidbit 1
 textstart
 top raster info:

@@ -36,17 +36,17 @@ keyintreg="0000"
 
 #graphics:
 #background pixmap
-vmbg=pygame.image.load(os.path.join('GFX', 'VMBG.png'))
+vmbg=pygame.image.load(os.path.join('GFX', 'VMBG.png')).convert()
 #indicator lamps
 #GREEN
-LEDGREENON=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN.png'))
-LEDGREENOFF=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN-OFF.png'))
+LEDGREENON=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN.png')).convert()
+LEDGREENOFF=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN-OFF.png')).convert()
 #CPU
-CPULEDACT=pygame.image.load(os.path.join('GFX', 'LAMP-BLUE.png'))
-CPULEDSTANDBY=pygame.image.load(os.path.join('GFX', 'LAMP-ORANGE.png'))
+CPULEDACT=pygame.image.load(os.path.join('GFX', 'LAMP-BLUE.png')).convert()
+CPULEDSTANDBY=pygame.image.load(os.path.join('GFX', 'LAMP-ORANGE.png')).convert()
 
-COLORDISP=pygame.image.load(os.path.join('GFX', 'COLORDISP-DEF.png'))
-MONODISP=pygame.image.load(os.path.join('GFX', 'MONODISP-DEF.png'))
+COLORDISP=pygame.image.load(os.path.join('GFX', 'COLORDISP-DEF.png')).convert()
+MONODISP=pygame.image.load(os.path.join('GFX', 'MONODISP-DEF.png')).convert()
 #this list is what is displayed on the TTY on VM boot.
 
 abt=["SBTCVM", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
@@ -208,7 +208,7 @@ else:
 
 
 
-libSBTCVMsurf=pygame.Surface((324, 243))
+libSBTCVMsurf=pygame.Surface((324, 243)).convert()
 libSBTCVMsurf.fill(TTYBGCOL)
 #RAMBANK startup begin
 RAMbank = {}
@@ -273,7 +273,10 @@ prevDATA="diff"
 regsetpoint="000000000"
 updtcdisp=1
 updtmdisp=1
+updtblits=list()
 updtrandport=1
+screensurf.blit(CPULEDACT, (749, 505))
+screensurf.blit(STEPLED, (750, 512))
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
@@ -286,43 +289,53 @@ while stopflag==0:
 		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
 		if prevINST!=curinst:
-			insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0))
+			insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0)).convert()
 			prevINST=curinst
-		
+			upt=screensurf.blit(insttext, (8, 522))
+			updtblits.extend([upt])
 		if prevDATA!=curdata:
-			datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0))
+			datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0)).convert()
 			prevDATA=curdata
-		screensurf.blit(insttext, (8, 522))
-		screensurf.blit(datatext, (8, 566))
+			upt=screensurf.blit(datatext, (8, 566))
+			updtblits.extend([upt])
+		
 		#these draw the register displays :)
 		if prevREG1!=REG1:
-			reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0))
+			reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0)).convert()
 			prevREG1=REG1
+			upt=screensurf.blit(reg1text, (219, 521))
+			updtblits.extend([upt])
 		if prevREG2!=REG2:
-			reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0))
+			reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0)).convert()
 			prevREG2=REG2
-		screensurf.blit(reg1text, (219, 521))
-		screensurf.blit(reg2text, (219, 564))
+			upt=screensurf.blit(reg2text, (219, 564))
+			updtblits.extend([upt])
+		
+		
 		#and here is what draws the ROM address display :)
-		ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0))
-		screensurf.blit(ROMadrtex, (425, 564))
+		ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0)).convert()
+		upt=screensurf.blit(ROMadrtex, (425, 564))
+		updtblits.extend([upt])
 		#and the current rom display :)
 		CURROMTEXT=(ROMLAMPFLG)
 		if prevROM!=CURROMTEXT:
-			curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
+			curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0)).convert()
 			prevROM=CURROMTEXT
-		screensurf.blit(curROMtex, (126, 522))
+			upt=screensurf.blit(curROMtex, (126, 522))
+			updtblits.extend([upt])
 	#LED LAMPS
 	#CPU
-	screensurf.blit(CPULEDACT, (749, 505))
+	#screensurf.blit(CPULEDACT, (749, 505))
 	#STEP
-	screensurf.blit(STEPLED, (750, 512))
+	
 	if updtcdisp==1:
 		updtcdisp=0
-		screensurf.blit(COLORDISPBIG, (649, 1))
+		upt=screensurf.blit(COLORDISPBIG, (649, 1))
+		updtblits.extend([upt])
 	if updtmdisp==1:
 		updtmdisp=0
-		screensurf.blit(MONODISPBIG, (649, 150))
+		upt=screensurf.blit(MONODISPBIG, (649, 150))
+		updtblits.extend([upt])
 	#TTY drawer :)
 	#for fnx in abt:
 	#	fnx=fnx.replace('\n', '')
@@ -348,17 +361,18 @@ while stopflag==0:
 		
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-		screensurf.blit(biglibSBTCVM, (0, 0))
+		upt=screensurf.blit(biglibSBTCVM, (0, 0))
+		updtblits.extend([upt])
 	#aaaaannnnddd update display! :D
-	pygame.display.update()
-	
+	pygame.display.update(updtblits)
+	updtblits=list()
 	#ROM READ (first register)
 	if curinst=="------":
-		REG1=(tritlen(libtrom.tromreaddata(EXECADDR,ROMFILE), REG1))
+		REG1=(tritlen(libtrom.tromreaddata(curdata,ROMFILE), REG1))
 		#print("----")
 	#ROM READ (second register)
 	elif curinst=="-----0":
-		REG2=(tritlen(libtrom.tromreaddata(EXECADDR,ROMFILE), REG2))
+		REG2=(tritlen(libtrom.tromreaddata(curdata,ROMFILE), REG2))
 		#print("---0")
 	#IO READ REG1
 	elif curinst=="-----+":
@@ -421,7 +435,7 @@ while stopflag==0:
 	#set REG1
 	elif curinst=="---0+-":
 		REG1 = curdata
-	#set REG1
+	#set REG2
 	elif curinst=="---0+0":
 		REG2 = curdata
 	#set inst
@@ -1104,6 +1118,8 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_F2:
 					stepbystep=1
 					STEPLED=LEDGREENON
+					upt=screensurf.blit(STEPLED, (750, 512))
+					updtblits.extend([upt])
 					break
 				if event.type == KEYDOWN and event.key == K_F10:
 					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
@@ -1155,6 +1171,8 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_F2:
 					stepbystep=1
 					STEPLED=LEDGREENON
+					upt=screensurf.blit(STEPLED, (750, 512))
+					updtblits.extend([upt])
 					break
 				if event.type == KEYDOWN and event.key == K_F10:
 					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
@@ -1202,6 +1220,8 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_F2:
 					stepbystep=0
 					STEPLED=LEDGREENOFF
+					upt=screensurf.blit(STEPLED, (750, 512))
+					updtblits.extend([upt])
 					evhappenflg2=1
 					break
 				if event.type == KEYDOWN and event.key == K_F10:
@@ -1238,6 +1258,8 @@ while stopflag==0:
 			if event.type == KEYDOWN and event.key == K_F2:
 				stepbystep=1
 				STEPLED=LEDGREENON
+				upt=screensurf.blit(STEPLED, (750, 512))
+				updtblits.extend([upt])
 				break
 			if event.type == KEYDOWN and event.key == K_F4:
 				if disablereadouts==1:
@@ -1496,6 +1518,7 @@ while stopflag==0:
 		else:
 			biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
 			screensurf.blit(biglibSBTCVM, (0, 0))
+		#print "fbuff"
 	
 	pygame.display.update()
 	#clear buffer secion of IObus
@@ -1512,20 +1535,22 @@ while stopflag==0:
 	
 	evhappenflg2=0
 
-
+#print "foobar"
 if logromexit==1:
 	print "logging TROM MEMORY into CAP dir..."
 	libtrom.dumptroms()
+#print "postlog"
 if logIOexit==1:
 	print "logging final IObus state into CAP dir..."
 	ramdmp=open((os.path.join('CAP', 'IOBUS.dmp')),  'w')
 	for IOitm in RAMbank:
 		ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 	ramdmp.close()
-while evhappenflg2==0:
+#"exitloop"
+evhappenflg3=0
+while evhappenflg3==0:
 		time.sleep(.1)
 		for event in pygame.event.get():
-			if event.type == KEYDOWN and event.key == K_RETURN:
-				evhappenflg2=1
+			if event.type == pygame.KEYDOWN:
+				evhappenflg3=1
 				break
-	

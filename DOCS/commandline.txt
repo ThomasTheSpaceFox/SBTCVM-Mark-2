@@ -9,6 +9,7 @@ SBTCVM-asm2.py -h (--help): this text
 SBTCVM-asm2.py -v (--version)
 SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py
 SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm source into a trom
+SBTCVM-asm2.py -t (--tracecompile) [sourcefile]: same as -c but logs the compiling process in detail in the CAP directory.
 SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom
 
 

@@ -1,6 +1,6 @@
 SBTCVM Assembler documentation. 
 
-for SBTCVM Mark 2 Assembler v2.0.0
+for SBTCVM Mark 2 Assembler v2.2.0
 
 
 command line usage:
@@ -10,6 +10,7 @@ SBTCVM-asm2.py -h (--help): this text
 SBTCVM-asm2.py -v (--version)
 SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py
 SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm source into a trom
+SBTCVM-asm2.py -t (--tracecompile) [sourcefile]: same as -c but logs the compiling process in detail in the CAP directory.
 SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom
 
 
@@ -17,6 +18,8 @@ for example, a source file called "file.tasm", will be compiled into the SBTCVM 
 
 it is possible to edit the trom directly, but can be more difficult.
 
+tracelogs (enabled by compiling using the -t option) are based on the name of the source file and are located in the CAP directory.
+example: intro.tasm would have a tracelog called intro-tasm-comp.log
 
 instructions that need 6-trit RGB colors as data (listed below) can use this special formatting:
 R,G,B where R G and B are respective color channels with values ranging from 0 to 255
@@ -68,13 +71,14 @@ define a pointer like this:
 notice how the data should be present in this usage even if it is 000000000.
 
 
-on the following instructions you may point to a pointer as such:
+on certain instructions you may point to a pointer as such:
 'gotodata|>thisisanexample'
 'gotodataif|>thisisanexample'
 'YNgoto|>thisisanexample'
 'setdata|>thisisanexample'
 'setinst|>thisisanexample'
-
+'romread1|>thisisanexample'
+'romread2|>thisisanexample'
 
 similar shortcuts exist for various IOaddress points:
 "random" | random integer port "--0------" (read only)
