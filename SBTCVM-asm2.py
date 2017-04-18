@@ -11,6 +11,8 @@ txtblk=0
 
 critcomperr=0
 
+compvers="v2.2.0"
+
 outfile="assmout.trom"
 #define IOmaps
 IOmapread={"random": "--0------"}
@@ -63,12 +65,12 @@ SBTCVM-asm2.py -t (--tracecompile) [sourcefile]: same as -c but logs the compili
 SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom
 '''
 elif cmd=="-v" or cmd=="--version":
-	print "SBTCVM Assember v2.1.0"
+	print ("SBTCVM Assember" + compvers)
 elif cmd=="-a" or cmd=="--about":
 	print '''SBTCVM Assembler 2
 
 
-v2.2.0
+''' + compvers + '''
 
 (c)2016-2017 Thomas Leathers
 
@@ -88,7 +90,7 @@ v2.2.0
 elif cmd==None:
 	print "tip: use SBTCVM-asm2.py -h for help."
 elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracecompile":
-	print("SBTCVM-asm version 2.1.0 starting")
+	print("SBTCVM-asm " + compvers + " starting")
 	if cmd[0]!="-":
 		arg=sys.argv[1]
 	else:
@@ -107,6 +109,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 	#arg=arg.replace("./", "")
 	#print arg
 	complog("starting up compiler...\n")
+	complog("TASM VERSION: SBTCVM-asm " + compvers + "\n")
+	complog("source: " + arg + "\n")
+	complog("---------\n\n")
 	#open 2 instances of source. one per pass.
 	sourcefile=open(arg, 'r')
 	sourcefileB=open(arg, 'r')

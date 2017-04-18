@@ -12,6 +12,32 @@ pygame.display.init()
 
 print "SBTCVM Mark 2 Starting up..."
 
+#SBTCVM Mark 2
+#Simple Balanced Ternary Computer Virtual Machine
+#
+#v2.0.0
+#
+#(c)2016-2017 Thomas Leathers
+#
+#  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  SBTCVM Mark 2 is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
+
+
+
+
+
+
+
 windowicon=pygame.image.load(os.path.join('GFX', 'icon64.png'))
 pygame.display.set_icon(windowicon)
 
@@ -79,13 +105,6 @@ logIOexit=0
 disablereadouts=0
 exec(exconf)
 
-#try:
-	#cmd=sys.argv[1]
-	#TROMA=cmd
-	#libtrom.redefA(cmd)
-	#print "Running trom specified in command line..."
-#except IndexError:
-	#print "no command line run argument found. do normal execution..."
 
 key1=0
 key2=0
@@ -175,28 +194,11 @@ def tritlen(srcdata, destdata):
 	#print destdataout
 	return destdataout
 		
-		
-	
-	
-
-
-
-#tritloadlen=1
-#tritoffset=0
-#dataret=tritlen("---------", "+++++++++")
-#print (dataret)
-#sys.exit()
 
 
 TTYBGCOL=libSBTCVM.colorfind("000000")
 TTYBGCOLREG="000000"
 
-#print BOOTUPFILE
-
-#4 trit instruct
-#6 trit data.
-#as such:
-#iiiidddddd
 
 colvectorreg="000000"
 monovectorreg="000000"
@@ -218,13 +220,6 @@ screensurf.fill((0,127,255))
 screensurf.blit(vmbg, (0, 0))
 pygame.display.update()
 
-#ramstart
-#for ramadr in libSBTCVM.calmlst:
-	#print "foobar"
-#	ramadr=ramadr.replace("\n", "")
-#	RAMbank[ramadr] = "000000"
-	#
-
 
 
 IOgen="---------"
@@ -235,12 +230,6 @@ while IOgen!="+++++++++":
 RAMbank["+++++++++"] = "000000000"
 
 
-tromready=0
-print "waiting for libtrom"
-while tromready==0:
-	tromready=libtrom.initwait()
-	time.sleep(0.1)
-print "libtrom ready."	
 
 ttyredraw=1
 
@@ -336,13 +325,6 @@ while stopflag==0:
 		updtmdisp=0
 		upt=screensurf.blit(MONODISPBIG, (649, 150))
 		updtblits.extend([upt])
-	#TTY drawer :)
-	#for fnx in abt:
-	#	fnx=fnx.replace('\n', '')
-	#	abttext=simplefont.render(fnx, True, (0, 127, 255), (0, 0, 0))
-	#	screensurf.blit(abttext, (45, pixcnt1))
-	#	pixcnt1 += pixjmp
-	#pixcnt1=40
 	if abtpref!=abt or ttyredraw==1:
 		abtpref=abt
 		ttyredraw=0
@@ -1066,12 +1048,6 @@ while stopflag==0:
 		screensurf.blit(COLORDISPBIG, (649, 1))
 		screensurf.blit(MONODISPBIG, (649, 150))
 		#TTY drawer :)
-		#for fnx in abt:
-		#	fnx=fnx.replace('\n', '')
-		#	abttext=simplefont.render(fnx, True, (0, 127, 255), (0, 0, 0))
-		#	screensurf.blit(abttext, (45, pixcnt1))
-		#	pixcnt1 += pixjmp
-		#pixcnt1=40
 		lineq=0
 		
 		libSBTCVMsurf.fill(TTYBGCOL)
@@ -1436,7 +1412,7 @@ while stopflag==0:
 	
 	
 	#aaaaannnnddd update display! :D
-	pygame.display.update()
+	#pygame.display.update()
 	
 	if curinst=="--":
 		stopflag=1
@@ -1490,16 +1466,6 @@ while stopflag==0:
 		screensurf.blit(MONODISPBIG, (649, 150))
 		CURROMTEXT=("ROM " + ROMLAMPFLG)
 		reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
-		#screensurf.blit(reg2text, (558, 198))
-		
-		#screensurf.blit(CPULEDSTANDBY, (605, 433))
-		#screensurf.blit(STEPLED, (605, 440))
-		#for fnx in abt:
-		#	fnx=fnx.replace('\n', '')
-		#	abttext=simplefont.render(fnx, True, (0, 127, 255), (0, 0, 0))
-		#	screensurf.blit(abttext, (45, pixcnt1))
-		#	pixcnt1 += pixjmp
-		#pixcnt1=38
 		lineq=0
 		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
@@ -1521,14 +1487,6 @@ while stopflag==0:
 		#print "fbuff"
 	
 	pygame.display.update()
-	#clear buffer secion of IObus
-	#this means: DONT USE THE BUFFER SECTION OF THE IObus AS RAM :|
-	#chklist = open("ORDEREDLIST6REGISTER.txt")
-	#for ramadr in libSBTCVM.chklist:
-	#	#print "foobar"
-	#	ramadr=ramadr.replace("\n", "")
-	#	RAMbank[ramadr] = "000000"
-	#	#
 	
 	
 	time.sleep(CPUWAIT)

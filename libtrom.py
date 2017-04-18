@@ -14,6 +14,25 @@ logreads=0
 def initwait():
 	return libtromready
 
+#SBTCVM Mark 2
+#Simple Balanced Ternary Computer Virtual Machine
+#
+#v2.0.0
+#
+#(c)2016-2017 Thomas Leathers
+#
+#  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  SBTCVM Mark 2 is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
 
 scconf=open('BOOTUP.CFG', 'r')
@@ -92,7 +111,8 @@ if tromlogging==1:
 	tromlog1.write("TROMD:" + TROMD + "\n")
 	tromlog1.write("TROME:" + TROME + "\n")
 	tromlog1.write("TROMF:" + TROMF + "\n")
-
+else:
+	print "done."
 
 
 

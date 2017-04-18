@@ -1,3 +1,21 @@
+#SBTCVM Mark 2
+#Simple Balanced Ternary Computer Virtual Machine
+#
+#(c)2016-2017 Thomas Leathers
+#
+#  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#  
+#  SBTCVM Mark 2 is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
+
 
 #New SBTCVM Mark 2 Single-trom intro.
 setregset|---------#test
@@ -51,7 +69,6 @@ textstop
 buzzer|000-0++++
 textstart
 Machine.
-
 textstop
 buzzer|000-0++++
 userwait
@@ -104,6 +121,8 @@ demos:
 q to quit.
 textstop
 null||menuloop
+null
+null
 null
 null
 #add addlev to seed
@@ -286,7 +305,19 @@ TTYclear
 gotodata|>menu
 
 
-stop||q
+null||q
+TTYclear
+textstart
+SBTCVM introduction program
+(c)2016-2017 Thomas Leathers
+
+this program is part of 
+SBTCVM Mark 2
+
+see README.md for details.
+textstop
+stop
+
 
 TTYclear||flowerdemo
 clearkeyint|00000000+
