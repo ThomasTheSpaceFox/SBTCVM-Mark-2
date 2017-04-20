@@ -24,7 +24,7 @@ B is a 2-trit balanced ternary integer, and sets the offset from the radix of lo
 ++=8
 
 
-A is also a 2-trit balanced ternary integer, and controls the truncation length of load and set operations.
+C is also a 2-trit balanced ternary integer, and controls the truncation length of load and set operations.
 (default is ++ (9 trits))
 
 --=1
