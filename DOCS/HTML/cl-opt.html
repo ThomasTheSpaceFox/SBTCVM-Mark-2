@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Command Line Options</title>
+  </head>
+  <body>
+    <div align="center"><img
+src="file:///root/my-applications/logictests/baltVM2/DOCS/HTML/GFXLOGO.png"
+        alt="SBTCVM Logo" width="144" height="36"><br>
+    </div>
+    <div align="center"> SBTCVM Mark 2<br>
+    </div>
+    <div align="center"> HTML Documentation<br>
+      <br>
+      Command Line Options:<br>
+      a list of usage for SBTCVM's command line utilities<br>
+      <a href="index.html">index</a><br>
+    </div>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">SBTCVM-asm2.py (SBTCVM's Assembler)<br>
+            <br>
+            used to compile SBTCVM assembly<br>
+            sourcecode into TROMs<br>
+            <br>
+            see <a href="sbtcvm-asm-main.html">SBTCVM Assembly Overview</a><br>
+          </td>
+          <td valign="top">SBTCVM-asm2.py -h (--help): this text<br>
+            SBTCVM-asm2.py -v (--version)<br>
+            SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py<br>
+            SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm
+            source into a trom<br>
+            SBTCVM-asm2.py -t (--tracecompile) [sourcefile]: same as -c
+            but logs the compiling process in detail in the CAP
+            directory.<br>
+            SBTCVM-asm2.py [sourcefile]: build a tasm source into a trom<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">MK2-RUN.py (SBTCVM Command line launcher)<br>
+            <br>
+            launches the VM engine with the specified trom<br>
+          </td>
+          <td valign="top">MK2-RUN.py -h (--help): this text<br>
+            MK2-RUN.py -v (--version)<br>
+            MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA<br>
+            MK2-RUN.py -a (--about): about MK2-RUN.py<br>
+            MK2-RUN.py [trom file]: run a trom as TROMA<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">MK2-GFX.py (SBTCVM Graphics Toolkit Utility)<br>
+            <br>
+            Provides Binary raster image conversion<br>
+          </td>
+          <td valign="top">MK2-GFX.py -h (--help): this text<br>
+            MK2-GFX.py -v (--version)<br>
+            MK2-GFX.py -a (--about): about MK2-GFX.py<br>
+            MK2-GFX.py -c (--colraster) [imagefile]: convert a 27x27
+            pixel or smaller image to color raster instrucions (exported
+            as a *.tasm)<br>
+            MK2-GFX.py -cg (--colraster_groupcolor) [imagefile]: same as
+            -c, but groups colors together as a compression scheme.<br>
+            MK2-GFX.py -cg2 (--colraster_groupcolor2) [imagefile]: same
+            as -cg, but tracks the most common color and uses a single
+            fill instruction to further compress the image.<br>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </body>
+</html>
