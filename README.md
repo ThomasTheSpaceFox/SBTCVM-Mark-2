@@ -3,6 +3,8 @@ Simple Balanced Ternary Computer Virtual Machine
 
 v2.0.0
 
+need help? open index.html inside the HTML directory in your copy of SBTCVM's DOCS directory.
+
 (c)2016-2017 Thomas Leathers
 
   SBTCVM Mark 2 is free software: you can redistribute it and/or modify

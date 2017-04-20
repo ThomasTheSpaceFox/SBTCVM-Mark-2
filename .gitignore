@@ -6,3 +6,4 @@ CAP/*
 #assembler output
 assmout.trom
 *.pyc
+*.pyo

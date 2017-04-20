@@ -1,0 +1,19 @@
+#TTY font test
+textstart
+This is a test of SBTCVM's raster
+TTY font
+
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+`~-_+=!@#$ %^&*()
+[]{}\|:;"'<,>.?/
+
+:D c: :p :u >.> <.<
+
+--- --  --- /-- | | |-|-|
+|   | |  |  |   | | | | |
+--- |-   |  |   | | | | |
+  | | |  |  |   \ / | | |
+--- --   |  \--  V  | | |
+textstop
