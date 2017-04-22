@@ -5,46 +5,18 @@
     <title>SBTCVM assembly</title>
   </head>
   <body>
-    <div align="center"><img
-src="GFXLOGO.png"
-        alt="SBTCVM Logo" width="144" height="36"><br>
+    <div align="center"><img src="GFXLOGO.png" alt="SBTCVM Logo"
+        width="144" height="36"><br>
     </div>
     <div align="center"> SBTCVM Mark 2<br>
     </div>
     <div align="center"> HTML Documentation<br>
       <br>
-      SBTCVM regset System<br>
+      About SBTCVM Mark 2<br>
       <a href="index.html">index</a><br>
       <br>
-      <div align="left">-0-000|regset pointer<br>
-        -0-00+|regset operation (DDDDDDDDD) (data)<br>
-        <br>
-        <br>
-        additional documentation of regset system:<br>
-        <br>
-        any SBTCVM SYSTEM registers deemed not important enough to have
-        an <br>
-        exclusive opcode should be added to the regset system.<br>
-        <br>
-        step 1: set regset pointer register (-0-000) (tasm: "setregset")
-        using current data<br>
-        step 2: set selected register with regset operation (-0-00+)
-        (tasm: "regset") using current data<br>
-        <br>
-        register pointers:<br>
-        ---------<br>
-        TTY BG color<br>
-        &nbsp;&nbsp;&nbsp; (???CCCCCC) (6-trit RGB) DEFAULT=000000<br>
-        &nbsp;&nbsp;&nbsp; set the background of the TTY<br>
-        &nbsp;&nbsp;&nbsp; (tasm: "TTYbg", 6-trit color enhanced)<br>
-        <br>
-        --------0<br>
-        TTY render mode<br>
-        &nbsp;&nbsp;&nbsp; ????????0=normal ????????+=draw-on-newline<br>
-        &nbsp;&nbsp;&nbsp; (tasm: "TTYlinedraw" use "TTYlinedraw|on" to
-        enable draw-on-newline,<br>
-        &nbsp;&nbsp;&nbsp; use TTYlinedraw|off to enable normal mode.)<br>
-        <br>
+      <br>
+      <div align="left"> <br>
       </div>
     </div>
   </body>
