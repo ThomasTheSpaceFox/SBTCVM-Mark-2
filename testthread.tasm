@@ -1,0 +1,24 @@
+#this is a test of threading...
+
+threadref|-0
+threadstart|>th1
+threadref|-+
+threadstart|>th2
+
+
+
+
+
+null||goback
+TTYwrite|--------+
+gotodata|>goback
+
+
+
+null||th1
+TTYwrite|---------
+gotodata|>th1
+
+null||th2
+TTYwrite|--------0
+gotodata|>th2

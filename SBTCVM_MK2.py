@@ -33,8 +33,25 @@ print "SBTCVM Mark 2 Starting up..."
 #  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
 
-
-
+#thread data storage class
+class BTTHREAD:
+	def __init__(self, qxtact, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref):
+		self.qxtact=qxtact
+		self.EXECADDR=EXECADDR
+		self.REG1=REG1
+		self.REG2=REG2
+		self.contaddr=contaddr
+		self.EXECADDRraw=EXECADDRraw
+		self.regsetpoint=regsetpoint
+		self.TTYBGCOLREG=TTYBGCOLREG
+		self.TTYBGCOL=TTYBGCOL
+		self.colvectorreg=colvectorreg
+		self.monovectorreg=monovectorreg
+		self.colorreg=colorreg
+		self.tritloadlen=tritloadlen
+		self.tritoffset=tritoffset
+		self.tritdestgnd=tritdestgnd
+		self.threadref=threadref
 
 
 
@@ -147,6 +164,10 @@ keym=0
 keyspace=0
 keyret=0
 
+
+
+btstopthread=0
+
 TTYrenderflg="0"
 
 if 'GLOBRUNFLG' in globals():
@@ -194,7 +215,8 @@ def tritlen(srcdata, destdata):
 	#print destdataout
 	return destdataout
 		
-
+#def stactdebug1():
+	
 
 TTYBGCOL=libSBTCVM.colorfind("000000")
 TTYBGCOLREG="000000"
@@ -266,6 +288,19 @@ updtblits=list()
 updtrandport=1
 screensurf.blit(CPULEDACT, (749, 505))
 screensurf.blit(STEPLED, (750, 512))
+print "Prep threading system..."
+threadref="00"
+mainthreadinital=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+BTSTACK={"--": mainthreadinital, "-0": otherthreadinital, "-+": otherthreadinital, "0-": otherthreadinital, "00": otherthreadinital, "0+": otherthreadinital, "+-": otherthreadinital, "+0": otherthreadinital, "++": otherthreadinital} 
+btthreadcnt=1
+btcurthread="--"
+
+
+for f in BTSTACK:
+	print str(BTSTACK[f].qxtact) + " " + f
+for f in BTSTACK:
+	print str(BTSTACK[f].qxtact) + " " + f	
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
@@ -752,8 +787,41 @@ while stopflag==0:
 		elif offlen1=="++":
 			tritloadlen=9
 	
+	#THREADING RELATED INSTRUCTIONS
+	#thread refrence register
+	elif curinst=="--+00-":
+		threadref=(curdata[7] + curdata[8])
+		for threaddex in BTSTACK:
+			print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
+	#start thread
+	elif curinst=="--+000":
+		if threadref==btcurthread or BTSTACK[threadref].qxtact==1:
+			stopflag=1
+			abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+			abt=libSBTCVM.abtslackline(abt, "THREAD COLLISION!")
+			for threaddex in BTSTACK:
+				print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
+		else:
+			BTSTACK[threadref]=otherthreadinital
+			#SEEMS TO BE RELATED TO THREAD ACTIVITY GLITCH
+			BTSTACK[threadref].qxtact=1
+			BTSTACK[threadref].EXECADDR=curdata
+			BTSTACK[threadref].EXECADDRraw=curdata
+			btthreadcnt += 1
+			for threaddex in BTSTACK:
+				print (str(BTSTACK[threaddex].qxtact) + " r " + threaddex)
+	#stop current thread
+	elif curinst=="--+00+":
+		btstopthread=1
+	#stop thread refrenced in threadref	
+	elif curinst=="--+0+-":
+		if btcurthread==threadref:
+			btstopthread=1
+		else:
+			BTSTACK[threadref].qxtact=0
+			btthreadcnt -= 1
 	
-	
+	#END OF THREADING RELATED INSTRUCTIONS
 	
 	#set ketinterupt register
 	elif curinst=="-0-+++":
@@ -1102,6 +1170,9 @@ while stopflag==0:
 					for IOitm in RAMbank:
 						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 					ramdmp.close()
+					
+					for threaddex in BTSTACK:
+						print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
 					libtrom.manualdumptroms()
 					break
 				if event.type == KEYDOWN and event.key == K_F4:
@@ -1155,6 +1226,8 @@ while stopflag==0:
 					for IOitm in RAMbank:
 						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 					ramdmp.close()
+					for threaddex in BTSTACK:
+						print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
 					libtrom.manualdumptroms()
 					break
 				if event.type == KEYDOWN and event.key == K_F4:
@@ -1204,6 +1277,8 @@ while stopflag==0:
 					ramdmp=open((os.path.join('CAP', 'IOBUSman.dmp')),  'w')
 					for IOitm in RAMbank:
 						ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
+					for threaddex in BTSTACK:
+						print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
 					ramdmp.close()
 					libtrom.manualdumptroms()
 					break
@@ -1229,6 +1304,8 @@ while stopflag==0:
 				for IOitm in RAMbank:
 					ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 				ramdmp.close()
+				for threaddex in BTSTACK:
+					print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
 				libtrom.manualdumptroms()
 				break
 			if event.type == KEYDOWN and event.key == K_F2:
@@ -1248,163 +1325,163 @@ while stopflag==0:
 				break
 			if event.type == KEYDOWN and (event.key == K_1 or event.key == K_KP1) and key1 == 1:
 				EXECADDRNEXT=key1adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_2 or event.key == K_KP2) and key2 == 1:
 				EXECADDRNEXT=key2adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_3 or event.key == K_KP3) and key3 == 1:
 				EXECADDRNEXT=key3adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_4 or event.key == K_KP4) and key4 == 1:
 				EXECADDRNEXT=key4adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_5 or event.key == K_KP5) and key5 == 1:
 				EXECADDRNEXT=key5adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_6 or event.key == K_KP6) and key6 == 1:
 				EXECADDRNEXT=key6adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_7 or event.key == K_KP7) and key7 == 1:
 				EXECADDRNEXT=key7adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_8 or event.key == K_KP8) and key8 == 1:
 				EXECADDRNEXT=key8adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_9 or event.key == K_KP9) and key9 == 1:
 				EXECADDRNEXT=key9adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_0 or event.key == K_KP0) and key0 == 1:
 				EXECADDRNEXT=key0adr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_MINUS or event.key == K_UNDERSCORE or event.key == K_KP_MINUS) and keyhyp == 1:
 				EXECADDRNEXT=keyhypadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_PLUS or event.key == K_EQUALS or event.key == K_KP_PLUS) and keypos == 1:
 				EXECADDRNEXT=keyposadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_a and keya == 1:
 				EXECADDRNEXT=keyaadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_b and keyb == 1:
 				EXECADDRNEXT=keybadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_c and keyc == 1:
 				EXECADDRNEXT=keycadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_d and keyd == 1:
 				EXECADDRNEXT=keydadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_e and keye == 1:
 				EXECADDRNEXT=keyeadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_f and keyf == 1:
 				EXECADDRNEXT=keyfadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_g and keyg == 1:
 				EXECADDRNEXT=keygadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_h and keyh == 1:
 				EXECADDRNEXT=keyhadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_i and keyi == 1:
 				EXECADDRNEXT=keyiadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_j and keyj == 1:
 				EXECADDRNEXT=keyjadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_k and keyk == 1:
 				EXECADDRNEXT=keykadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_l and keyl == 1:
 				EXECADDRNEXT=keyladr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_m and keym == 1:
 				EXECADDRNEXT=keymadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_n and keyn == 1:
 				EXECADDRNEXT=keynadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_o and keyo == 1:
 				EXECADDRNEXT=keyoadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_p and keyp == 1:
 				EXECADDRNEXT=keypadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_q and keyq == 1:
 				EXECADDRNEXT=keyqadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_r and keyr == 1:
 				EXECADDRNEXT=keyradr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_s and keysx == 1:
 				EXECADDRNEXT=keysadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_t and keyt == 1:
 				EXECADDRNEXT=keytadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_u and keyu == 1:
 				EXECADDRNEXT=keyuadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_v and keyv == 1:
 				EXECADDRNEXT=keyvadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_w and keyw == 1:
 				EXECADDRNEXT=keywadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_x and keyx == 1:
 				EXECADDRNEXT=keyxadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_y and keyy == 1:
 				EXECADDRNEXT=keyyadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_z and keyz == 1:
 				EXECADDRNEXT=keyzadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and event.key == K_SPACE and keyspace == 1:
 				EXECADDRNEXT=keyspaceadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			if event.type == KEYDOWN and (event.key == K_RETURN or event.key == K_KP_ENTER) and keyret == 1:
 				EXECADDRNEXT=keyretadr
-				EXECCHANGE=1
+				EXECCHANGE=2
 				break
 			
 	#pygame.event.clear()
@@ -1435,6 +1512,86 @@ while stopflag==0:
 		contaddr=EXECADDR
 		EXECADDR=EXECADDRNEXT
 		EXECADDRraw=EXECADDR
+		#print EXECADDR
+	#change the thread used here to be selectable via regset.
+	#only one thread can be affected by keyboard interrupts at a time.
+	if EXECCHANGE==2:
+		EXECCHANGE=0
+		#print("ding")
+		if btcurthread=="--":
+			
+			contaddr=EXECADDR
+			EXECADDR=EXECADDRNEXT
+			EXECADDRraw=EXECADDR
+		else:
+			BTSTACK["--"].contaddr=EXECADDR
+			BTSTACK["--"].EXECADDR=EXECADDRNEXT
+			BTSTACK["--"].EXECADDRraw=EXECADDRNEXT
+	#if all threads close, stop VM and print apropriate VM SYSHALT message.
+	if btthreadcnt<=0:
+		stopflag=1
+		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		abt=libSBTCVM.abtslackline(abt, "NO ACTIVE THREADS!")
+	#thread switcher
+	if BTSTACK[btcurthread].qxtact==0:
+		stopflag=1
+		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		abt=libSBTCVM.abtslackline(abt, "T-ACT FAULT")
+	if btthreadcnt>1:
+		selnext=0
+		vecnext=1
+		#print "dong"
+		print btthreadcnt
+		print btcurthread
+		for threaddex in BTSTACK:
+			print (str(BTSTACK[threaddex].qxtact) + " g " + threaddex)
+		#store current thread state in BTSTACK
+		if btstopthread==1:
+			BTSTACK[btcurthread].qxtact=0
+			btthreadcnt -=1
+			btstopthread=0
+		else:
+			BTSTACK[btcurthread]=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+		#iteratively detrmine next thread:
+		#for threaditer in ["--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++"]:
+		#	if threaditer==btcurthread:
+		#		selnext=1
+		#	if BTSTACK[threaditer].qxtact==0:
+		#		print "doofus"
+		#	if BTSTACK[threaditer].qxtact==1 and selnext==1 and threaditer!=btcurthread:
+		#		btcurthread=threaditer
+		#		print "AARRRRGGGHH!!!"
+		#		vecnext=0
+		#if selnext==0:
+		#	stopflag=1
+		#	abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+		#	abt=libSBTCVM.abtslackline(abt, "INTERNAL THREAD SWITCH FAULT")
+				#print "tjump"
+		instdep=btcurthread
+		while BTSTACK[instdep].qxtact!=0 and instdep!=btcurthread:
+			instdep=libbaltcalc.btadd(instdep, "+")
+			if len(instdep)==1:
+				instdep=("0" + instdep)
+			if len(instdep)==3:
+				instdep="--"
+		#load next thread state from BTSTACK entry
+		EXECADDR=BTSTACK[btcurthread].EXECADDR
+		REG1=BTSTACK[btcurthread].REG1
+		REG2=BTSTACK[btcurthread].REG2
+		contaddr=BTSTACK[btcurthread].contaddr
+		EXECADDRraw=BTSTACK[btcurthread].EXECADDRraw
+		regsetpoint=BTSTACK[btcurthread].regsetpoint
+		#TTYBGCOLREG=BTSTACK[threaditer].TTYBGCOLREG
+		#TTYBGCOL=BTSTACK[threaditer].TTYBGCOL
+		colvectorreg=BTSTACK[btcurthread].colvectorreg
+		monovectorreg=BTSTACK[btcurthread].monovectorreg
+		colorreg=BTSTACK[btcurthread].colorreg
+		tritloadlen=BTSTACK[btcurthread].tritloadlen
+		tritoffset=BTSTACK[btcurthread].tritoffset
+		tritdestgnd=BTSTACK[btcurthread].tritdestgnd
+		threadref=BTSTACK[btcurthread].threadref
+		
+		
 		#print EXECADDR
 	if stopflag==1:
 		abt=libSBTCVM.abtslackline(abt, "Press enter to exit.")

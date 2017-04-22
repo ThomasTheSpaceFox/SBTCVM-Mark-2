@@ -64,10 +64,10 @@
 --+0--|E reg equal goto
 --+0-0|F mandatory goto
 --+0-+|F reg equal goto
---+00-
---+000
---+00+
---+0+-
+--+00-|threadref ???????TT where TT is the thread IS
+--+000|start thread refrenced in threadref, at address AAAAAAAAA
+--+00+|thread STOP: stop current thread
+--+0+-|thread kill: kill thread refrenced in threadref.
 --+0+0
 --+0++
 --++--
