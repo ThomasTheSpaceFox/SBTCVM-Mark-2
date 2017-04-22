@@ -3,7 +3,7 @@ Simple Balanced Ternary Computer Virtual Machine
 
 v2.0.0
 
-need help? open index.html inside the HTML directory in your copy of SBTCVM's DOCS directory.
+need help? open index.html inside the docs directory.
 
 (c)2016-2017 Thomas Leathers
 
