@@ -1,4 +1,10 @@
 #this is a test of threading...
+textstart
+this is a test program for SBTCVM's
+threading system...
+you should see "abc" repeated
+endlessly...
+textstop
 
 threadref|-0
 threadstart|>th1

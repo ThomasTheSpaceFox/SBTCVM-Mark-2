@@ -227,9 +227,28 @@
               current state of CPU Register 2. </td>
           </tr>
           <tr>
-            <td width="25%" valign="top"><br>
+            <td width="25%" valign="top">VM SYSHALT:<br>
+              THREAD COLLISION!<br>
             </td>
-            <td valign="top"><br>
+            <td valign="top">The program attempted to start a thread ID
+              that is already active.<br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">VM SYSHALT:<br>
+              NO ACTIVE THREADS!<br>
+            </td>
+            <td valign="top">The program has killed and/or stopped all
+              active threads.<br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">VM SYSHALT:<br>
+              T-ACT FAULT<br>
+            </td>
+            <td valign="top">a emulation bug has lead to the current
+              thread being an inactive thread in a unexpected way. (aka
+              you normally won't see this)<br>
             </td>
           </tr>
         </tbody>

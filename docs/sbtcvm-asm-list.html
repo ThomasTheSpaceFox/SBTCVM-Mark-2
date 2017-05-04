@@ -5,9 +5,8 @@
     <title>SBTCVM assembly</title>
   </head>
   <body>
-    <div align="center"><img
-src="GFXLOGO.png"
-        alt="SBTCVM Logo" width="144" height="36"><br>
+    <div align="center"><img src="GFXLOGO.png" alt="SBTCVM Logo"
+        width="144" height="36"><br>
     </div>
     <div align="center"> SBTCVM Mark 2<br>
     </div>
@@ -15,6 +14,7 @@ src="GFXLOGO.png"
       <br>
       SBTCVM Assembly instruction List<br>
       <a href="index.html">index</a> <a href="sbtcvm-asm-main.html">SBTCVM
+
 
         assembly overview</a><br>
       <table width="100%" cellspacing="0" cellpadding="0" border="1">
@@ -157,6 +157,7 @@ src="GFXLOGO.png"
           </tr>
           <tr>
             <td valign="top" bgcolor="#333333"><font color="#ffffff">color
+
 
                 raster display commands<br>
               </font></td>
@@ -485,9 +486,7 @@ src="GFXLOGO.png"
               <br>
             </td>
             <td valign="top">-0-00+<br>
-              (see <a
-href="regset.html">regset
-                system</a>)<br>
+              (see <a href="regset.html">regset system</a>)<br>
             </td>
           </tr>
           <tr>
@@ -514,9 +513,7 @@ href="regset.html">regset
               <br>
             </td>
             <td valign="top">-0-+++<br>
-              (see <a
-href="keycode.html">keyscan
-                system</a>)<br>
+              (see <a href="keycode.html">keyscan system</a>)<br>
               set keyinterrupt register. (used to select a key interrupt
               to activate.)<br>
               &nbsp;?????DDDD=4-trit scancode<br>
@@ -529,9 +526,7 @@ href="keycode.html">keyscan
               <br>
             </td>
             <td valign="top">-00---<br>
-              (see <a
-href="keycode.html">keyscan
-                system</a>)<br>
+              (see <a href="keycode.html">keyscan system</a>)<br>
               keyboard interrupt. (data)DDDDDDDDD=rom address to goto on
               interrupt.</td>
           </tr>
@@ -561,12 +556,57 @@ href="keycode.html">keyscan
               <br>
             </td>
             <td valign="top">-00--0<br>
-              (see <a
-href="keycode.html">keyscan
-                system</a>)<br>
+              (see <a href="keycode.html">keyscan system</a>)<br>
               clear key interrupt| ????????0=clear keyinterrupt chosen
               by ketinterrupt,<br>
               &nbsp;????????+=clear all keyinterrupts.</td>
+          </tr>
+          <tr>
+            <td valign="top" bgcolor="#333333"><font color="#ffffff">Threading
+                Instructions<br>
+              </font></td>
+            <td valign="top" bgcolor="#333333"><font color="#ffffff">see
+                <a href="threading.html">Threading</a> for more
+                information.<br>
+              </font></td>
+          </tr>
+          <tr>
+            <td valign="top">"threadref"<br>
+            </td>
+            <td valign="top">--+00-<br>
+              set threading system refrence register<br>
+              <br>
+              TT or ???????TT<br>
+              <br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">"threadstart"<br>
+            </td>
+            <td valign="top">--+000<br>
+              launch a thread at address AAAAAAAAA. <br>
+              use threadref to specify what thread.<br>
+              can use SBTCVM-asm goto references to specify thread
+              starting address.<br>
+              <br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">"threadstop"<br>
+            </td>
+            <td valign="top">--+00+<br>
+              stop current thread. when no threads are active the VM
+              will halt.<br>
+              <br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">"threadkill"<br>
+            </td>
+            <td valign="top">--+0+-<br>
+              stop thread referenced by threadref register<br>
+              <br>
+            </td>
           </tr>
         </tbody>
       </table>

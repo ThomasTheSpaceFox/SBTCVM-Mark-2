@@ -291,16 +291,23 @@ screensurf.blit(STEPLED, (750, 512))
 print "Prep threading system..."
 threadref="00"
 mainthreadinital=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-BTSTACK={"--": mainthreadinital, "-0": otherthreadinital, "-+": otherthreadinital, "0-": otherthreadinital, "00": otherthreadinital, "0+": otherthreadinital, "+-": otherthreadinital, "+0": otherthreadinital, "++": otherthreadinital} 
+otherthreadinitaln3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinitaln2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinitaln1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital0=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+otherthreadinital4=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+BTSTACK={"--": mainthreadinital, "-0": otherthreadinitaln3, "-+": otherthreadinitaln2, "0-": otherthreadinitaln1, "00": otherthreadinital0, "0+": otherthreadinital1, "+-": otherthreadinital2, "+0": otherthreadinital3, "++": otherthreadinital4} 
 btthreadcnt=1
 btcurthread="--"
 
 
-for f in BTSTACK:
-	print str(BTSTACK[f].qxtact) + " " + f
-for f in BTSTACK:
-	print str(BTSTACK[f].qxtact) + " " + f	
+#for f in BTSTACK:
+#	print str(BTSTACK[f].qxtact) + " " + f
+#for f in BTSTACK:
+#	print str(BTSTACK[f].qxtact) + " " + f	
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
@@ -791,8 +798,8 @@ while stopflag==0:
 	#thread refrence register
 	elif curinst=="--+00-":
 		threadref=(curdata[7] + curdata[8])
-		for threaddex in BTSTACK:
-			print (str(BTSTACK[threaddex].qxtact) + " threadrefregset " + threaddex)
+		#for threaddex in BTSTACK:
+			#print (str(BTSTACK[threaddex].qxtact) + " threadrefregset " + threaddex)
 	#start thread
 	elif curinst=="--+000":
 		#for threaddex in BTSTACK:
@@ -801,11 +808,11 @@ while stopflag==0:
 			stopflag=1
 			abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 			abt=libSBTCVM.abtslackline(abt, "THREAD COLLISION!")
-			for threaddex in BTSTACK:
-				print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
+			#for threaddex in BTSTACK:
+			#	print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
 		elif BTSTACK[threadref].qxtact==0:
 			#BTSTACK[threadref]=otherthreadinital
-			qxp=otherthreadinital
+			qxp=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
 			#SEEMS TO BE RELATED TO THREAD ACTIVITY GLITCH
 			#for threaddex in BTSTACK:
 			#	print (str(BTSTACK[threaddex].qxtact) + " pre thread launch r " + threaddex)
@@ -818,8 +825,8 @@ while stopflag==0:
 			
 			BTSTACK[threadref]=qxp
 			btthreadcnt += 1
-			for threaddex in BTSTACK:
-				print (str(BTSTACK[threaddex].qxtact) + " r " + threaddex)
+			#for threaddex in BTSTACK:
+			#	print (str(BTSTACK[threaddex].qxtact) + " r " + threaddex)
 	#stop current thread
 	elif curinst=="--+00+":
 		btstopthread=1
@@ -1551,10 +1558,10 @@ while stopflag==0:
 		selnext=0
 		vecnext=1
 		#print "dong"
-		print btthreadcnt
-		print btcurthread
-		for threaddex in BTSTACK:
-			print (str(BTSTACK[threaddex].qxtact) + " g " + threaddex)
+		#print btthreadcnt
+		#print btcurthread
+		#for threaddex in BTSTACK:
+		#	print (str(BTSTACK[threaddex].qxtact) + " g " + threaddex)
 		#store current thread state in BTSTACK
 		if btstopthread==1:
 			BTSTACK[btcurthread].qxtact=0
@@ -1563,27 +1570,31 @@ while stopflag==0:
 		else:
 			BTSTACK[btcurthread]=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
 		#iteratively detrmine next thread:
-		#for threaditer in ["--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++"]:
-		#	if threaditer==btcurthread:
-		#		selnext=1
-		#	if BTSTACK[threaditer].qxtact==0:
-		#		print "doofus"
-		#	if BTSTACK[threaditer].qxtact==1 and selnext==1 and threaditer!=btcurthread:
-		#		btcurthread=threaditer
-		#		print "AARRRRGGGHH!!!"
-		#		vecnext=0
+		#for threaditer in ["--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++"]:
+			#if threaditer==btcurthread:
+				#selnext=1
+			#if BTSTACK[threaditer].qxtact==1 and selnext==1 and threaditer!=btcurthread:
+				#btcurthread=threaditer
+				##print "AARRRRGGGHH!!!"
+				#vecnext=0
 		#if selnext==0:
-		#	stopflag=1
-		#	abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
-		#	abt=libSBTCVM.abtslackline(abt, "INTERNAL THREAD SWITCH FAULT")
-				#print "tjump"
+			#stopflag=1
+			#abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+			#abt=libSBTCVM.abtslackline(abt, "INTERNAL THREAD SWITCH FAULT")
+			#print "tjump"
 		instdep=btcurthread
-		while BTSTACK[instdep].qxtact!=0 and instdep!=btcurthread:
-			instdep=libbaltcalc.btadd(instdep, "+")
+		gotnextth=0
+		while gotnextth==0:
 			if len(instdep)==1:
 				instdep=("0" + instdep)
 			if len(instdep)==3:
 				instdep="--"
+			if BTSTACK[instdep].qxtact==1 and instdep!=btcurthread:
+				btcurthread=instdep
+				gotnextth=1
+				#print "got next thread"
+			instdep=libbaltcalc.btadd(instdep, "+")
+				
 		#load next thread state from BTSTACK entry
 		EXECADDR=BTSTACK[btcurthread].EXECADDR
 		REG1=BTSTACK[btcurthread].REG1
