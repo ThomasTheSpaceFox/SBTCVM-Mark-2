@@ -35,23 +35,23 @@ print "SBTCVM Mark 2 Starting up..."
 
 #thread data storage class
 class BTTHREAD:
-	def __init__(self, qxtact, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref):
-		self.qxtact=qxtact
-		self.EXECADDR=EXECADDR
-		self.REG1=REG1
-		self.REG2=REG2
-		self.contaddr=contaddr
-		self.EXECADDRraw=EXECADDRraw
-		self.regsetpoint=regsetpoint
-		self.TTYBGCOLREG=TTYBGCOLREG
-		self.TTYBGCOL=TTYBGCOL
-		self.colvectorreg=colvectorreg
-		self.monovectorreg=monovectorreg
-		self.colorreg=colorreg
-		self.tritloadlen=tritloadlen
-		self.tritoffset=tritoffset
-		self.tritdestgnd=tritdestgnd
-		self.threadref=threadref
+	def __init__(self, qxtactg, EXECADDRg, REG1g, REG2g, contaddrg, EXECADDRrawg, regsetpointg, TTYBGCOLREGg, TTYBGCOLg, colvectorregg, monovectorregg, colorregg, tritloadleng, tritoffsetg, tritdestgndg, threadrefg):
+		self.qxtact=qxtactg
+		self.EXECADDR=EXECADDRg
+		self.REG1=REG1g
+		self.REG2=REG2g
+		self.contaddr=contaddrg
+		self.EXECADDRraw=EXECADDRrawg
+		self.regsetpoint=regsetpointg
+		self.TTYBGCOLREG=TTYBGCOLREGg
+		self.TTYBGCOL=TTYBGCOLg
+		self.colvectorreg=colvectorregg
+		self.monovectorreg=monovectorregg
+		self.colorreg=colorregg
+		self.tritloadlen=tritloadleng
+		self.tritoffset=tritoffsetg
+		self.tritdestgnd=tritdestgndg
+		self.threadref=threadrefg
 
 
 
@@ -792,21 +792,31 @@ while stopflag==0:
 	elif curinst=="--+00-":
 		threadref=(curdata[7] + curdata[8])
 		for threaddex in BTSTACK:
-			print (str(BTSTACK[threaddex].qxtact) + " " + threaddex)
+			print (str(BTSTACK[threaddex].qxtact) + " threadrefregset " + threaddex)
 	#start thread
 	elif curinst=="--+000":
+		#for threaddex in BTSTACK:
+		#		print (str(BTSTACK[threaddex].qxtact) + " pre r " + threaddex)
 		if threadref==btcurthread or BTSTACK[threadref].qxtact==1:
 			stopflag=1
 			abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 			abt=libSBTCVM.abtslackline(abt, "THREAD COLLISION!")
 			for threaddex in BTSTACK:
 				print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
-		else:
-			BTSTACK[threadref]=otherthreadinital
+		elif BTSTACK[threadref].qxtact==0:
+			#BTSTACK[threadref]=otherthreadinital
+			qxp=otherthreadinital
 			#SEEMS TO BE RELATED TO THREAD ACTIVITY GLITCH
-			BTSTACK[threadref].qxtact=1
-			BTSTACK[threadref].EXECADDR=curdata
-			BTSTACK[threadref].EXECADDRraw=curdata
+			#for threaddex in BTSTACK:
+			#	print (str(BTSTACK[threaddex].qxtact) + " pre thread launch r " + threaddex)
+			#why is this changing all class instances??????
+			qxp.qxtact=1
+			#for threaddex in BTSTACK:
+			#	print (str(BTSTACK[threaddex].qxtact) + " post qxtact r " + threaddex)
+			qxp.EXECADDR=curdata
+			qxp.EXECADDRraw=curdata
+			
+			BTSTACK[threadref]=qxp
 			btthreadcnt += 1
 			for threaddex in BTSTACK:
 				print (str(BTSTACK[threaddex].qxtact) + " r " + threaddex)
