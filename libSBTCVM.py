@@ -11,7 +11,7 @@ import os
 #SBTCVM Mark 2
 #Simple Balanced Ternary Computer Virtual Machine
 #
-#v2.0.0
+#v2.0.1
 #
 #(c)2016-2017 Thomas Leathers
 #

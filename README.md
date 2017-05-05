@@ -1,9 +1,11 @@
 #SBTCVM Mark 2
 Simple Balanced Ternary Computer Virtual Machine
 
-v2.0.0
+v2.0.1
 
-need help? open index.html inside the docs directory.
+need help? open index.html inside the docs directory,
+or view the documentaion online at:
+<https://thomasthespacefox.github.io/SBTCVM-Mark-2/index.html>
 
 (c)2016-2017 Thomas Leathers
 

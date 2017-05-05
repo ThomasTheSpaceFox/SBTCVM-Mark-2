@@ -19,7 +19,8 @@
     <table width="100%" cellspacing="0" cellpadding="2" border="1">
       <tbody>
         <tr>
-          <td valign="top">SBTCVM-asm2.py (SBTCVM's Assembler)<br>
+          <td width="33%" valign="top">SBTCVM-asm2.py (SBTCVM's
+            Assembler)<br>
             <br>
             used to compile SBTCVM assembly<br>
             sourcecode into TROMs<br>
@@ -38,19 +39,29 @@
           </td>
         </tr>
         <tr>
-          <td valign="top">MK2-RUN.py (SBTCVM Command line launcher)<br>
+          <td width="33%" valign="top">MK2-RUN.py (SBTCVM Command line
+            launcher)<br>
             <br>
-            launches the VM engine with the specified trom<br>
+            launches the VM engine with the specified trom, or with the
+            specified streg file. (auto-detected)<br>
+            <br>
+            SBTCVM will automatically search the subdirectories: "ROMS"
+            and "VMSYSTEM" if the file is not found in SBTCVM's base
+            directory.<br>
           </td>
           <td valign="top">MK2-RUN.py -h (--help): this text<br>
             MK2-RUN.py -v (--version)<br>
             MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA<br>
             MK2-RUN.py -a (--about): about MK2-RUN.py<br>
             MK2-RUN.py [trom file]: run a trom as TROMA<br>
+            MK2-RUN.py -r (--run) [streg file]: run specified streg
+            file.<br>
+            MK2-RUN.py [streg file]: run specified streg file.<br>
           </td>
         </tr>
         <tr>
-          <td valign="top">MK2-GFX.py (SBTCVM Graphics Toolkit Utility)<br>
+          <td width="33%" valign="top">MK2-GFX.py (SBTCVM Graphics
+            Toolkit Utility)<br>
             <br>
             Provides Binary raster image conversion<br>
           </td>

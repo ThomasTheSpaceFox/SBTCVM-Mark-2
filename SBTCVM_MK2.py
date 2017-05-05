@@ -15,7 +15,7 @@ print "SBTCVM Mark 2 Starting up..."
 #SBTCVM Mark 2
 #Simple Balanced Ternary Computer Virtual Machine
 #
-#v2.0.0
+#v2.0.1
 #
 #(c)2016-2017 Thomas Leathers
 #
@@ -35,7 +35,7 @@ print "SBTCVM Mark 2 Starting up..."
 
 #thread data storage class
 class BTTHREAD:
-	def __init__(self, qxtactg, EXECADDRg, REG1g, REG2g, contaddrg, EXECADDRrawg, regsetpointg, TTYBGCOLREGg, TTYBGCOLg, colvectorregg, monovectorregg, colorregg, tritloadleng, tritoffsetg, tritdestgndg, threadrefg):
+	def __init__(self, qxtactg, EXECADDRg, REG1g, REG2g, contaddrg, EXECADDRrawg, regsetpointg, TTYBGCOLREGg, TTYBGCOLg, colvectorregg, monovectorregg, colorregg, tritloadleng, tritoffsetg, tritdestgndg, threadrefg, ROMFILEg, ROMLAMPFLGg):
 		self.qxtact=qxtactg
 		self.EXECADDR=EXECADDRg
 		self.REG1=REG1g
@@ -52,7 +52,10 @@ class BTTHREAD:
 		self.tritoffset=tritoffsetg
 		self.tritdestgnd=tritdestgndg
 		self.threadref=threadrefg
-
+		self.ROMFILE=ROMFILEg
+		self.ROMLAMPFLG=ROMLAMPFLGg
+#ROMFILE=TROMA
+#ROMLAMPFLG="A"
 
 
 windowicon=pygame.image.load(os.path.join('GFX', 'icon64.png'))
@@ -66,10 +69,10 @@ pygame.font.init()
 simplefont = pygame.font.SysFont(None, 16)
 #used for smaller data displays (inst. data etc.)
 #smldispfont = pygame.font.SysFont(None, 16)
-smldispfont = pygame.font.Font("SBTCVMreadout.ttf", 16)
+smldispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
 #used in larger data displays (register displays, etc.)
 #lgdispfont = pygame.font.SysFont(None, 20)
-lgdispfont = pygame.font.Font("SBTCVMreadout.ttf", 16)
+lgdispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
 pixcnt1=40
 pixjmp=14
 USRYN=0
@@ -113,9 +116,9 @@ TROME=("DEFAULT.TROM")
 TROMF=("DEFAULT.TROM")
 CPUWAIT=(0.005)
 stepbystep=0
-scconf=open('BOOTUP.CFG', 'r')
-exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
-
+scconf=open(os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'r')
+exconf=compile(scconf.read(), os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'exec')
+DEFAULTSTREG="intro.streg"
 tuibig=1
 logromexit=0
 logIOexit=0
@@ -170,12 +173,44 @@ btstopthread=0
 
 TTYrenderflg="0"
 
+
+
 if 'GLOBRUNFLG' in globals():
 	
 	TROMA=GLOBRUNFLG
 	libtrom.redefA(TROMA)
 	print ("GLOBRUNFLG found... \n running trom: \"" + TROMA + "\" as TROMA")
 
+
+
+elif 'GLOBSTREG' in globals():
+	streg_subtitle="Unnamed"
+	scstreg=open(GLOBSTREG, 'r')
+	exstreg=compile(scstreg.read(), GLOBSTREG, 'exec')
+	exec(exstreg)
+	print ("streg program title:" + streg_subtitle)
+	libtrom.redefA(TROMA)
+	libtrom.redefB(TROMA)
+	libtrom.redefC(TROMA)
+	libtrom.redefD(TROMA)
+	libtrom.redefE(TROMA)
+	libtrom.redefF(TROMA)
+	pygame.display.set_caption("SBTCVM Mark 2 | " + streg_subtitle, "SBTCVM Mark 2 | " + streg_subtitle)
+	print ("GLOBSTREG found... \n Starting SBTCVM with setup in streg file: \"" + GLOBSTREG + "\"")
+else:
+	streg_subtitle="Unnamed"
+	scstreg=open(DEFAULTSTREG, 'r')
+	exstreg=compile(scstreg.read(), DEFAULTSTREG, 'exec')
+	exec(exstreg)
+	print ("streg program title:" + streg_subtitle)
+	libtrom.redefA(TROMA)
+	libtrom.redefB(TROMA)
+	libtrom.redefC(TROMA)
+	libtrom.redefD(TROMA)
+	libtrom.redefE(TROMA)
+	libtrom.redefF(TROMA)
+	pygame.display.set_caption("SBTCVM Mark 2 | " + streg_subtitle, "SBTCVM Mark 2 | " + streg_subtitle)
+	print ("nither GLOBSTREG or GLOBRUNFLG have been found... \nStarting SBTCVM with setup in default streg file: \"" + DEFAULTSTREG + "\"")
 #tritlength defaults
 tritloadlen=9
 tritoffset=0
@@ -290,15 +325,15 @@ screensurf.blit(CPULEDACT, (749, 505))
 screensurf.blit(STEPLED, (750, 512))
 print "Prep threading system..."
 threadref="00"
-mainthreadinital=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinitaln3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinitaln2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinitaln1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital0=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-otherthreadinital4=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+mainthreadinital=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinitaln3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinitaln2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinitaln1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinital0=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinital1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinital2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinital3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+otherthreadinital4=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
 BTSTACK={"--": mainthreadinital, "-0": otherthreadinitaln3, "-+": otherthreadinitaln2, "0-": otherthreadinitaln1, "00": otherthreadinital0, "0+": otherthreadinital1, "+-": otherthreadinital2, "+0": otherthreadinital3, "++": otherthreadinital4} 
 btthreadcnt=1
 btcurthread="--"
@@ -812,11 +847,9 @@ while stopflag==0:
 			#	print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
 		elif BTSTACK[threadref].qxtact==0:
 			#BTSTACK[threadref]=otherthreadinital
-			qxp=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
-			#SEEMS TO BE RELATED TO THREAD ACTIVITY GLITCH
+			qxp=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
 			#for threaddex in BTSTACK:
 			#	print (str(BTSTACK[threaddex].qxtact) + " pre thread launch r " + threaddex)
-			#why is this changing all class instances??????
 			qxp.qxtact=1
 			#for threaddex in BTSTACK:
 			#	print (str(BTSTACK[threaddex].qxtact) + " post qxtact r " + threaddex)
@@ -1568,7 +1601,7 @@ while stopflag==0:
 			btthreadcnt -=1
 			btstopthread=0
 		else:
-			BTSTACK[btcurthread]=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref)
+			BTSTACK[btcurthread]=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
 		#iteratively detrmine next thread:
 		#for threaditer in ["--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++", "--", "-0", "-+", "0-", "00", "0+", "+-", "+0", "++"]:
 			#if threaditer==btcurthread:
@@ -1611,6 +1644,8 @@ while stopflag==0:
 		tritoffset=BTSTACK[btcurthread].tritoffset
 		tritdestgnd=BTSTACK[btcurthread].tritdestgnd
 		threadref=BTSTACK[btcurthread].threadref
+		ROMFILE=BTSTACK[btcurthread].ROMFILE
+		ROMLAMPFLG=BTSTACK[btcurthread].ROMLAMPFLG
 		
 		
 		#print EXECADDR

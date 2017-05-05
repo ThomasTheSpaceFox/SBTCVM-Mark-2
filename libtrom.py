@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import libSBTCVM
 import os
+import sys
 TROMA="intro.trom"
 TROMB=("DEFAULT.TROM")
 TROMC=("DEFAULT.TROM")
@@ -14,10 +15,22 @@ logreads=0
 def initwait():
 	return libtromready
 
+def loadtrom(filenameg):
+	if os.path.isfile(filenameg):
+		return(open(filenameg, "r"))
+	elif os.path.isfile(os.path.join("ROMS", filenameg)):
+		return(open(os.path.join("ROMS", filenameg), "r"))
+	elif os.path.isfile(os.path.join("VMSYSTEM", filenameg)):
+		return(open(os.path.join("VMSYSTEM", filenameg), "r"))
+	else:
+		print ("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
+		sys.exit()
+		
+
 #SBTCVM Mark 2
 #Simple Balanced Ternary Computer Virtual Machine
 #
-#v2.0.0
+#v2.0.1
 #
 #(c)2016-2017 Thomas Leathers
 #
@@ -35,8 +48,8 @@ def initwait():
 #  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
 
-scconf=open('BOOTUP.CFG', 'r')
-exconf=compile(scconf.read(), 'BOOTUP.CFG', 'exec')
+scconf=open(os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'r')
+exconf=compile(scconf.read(), os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'exec')
 exec(exconf)
 
 if tromlogging==0:
@@ -50,11 +63,72 @@ def redefA(filenameq):
 	global TROMA
 	AROM= {}
 	TROMA=filenameq
-	TROMAfile=open(filenameq, "r")
+	TROMAfile=loadtrom(filenameq)
 	linecnt=1
 	for rmline in TROMAfile:
 		rmline=rmline.replace("\n", "")
 		AROM[linecnt]=rmline
+		linecnt += 1
+
+def redefB(filenameq):
+	global BROM
+	global TROMB
+	BROM= {}
+	TROMB=filenameq
+	TROMBfile=loadtrom(filenameq)
+	linecnt=1
+	for rmline in TROMBfile:
+		rmline=rmline.replace("\n", "")
+		BROM[linecnt]=rmline
+		linecnt += 1
+
+def redefC(filenameq):
+	global CROM
+	global TROMC
+	CROM= {}
+	TROMC=filenameq
+	TROMCfile=loadtrom(filenameq)
+	linecnt=1
+	for rmline in TROMCfile:
+		rmline=rmline.replace("\n", "")
+		CROM[linecnt]=rmline
+		linecnt += 1
+
+def redefD(filenameq):
+	global DROM
+	global TROMD
+	DROM= {}
+	TROMD=filenameq
+	TROMDfile=loadtrom(filenameq)
+	linecnt=1
+	for rmline in TROMDfile:
+		rmline=rmline.replace("\n", "")
+		DROM[linecnt]=rmline
+		linecnt += 1
+
+def redefE(filenameq):
+	global EROM
+	global TROME
+	EROM= {}
+	TROME=filenameq
+	TROMEfile=loadtrom(filenameq)
+	linecnt=1
+	for rmline in TROMEfile:
+		rmline=rmline.replace("\n", "")
+		EROM[linecnt]=rmline
+		linecnt += 1
+
+
+def redefF(filenameq):
+	global FROM
+	global TROMF
+	FROM= {}
+	TROMF=filenameq
+	TROMFfile=loadtrom(filenameq)
+	linecnt=1
+	for rmline in TROMFfile:
+		rmline=rmline.replace("\n", "")
+		FROM[linecnt]=rmline
 		linecnt += 1
 
 #load TROMS from TROM files to respective dictionaries
@@ -62,42 +136,42 @@ print "libtrom: parsing TROMs into dictionaries..."
 if tromlogging==1:
 	tromlog1.write("Load TROMs into dictionaries... \n")
 AROM= {}
-TROMAfile=open(TROMA, "r")
+TROMAfile=loadtrom(TROMA)
 linecnt=1
 for rmline in TROMAfile:
 	rmline=rmline.replace("\n", "")
 	AROM[linecnt]=rmline
 	linecnt += 1
 BROM= {}
-TROMBfile=open(TROMB, "r")
+TROMBfile=loadtrom(TROMB)
 linecnt=1
 for rmline in TROMBfile:
 	rmline=rmline.replace("\n", "")
 	BROM[linecnt]=rmline
 	linecnt += 1
 CROM= {}
-TROMCfile=open(TROMC, "r")
+TROMCfile=loadtrom(TROMC)
 linecnt=1
 for rmline in TROMCfile:
 	rmline=rmline.replace("\n", "")
 	CROM[linecnt]=rmline
 	linecnt += 1
 DROM= {}
-TROMDfile=open(TROMD, "r")
+TROMDfile=loadtrom(TROMD)
 linecnt=1
 for rmline in TROMDfile:
 	rmline=rmline.replace("\n", "")
 	DROM[linecnt]=rmline
 	linecnt += 1
 EROM= {}
-TROMEfile=open(TROME, "r")
+TROMEfile=loadtrom(TROME)
 linecnt=1
 for rmline in TROMEfile:
 	rmline=rmline.replace("\n", "")
 	EROM[linecnt]=rmline
 	linecnt += 1
 FROM= {}
-TROMFfile=open(TROMF, "r")
+TROMFfile=loadtrom(TROMF)
 linecnt=1
 for rmline in TROMFfile:
 	rmline=rmline.replace("\n", "")
