@@ -58,7 +58,7 @@ class BTTHREAD:
 #ROMLAMPFLG="A"
 
 
-windowicon=pygame.image.load(os.path.join('GFX', 'icon64.png'))
+windowicon=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'icon64.png'))
 pygame.display.set_icon(windowicon)
 
 screensurf=pygame.display.set_mode((800, 600))
@@ -82,17 +82,17 @@ keyintreg="0000"
 
 #graphics:
 #background pixmap
-vmbg=pygame.image.load(os.path.join('GFX', 'VMBG.png')).convert()
+vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 #indicator lamps
 #GREEN
-LEDGREENON=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN.png')).convert()
-LEDGREENOFF=pygame.image.load(os.path.join('GFX', 'LAMP-GREEN-OFF.png')).convert()
+LEDGREENON=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN.png')).convert()
+LEDGREENOFF=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN-OFF.png')).convert()
 #CPU
-CPULEDACT=pygame.image.load(os.path.join('GFX', 'LAMP-BLUE.png')).convert()
-CPULEDSTANDBY=pygame.image.load(os.path.join('GFX', 'LAMP-ORANGE.png')).convert()
+CPULEDACT=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-BLUE.png')).convert()
+CPULEDSTANDBY=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-ORANGE.png')).convert()
 
-COLORDISP=pygame.image.load(os.path.join('GFX', 'COLORDISP-DEF.png')).convert()
-MONODISP=pygame.image.load(os.path.join('GFX', 'MONODISP-DEF.png')).convert()
+COLORDISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'COLORDISP-DEF.png')).convert()
+MONODISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'MONODISP-DEF.png')).convert()
 #this list is what is displayed on the TTY on VM boot.
 
 abt=["SBTCVM", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]

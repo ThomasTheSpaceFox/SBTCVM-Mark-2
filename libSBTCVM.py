@@ -247,7 +247,7 @@ pygame.font.init()
 simplefont = pygame.font.SysFont(None, 16)
 
 
-fondir="FONT0"
+fondir=os.path.join("VMSYSTEM", "FONT0")
 
 
 def abtslackline(receveabt, linetext):
