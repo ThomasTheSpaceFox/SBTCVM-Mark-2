@@ -325,16 +325,13 @@ screensurf.blit(CPULEDACT, (749, 505))
 screensurf.blit(STEPLED, (750, 512))
 print "Prep threading system..."
 threadref="00"
-mainthreadinital=BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinitaln3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinitaln2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinitaln1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinital0=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinital1=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinital2=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinital3=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-otherthreadinital4=BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
-BTSTACK={"--": mainthreadinital, "-0": otherthreadinitaln3, "-+": otherthreadinitaln2, "0-": otherthreadinitaln1, "00": otherthreadinital0, "0+": otherthreadinital1, "+-": otherthreadinital2, "+0": otherthreadinital3, "++": otherthreadinital4} 
+
+
+
+BTSTACK={"--": BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)}
+for cur_id in ["-0","-+","0-","00","0+","+-","+0","++"]:
+    BTSTACK[cur_id] = BTTHREAD(0, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)
+
 btthreadcnt=1
 btcurthread="--"
 
