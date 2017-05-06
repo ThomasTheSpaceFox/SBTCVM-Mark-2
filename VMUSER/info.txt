@@ -1,0 +1,5 @@
+NOTE: This directory is ignored by git. also. you can place TROMs here and
+they can be run with the basename like VMSYSTEM and ROMS
+
+When you first run SBTCVM, it will create a "User config" in this directory.
+this config can overwride SBTCVM's Default configuration.

@@ -20,6 +20,8 @@ def loadtrom(filenameg):
 		return(open(filenameg, "r"))
 	elif os.path.isfile(os.path.join("ROMS", filenameg)):
 		return(open(os.path.join("ROMS", filenameg), "r"))
+	elif os.path.isfile(os.path.join("VMUSER", filenameg)):
+		return(open(os.path.join("VMUSER", filenameg), "r"))
 	elif os.path.isfile(os.path.join("VMSYSTEM", filenameg)):
 		return(open(os.path.join("VMSYSTEM", filenameg), "r"))
 	else:

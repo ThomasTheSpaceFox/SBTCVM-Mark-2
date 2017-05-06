@@ -118,13 +118,25 @@ CPUWAIT=(0.005)
 stepbystep=0
 scconf=open(os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'r')
 exconf=compile(scconf.read(), os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'exec')
+
+if os.path.isfile(os.path.join("VMUSER", "USERBOOT.CFG")):
+	userscconf=open(os.path.join("VMUSER", "USERBOOT.CFG"), "r")
+	userexconf=compile(scconf.read(), os.path.join("VMUSER", 'USERBOOT.CFG'), 'exec')
+	runuserconf=1
+else:
+	print "user config not found... creating user config in VMUSER..."
+	userscconfcreate=open(os.path.join("VMUSER", "USERBOOT.CFG"), "w")
+	userscconfcreate.write(libSBTCVM.USERCONFTEMP)
+	userscconfcreate.close()
+	runuserconf=0
 DEFAULTSTREG="intro.streg"
 tuibig=1
 logromexit=0
 logIOexit=0
 disablereadouts=0
 exec(exconf)
-
+if runuserconf==1:
+	exec(userexconf)
 
 key1=0
 key2=0

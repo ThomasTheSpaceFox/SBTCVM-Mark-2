@@ -372,3 +372,48 @@ def glyphoptim(surface):
 		chargliphfileopt[fxq]=imgpostconv
 		
 
+USERCONFTEMP='''#This is the USER config file.
+#this is autocreated by sbtcvm
+
+#single-rom Programs should always be on "TROMA"
+#also, single-rom programs can be launched with MK2-RUN.py
+#multirom programs can be launched from MK2-RUN.py through the use of streg files. 
+#see intro.streg for an example.
+
+#the default streg can be overwritten here:
+#DEFAULTSTREG="intro.streg"
+
+
+#enable to use step-by-step execution. makes debugging easier :) 
+#(when enabled press enter to advance CPU)
+#usually this should be zero "0" (aka off) set to one "1" to turn on.
+#notice: this has not been updated to work with the new keyscan operations, so its usefulness varies.
+#stepbystep=0
+
+#cpu wait time (in seconds)
+#the default is 0.0005 seconds. shorter delay times cause faster operation provided
+#your PC has the processing power.
+#CPUWAIT=(0.0005)
+
+
+#LOGGING RELATED SETTINGS BELOW
+
+#MAIN VM ENGINE:
+
+#Dump EXEC MEMORY at exit (This will dump the current state of the
+#troms in memory, into the CAP directory as TROMA.dmp... TROMB.dmp.. Etc.)
+#useful for debugging
+#logromexit=0
+#log IObus on exit this logs the final state of the IObus on exit.
+#logIOexit=0
+#also you can issue "manual" equivalents to these via F10 (filenames will differ from exit dumps)
+
+
+#LIBTROM:
+
+#log reads. default is 0. libtrom logging must be on for this to work.
+#logreads=0
+#log writes. default is 0. libtrom logging must be on for this to work.
+#logwrites=0
+#libtrom logging. if on, libtrom will log various events in log files in CAP directory.
+#tromlogging=0'''
