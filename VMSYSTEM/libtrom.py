@@ -25,8 +25,8 @@ def loadtrom(filenameg):
 	elif os.path.isfile(os.path.join("VMSYSTEM", filenameg)):
 		return(open(os.path.join("VMSYSTEM", filenameg), "r"))
 	else:
-		print ("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
-		sys.exit()
+		#print ("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
+		sys.exit("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
 		
 
 #SBTCVM Mark 2

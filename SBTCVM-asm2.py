@@ -96,6 +96,42 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 	else:
 		arg=sys.argv[2]
 	print arg
+	lowarg=arg.lower()
+	argisfile=0
+	argistasm=0
+	for extq in ["", ".tasm", ".TASM"]:
+		qarg=(arg + extq)
+		qlowarg=(lowarg + extq.lower())
+		print "searching for: \"" + qarg + "\"..."
+		argisfile
+		if os.path.isfile(qarg):
+			argisfile=1
+			print "found: " + qarg
+		elif os.path.isfile(os.path.join("VMSYSTEM", qarg)):
+			qarg=os.path.join("VMSYSTEM", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("VMUSER", qarg)):
+			qarg=os.path.join("VMUSER", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("ROMS", qarg)):
+			qarg=os.path.join("ROMS", qarg)
+			print "found: " + qarg
+			argisfile=1
+		if argisfile==1:
+			if qlowarg.endswith(".tasm") and os.path.isfile(qarg):
+				print "tasm source found."
+				arg=qarg
+				argistasm=1
+				break
+			
+			else:
+				print "Not valid."
+				argisfile=0
+	if argisfile==0 or argistasm==0:
+		#print "ERROR: file not found, or is not a tasm file STOP"
+		sys.exit("ERROR: SBTCVM assembler was unable to load the specified filename. STOP")
 	#generate a name for logs in case its needed
 	logsub=arg.replace("/", "-")
 	logsub=logsub.replace("~", "")
@@ -379,9 +415,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("------" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 			
 		elif instword=="romread2":
 			instgpe=instdat.split(">")
@@ -398,9 +434,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("-----0" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		elif instword=="IOread1":
 			instgpe=instdat.split(">")
 			if (len(instgpe))==1:
@@ -412,9 +448,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 					IOpnk=IOmapread[instgpe[1]]
 					outn.write("-----+" + IOpnk + "\n")
 				except KeyError:
-					print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 				instcnt += 1
 			#outn.write("-----+" + instdat + "\n")
 			#instcnt += 1
@@ -430,9 +466,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 					IOpnk=IOmapread[instgpe[1]]
 					outn.write("----0-" + IOpnk + "\n")
 				except KeyError:
-					print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: IO read shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 				instcnt += 1
 			#instcnt += 1
 		elif instword=="IOwrite1":
@@ -446,9 +482,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 					IOpnk=IOmapwrite[instgpe[1]]
 					outn.write("----00" + IOpnk + "\n")
 				except KeyError:
-					print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 				instcnt += 1
 			#instcnt += 1
 		elif instword=="IOwrite2":
@@ -464,9 +500,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 					IOpnk=IOmapwrite[instgpe[1]]
 					outn.write("----0+" + IOpnk + "\n")
 				except KeyError:
-					print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: IO write shortcut: \"" + instgpe[1] + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 				instcnt += 1
 		elif instword=="regswap":
 			outn.write("----+-" + instdat + "\n")
@@ -516,9 +552,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("---0++" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		elif instword=="setdata":
 			instgpe=instdat.split(">")
 			if (len(instgpe))==1:
@@ -534,9 +570,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("---+--" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		#----jump in used opcodes----
 		elif instword=="continue":
 			outn.write("---+++" + instdat + "\n")
@@ -614,9 +650,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("--000+" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 				
 		elif instword=="gotoreg1":
 			outn.write("--00+-" + instdat + "\n")
@@ -637,9 +673,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("--00+0" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 					
 		elif instword=="gotoifgreater":
 			instgpe=instdat.split(">")
@@ -656,9 +692,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("--0+0-" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 			#instcnt += 1
 		elif instword=="wait":
 			outn.write("--00++" + instdat + "\n")
@@ -678,9 +714,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("--0+--" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		elif instword=="userwait":
 			outn.write("--0+-0" + instdat + "\n")
 			instcnt += 1
@@ -791,9 +827,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("-00---" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		elif instword=="clearkeyint":
 			outn.write("-00--0" + instdat + "\n")
 			instcnt += 1
@@ -897,9 +933,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 						outn.write("--+000" + fx.tline + "\n")
 						gtmatch=1
 				if gtmatch==0:
-					print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
+					#print "ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP"
 					complog("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP \n")
-					sys.exit()
+					sys.exit("ERROR: pointer: \"" + gtpoint + "\" Pointed at by: \"" +  instword + "\" At line: \"" + str(srcline) + "\", not found. STOP")
 		elif instword=="threadstop":
 			instcnt += 1
 			outn.write("--+00+" + instdat + "\n")
@@ -915,17 +951,18 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 		elif gtflag==1 and txtblk==1:
 			complog("TEXTBLOCK: pass 2 : srcline:" + str(srcline) + " instcnt:" + str(instcnt) + " textline: \"" + linenraw + "\"\n")
 		if instcnt>assmoverrun:
-			print("ERROR!: assembler has exceded rom size limit of 19683!")
+			#print("ERROR!: assembler has exceded rom size limit of 19683!")
 			complog("ERROR!: assembler has exceded rom size limit of 19683! \n")
+			sys.exit("ERROR!: assembler has exceded rom size limit of 19683!")
 	
 	if txtblk==1:
 		print "WARNING: unclosed Text block!"
 		complog("WARNING: unclosed Text block!\n")
 	
 	if instcnt==0:
-		print "ERROR: No instructions found. nothing to compile."
+		#print "ERROR: No instructions found. nothing to compile."
 		complog("ERROR: No instructions found. nothing to compile. /n")
-	
+		sys.exit("ERROR: No instructions found. nothing to compile.")
 	if autostpflg==0 and instcnt<19683:
 		print "NOTICE: no explicit goto or stop instruction at end of program.  SBTCVM-asm will add a stop automatically."
 		complog("NOTICE: no explicit goto or stop instruction at end of program.  SBTCVM-asm will add a stop automatically.\n")
@@ -933,7 +970,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 		instcnt += 1
 	
 	instpad=instcnt
-	while instpad!=19683:
+	while instpad!=19683 and instcnt<19684:
 		outn.write("000000" + "000000000" + "\n")
 		instpad += 1
 	

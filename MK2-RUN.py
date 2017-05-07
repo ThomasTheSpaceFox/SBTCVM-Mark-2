@@ -3,6 +3,7 @@
 import VMSYSTEM.libSBTCVM as libSBTCVM
 import VMSYSTEM.libbaltcalc as libbaltcalc
 import sys
+import os
 
 
 
@@ -20,6 +21,11 @@ MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA
 MK2-RUN.py [trom file]: run a trom as TROMA
 MK2-RUN.py -r (--run) [streg file]: run specified streg file.
 MK2-RUN.py [streg file]: run specified streg file.
+
+note:
+MK2-RUN.py is equipped with a searching capacity. 
+trying to run "example" wopuld match "example.streg" and "example.trom"
+also the subdirectories: "VMUSER", "VMSYSTEM", and "ROMS" are searched as well.
 '''
 elif cmd=="-v" or cmd=="--version":
 	print "SBTCVM MK2-RUN launcher v2.0.1"
@@ -52,18 +58,51 @@ elif cmd=="-r" or cmd=="--run" or cmd[0]!="-":
 	else:
 		arg=sys.argv[2]
 		print arg
-	if ((arg.split("."))[1]).lower()=="trom":
-		
-		GLOBRUNFLG=arg
-		VMFILE=open('SBTCVM_MK2.py', 'r')
-		EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
-		exec(EXECVM)
-	elif ((arg.split("."))[1]).lower()=="tasm":
-		print "This is an SBTCVM assembly file, you need to build it into a trom first."
-	elif ((arg.split("."))[1]).lower()=="streg":
-		print "SBTCVM trom execution group file, detected."
-		GLOBSTREG=arg
-		VMFILE=open('SBTCVM_MK2.py', 'r')
-		EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
-		exec(EXECVM)
-		
+	lowarg=arg.lower()
+	argisfile=0
+	qfilewasvalid=0
+	for extq in ["", ".streg", ".STREG", ".TROM", ".trom"]:
+		qarg=(arg + extq)
+		qlowarg=(lowarg + extq.lower())
+		print "searching for: \"" + qarg + "\"..."
+		if os.path.isfile(qarg):
+			argisfile=1
+			print "found: " + qarg
+		elif os.path.isfile(os.path.join("VMSYSTEM", qarg)):
+			qarg=os.path.join("VMSYSTEM", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("VMUSER", qarg)):
+			qarg=os.path.join("VMUSER", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("ROMS", qarg)):
+			qarg=os.path.join("ROMS", qarg)
+			print "found: " + qarg
+			argisfile=1
+		if argisfile==1:
+			if qlowarg.endswith(".trom") and os.path.isfile(qarg):
+				print "SBTCVM TROM file detected."
+				GLOBRUNFLG=qarg
+				VMFILE=open('SBTCVM_MK2.py', 'r')
+				EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+				exec(EXECVM)
+				qfilewasvalid=1
+				break
+			
+			elif qlowarg.endswith(".streg") and os.path.isfile(qarg):
+				print "SBTCVM trom execution group file, detected."
+				GLOBSTREG=qarg
+				VMFILE=open('SBTCVM_MK2.py', 'r')
+				EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+				exec(EXECVM)
+				qfilewasvalid=1
+				break
+			else:
+				print "not valid."
+				argisfile=0
+				
+	if qfilewasvalid==0:
+		print "File not found."
+			
+			
