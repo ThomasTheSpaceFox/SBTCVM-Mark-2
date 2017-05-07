@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>SBTCVM Plan Of Implementation - Graphics</title>
+  </head>
+  <body
+    background="../../githubiopage/thomasthespacefox.github.io/bg1.jpg">
+    <div align="center">
+      <table width="100%" cellspacing="0" cellpadding="2" border="1"
+        bgcolor="#ffffff" align="center">
+        <tbody>
+          <tr>
+            <td valign="top" bgcolor="#ffffff">
+              <div align="center"><img src="GFXLOGO.png" alt="SBTCVM
+                  Logo" width="144" height="36"><br>
+              </div>
+              <div align="center"> SBTCVM Mark 2<br>
+              </div>
+              <div align="center"> HTML Documentation<br>
+                SBTCVM Plan Of Implementation<br>
+                Graphics:<br>
+                <a href="index.html">index</a> <a href="poi.html">P.O.I
+                  index</a><br>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top" bgcolor="#ffffff">
+              <div align="left"><br>
+              </div>
+              <div align="center">
+                <div align="left">Overview:<br>
+                  This Describes the plan for future high-resolution
+                  graphics in SBTCVM, and also describes the<br>
+                  <hr width="100%" size="2">color modes:<br>
+                  0: 1-trit monochrome<br>
+                  1: 2-trit monochrome<br>
+                  2: 3-trit monochrome<br>
+                  3: 3-trit RGB color<br>
+                  4: 6-trit RGB color<br>
+                  5: 12-trit RGB color<br>
+                  6: 18-trit RGB color<br>
+                  7: 24-trit RGB color<br>
+                  <hr width="100%" size="2">screen resolutions:<br>
+                  <br>
+                  4:3 modes:<br>
+                  324x243 [partially implemented as of SBTCVM mark 1.1,
+                  awaiting graphics portion.)<br>
+                  648x486<br>
+                  972x729<br>
+                  <br>
+                  16:9 modes:<br>
+                  432x243<br>
+                  864x486<br>
+                  1293x729<br>
+                  <br>
+                  legacy modes: (these are older test modes that will
+                  possibly be removed in the future)<br>
+                  9x9&nbsp; [color mode 1]<br>
+                  27x27 [color mode 4]<br>
+                  <hr width="100%" size="2">Text modes:<br>
+                  <br>
+                  [col]x[line]<br>
+                  <br>
+                  36x27 [324x243] {4:3} &lt;9x9 chars&gt; [implemented
+                  as of SBTCVM mark 1.1]<br>
+                  48x27 [432x243] {16:9} &lt;9x9 chars&gt;<br>
+                  <hr width="100%" size="2">Implimented modes:<br>
+                  <br>
+                  <ul>
+                    <li>(text) 36x27 [324x243] {4:3} &lt;9x9 chars&gt;
+                      [implemented as of SBTCVM mark 1.1]</li>
+                    <li>9x9&nbsp; [color mode 1] (will possibly be
+                      removed in the future)</li>
+                    <li>27x27 [color mode 4] (will possibly be removed
+                      in the future)</li>
+                  </ul>
+                  <hr width="100%" size="2"></div>
+                <div align="left">Planned modes:<br>
+                  <br>
+                  (stage 0)<br>
+                  <ul>
+                    <li>324x243 color mode 0 ( 1-trit monochrome) (may
+                      be possible to add to SBTCVM mark 2)<br>
+                    </li>
+                  </ul>
+                  (stage 1)<br>
+                  <ul>
+                    <li>324x243 color mode 2 (2: 3-trit monochrome)
+                      (more memory space needed.)<br>
+                    </li>
+                    <li>324x243 color mode 3 (3: 3-trit RGB color) (more
+                      memory space needed.)</li>
+                  </ul>
+                </div>
+                <br>
+              </div>
+              <br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top"><br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      :<br>
+    </div>
+  </body>
+</html>
