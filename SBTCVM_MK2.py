@@ -62,6 +62,10 @@ windowicon=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'icon
 pygame.display.set_icon(windowicon)
 
 screensurf=pygame.display.set_mode((800, 600))
+#
+vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
+screensurf.blit(vmbg, (0, 0))
+pygame.display.update()
 libSBTCVM.glyphoptim(screensurf)
 pygame.display.set_caption("SBTCVM Mark 2", "SBTCVM Mark 2")
 pygame.font.init()
@@ -82,7 +86,7 @@ keyintreg="0000"
 
 #graphics:
 #background pixmap
-vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
+
 #indicator lamps
 #GREEN
 LEDGREENON=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN.png')).convert()
@@ -285,9 +289,8 @@ libSBTCVMsurf.fill(TTYBGCOL)
 RAMbank = {}
 
 #calmlst = open("ORDEREDLIST6.txt")
-screensurf.fill((0,127,255))
-screensurf.blit(vmbg, (0, 0))
-pygame.display.update()
+#screensurf.fill((0,127,255))
+
 
 
 
