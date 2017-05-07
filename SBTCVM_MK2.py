@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-import libtrom
+import VMSYSTEM.libtrom as libtrom
 import pygame
 from pygame.locals import *
 import time
 import os
-import libSBTCVM
-import libbaltcalc
+import VMSYSTEM.libSBTCVM as libSBTCVM
+import VMSYSTEM.libbaltcalc as libbaltcalc
 import sys
 from random import randint
 pygame.display.init()

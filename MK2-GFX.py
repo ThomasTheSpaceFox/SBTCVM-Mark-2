@@ -5,7 +5,7 @@ import pygame
 import time
 from pygame.locals import *
 import sys
-import libbaltcalc
+import VMSYSTEM.libbaltcalc as libbaltcalc
 
 
 

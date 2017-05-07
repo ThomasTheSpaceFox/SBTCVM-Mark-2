@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import libSBTCVM
-import libbaltcalc
+import VMSYSTEM.libSBTCVM as libSBTCVM
+import VMSYSTEM.libbaltcalc as libbaltcalc
 import sys
 import os
 
