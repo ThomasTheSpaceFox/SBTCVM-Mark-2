@@ -1,4 +1,4 @@
-This is where generic VM SYSTEM data is stored.
+This is where SBTCVM SYSTEM data is stored.
 
 
 troms placed in here can be refrenced by their base filename with MK2-RUN.py and in streg files.

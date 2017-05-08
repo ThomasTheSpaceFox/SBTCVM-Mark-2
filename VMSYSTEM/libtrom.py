@@ -14,7 +14,7 @@ tromlogging=0
 logreads=0
 def initwait():
 	return libtromready
-
+VMSYSROMS=os.path.join("VMSYSTEM", "ROMS")
 def loadtrom(filenameg):
 	if os.path.isfile(filenameg):
 		return(open(filenameg, "r"))
@@ -24,6 +24,8 @@ def loadtrom(filenameg):
 		return(open(os.path.join("VMUSER", filenameg), "r"))
 	elif os.path.isfile(os.path.join("VMSYSTEM", filenameg)):
 		return(open(os.path.join("VMSYSTEM", filenameg), "r"))
+	elif os.path.isfile(os.path.join(VMSYSROMS, filenameg)):
+		return(open(os.path.join(VMSYSROMS, filenameg), "r"))
 	else:
 		#print ("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
 		sys.exit("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")

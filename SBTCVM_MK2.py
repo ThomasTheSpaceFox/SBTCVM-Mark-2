@@ -201,8 +201,10 @@ if 'GLOBRUNFLG' in globals():
 
 elif 'GLOBSTREG' in globals():
 	streg_subtitle="Unnamed"
-	scstreg=open(GLOBSTREG, 'r')
-	exstreg=compile(scstreg.read(), GLOBSTREG, 'exec')
+	#scstreg=open(GLOBSTREG, 'r')
+	ncstreg=libSBTCVM.stregload(GLOBSTREG)
+	scstreg=open(ncstreg, 'r')
+	exstreg=compile(scstreg.read(), ncstreg, 'exec')
 	exec(exstreg)
 	print ("streg program title:" + streg_subtitle)
 	libtrom.redefA(TROMA)
@@ -215,8 +217,10 @@ elif 'GLOBSTREG' in globals():
 	print ("GLOBSTREG found... \n Starting SBTCVM with setup in streg file: \"" + GLOBSTREG + "\"")
 else:
 	streg_subtitle="Unnamed"
-	scstreg=open(DEFAULTSTREG, 'r')
-	exstreg=compile(scstreg.read(), DEFAULTSTREG, 'exec')
+	#scstreg=open(DEFAULTSTREG, 'r')
+	ncstreg=libSBTCVM.stregload(DEFAULTSTREG)
+	scstreg=open(ncstreg, 'r')
+	exstreg=compile(scstreg.read(), ncstreg, 'exec')
 	exec(exstreg)
 	print ("streg program title:" + streg_subtitle)
 	libtrom.redefA(TROMA)

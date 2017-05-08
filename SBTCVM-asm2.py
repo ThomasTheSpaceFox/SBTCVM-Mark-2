@@ -8,7 +8,7 @@ import os
 assmoverrun=19683
 instcnt=0
 txtblk=0
-
+VMSYSROMS=os.path.join("VMSYSTEM", "ROMS")
 critcomperr=0
 
 compvers="v2.2.0"
@@ -109,6 +109,10 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			print "found: " + qarg
 		elif os.path.isfile(os.path.join("VMSYSTEM", qarg)):
 			qarg=os.path.join("VMSYSTEM", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join(VMSYSROMS, qarg)):
+			qarg=os.path.join(VMSYSROMS, qarg)
 			print "found: " + qarg
 			argisfile=1
 		elif os.path.isfile(os.path.join("VMUSER", qarg)):

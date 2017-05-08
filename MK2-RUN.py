@@ -6,7 +6,7 @@ import sys
 import os
 
 
-
+VMSYSROMS=os.path.join("VMSYSTEM", "ROMS")
 try:
 	cmd=sys.argv[1]
 except:
@@ -70,6 +70,10 @@ elif cmd=="-r" or cmd=="--run" or cmd[0]!="-":
 			print "found: " + qarg
 		elif os.path.isfile(os.path.join("VMSYSTEM", qarg)):
 			qarg=os.path.join("VMSYSTEM", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join(VMSYSROMS, qarg)):
+			qarg=os.path.join(VMSYSROMS, qarg)
 			print "found: " + qarg
 			argisfile=1
 		elif os.path.isfile(os.path.join("VMUSER", qarg)):

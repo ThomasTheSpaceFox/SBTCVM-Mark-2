@@ -50,10 +50,10 @@ mainmenucnt=5
 menudesc="Main Menu"
 
 #demomenu
-demomenulst=["Main Menu", "6-trit Color map", "Fibonacci"]
-demomenucode=["MAIN", "COLMAP", "FIB"]
-demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence."]
-demomenucnt=3
+demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower"]
+demomenucode=["MAIN", "COLMAP", "FIB", "FLOWER"]
+demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence.", "See an example of image conversion."]
+demomenucnt=4
 
 curmenulst=mainmenulst
 curmenucnt=mainmenucnt
@@ -140,6 +140,12 @@ while qflg!=1:
 			retfromexec=1
 		if curmenucode[(menuhighnum - 1)]=="COLMAP":
 			GLOBSTREG="colmap3.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			exec(EXECVM)
+			retfromexec=1
+		if curmenucode[(menuhighnum - 1)]=="FLOWER":
+			GLOBSTREG="flower.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
 			exec(EXECVM)

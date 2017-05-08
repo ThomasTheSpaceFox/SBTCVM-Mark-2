@@ -57,6 +57,22 @@ def drawnumstruct2(code):
 	return strut2
 #raster draw support
 
+VMSYSROMS=os.path.join("VMSYSTEM", "ROMS")
+def stregload(filenameg):
+	if os.path.isfile(filenameg):
+		return(filenameg)
+	elif os.path.isfile(os.path.join("ROMS", filenameg)):
+		return(os.path.join("ROMS", filenameg))
+	elif os.path.isfile(os.path.join("VMUSER", filenameg)):
+		return(os.path.join("VMUSER", filenameg))
+	elif os.path.isfile(os.path.join("VMSYSTEM", filenameg)):
+		return(os.path.join("VMSYSTEM", filenameg))
+	elif os.path.isfile(os.path.join(VMSYSROMS, filenameg)):
+		return(os.path.join(VMSYSROMS, filenameg))
+	else:
+		#print ("FATAL ERROR: libtrom: NONEXISTENT TROM! (" + filenameg + ")")
+		sys.exit("FATAL ERROR: libtrom: NONEXISTENT STREG! (" + filenameg + ")")
+
 #used by color channels of color raster, and by monochrome raster shades.
 def dollytell(lookupcode):
 	if lookupcode=="--":
