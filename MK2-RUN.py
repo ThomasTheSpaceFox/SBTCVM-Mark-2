@@ -104,5 +104,6 @@ elif cmd=="-r" or cmd=="--run" or cmd[0]!="-":
 				
 	if qfilewasvalid==0:
 		print "File not found."
+
 			
 			

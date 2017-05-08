@@ -1,0 +1,11 @@
+Basic idea:
+SBTCVM is a balanced ternary virtual machine. 
+
+That said, SBTCVM is not a simple program by a long shot,
+and its easy for newcomers to feel confused.
+
+If you need help, see the HTML docs index
+("index.html" in the "docs" folder.)
+
+you can also view them online at:
+<https://thomasthespacefox.github.io/SBTCVM-Mark-2/index.html>

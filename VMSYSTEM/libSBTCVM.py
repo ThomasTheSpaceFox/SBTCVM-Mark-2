@@ -56,6 +56,8 @@ def drawnumstruct2(code):
 	#print strut2
 	return strut2
 #raster draw support
+
+#used by color channels of color raster, and by monochrome raster shades.
 def dollytell(lookupcode):
 	if lookupcode=="--":
 		return("0")
@@ -76,7 +78,7 @@ def dollytell(lookupcode):
 	if lookupcode=="++":
 		return("255")
 
-
+#converts a 6-trit RGB color code into a color pygame can use.
 def colorfind(CODE):
 	REDBT = (CODE[0] + CODE[1])
 	GRNBT = (CODE[2] + CODE[3])
