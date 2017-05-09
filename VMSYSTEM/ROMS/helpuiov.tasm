@@ -1,0 +1,9 @@
+#user interface overview program.
+#used by MK2-MENU to explain UI
+
+textstart
+Welcome To the SBTCVM
+interface overview.
+
+Lets Begin with the main screen.
+textstop

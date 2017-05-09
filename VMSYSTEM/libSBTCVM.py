@@ -28,7 +28,35 @@ import os
 #  You should have received a copy of the GNU General Public License
 #  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
+def trunkto4(code):
+	codecnt=0
+	for fel in code:
+		codecnt +=1
+	if codecnt<4:
+		if codecnt==3:
+			return("0" + code)
+		if codecnt==2:
+			return("00" + code)
+		if codecnt==1:
+			return("000" + code)
+	#code=libbaltcalc.BTINVERT(code)
+	return(code)
 
+def trunkto5(code):
+	codecnt=0
+	for fel in code:
+		codecnt +=1
+	if codecnt<5:
+		if codecnt==4:
+			return("0" + code)
+		if codecnt==3:
+			return("00" + code)
+		if codecnt==2:
+			return("000" + code)
+		if codecnt==1:
+			return("0000" + code)
+	#code=libbaltcalc.BTINVERT(code)
+	return(code)
 
 #used to get linear adress point number in decimal (for example for fiding an adress in the rom)
 def numstruct(code):
