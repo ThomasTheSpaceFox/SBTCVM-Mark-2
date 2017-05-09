@@ -33,6 +33,7 @@ pygame.mixer.init()
 #  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
 #simple text iterator. loads the refrenced text file from VMSYSTEM.
+#(shows the text screens)
 def textsciter(flookup):
 	abt = open(os.path.join("VMSYSTEM", flookup))
 	pixcnt1=96
@@ -59,7 +60,7 @@ def textsciter(flookup):
 					evhappenflg2=1
 					menusound2.play()
 					break
-
+#Balanced ternary clock function. (shows clock that is in the extras menu.
 def BTCLOCKDATE():
 	
 	loopend=0
@@ -70,7 +71,10 @@ def BTCLOCKDATE():
 	helplab = simplefontB.render(('''Red=-, violet=0 blue=+'''), True, (255, 255, 255))
 	screensurf.blit(helplab, (3, 120))
 	prevtime=None
+	#quick fix to solve drawing glitches
+	scbak=screensurf.copy()
 	while loopend==0:
+		screensurf.blit(scbak, (0, 0))
 		#screensurf.fill((127, 127, 127))
 		time.sleep(0.2)
 		for event in pygame.event.get():
@@ -93,7 +97,7 @@ def BTCLOCKDATE():
 		minbt=libSBTCVM.trunkto5(libbaltcalc.DECTOBT(mindec))
 		secbt=libSBTCVM.trunkto5(libbaltcalc.DECTOBT(secdec))
 		hourX=3
-		hourtext = simplefont.render(("Hr. " + str(hourdec)), True, (255, 255, 255), (0, 0, 0))
+		hourtext = simplefont.render(("Hr. " + str(hourdec) + ""), True, (255, 255, 255), (0, 0, 0))
 		screensurf.blit(hourtext, (hourX, ttextY))
 		for fxg in hourbt:
 			if fxg=="0":
@@ -104,7 +108,7 @@ def BTCLOCKDATE():
 				screensurf.blit(NEGlamp, (hourX, hourY))
 			hourX += 9
 		minX=(hourX + 9)
-		mintext = simplefont.render(("Min. " + str(mindec)), True, (255, 255, 255), (0, 0, 0))
+		mintext = simplefont.render(("Min. " + str(mindec) + ""), True, (255, 255, 255), (0, 0, 0))
 		screensurf.blit(mintext, (minX, ttextY))
 		for fxg in minbt:
 			if fxg=="0":
@@ -115,7 +119,7 @@ def BTCLOCKDATE():
 				screensurf.blit(NEGlamp, (minX, minY))
 			minX += 9
 		secX=(minX + 9)
-		sectext = simplefont.render(("Sec. " + str(secdec)), True, (255, 255, 255), (0, 0, 0))
+		sectext = simplefont.render(("Sec. " + str(secdec) + ""), True, (255, 255, 255), (0, 0, 0))
 		screensurf.blit(sectext, (secX, ttextY))
 		for fxg in secbt:
 			if fxg=="0":
