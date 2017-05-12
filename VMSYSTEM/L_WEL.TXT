@@ -16,6 +16,3 @@ Complete with a suite of utility programs, a graphical menu launcher,
 and its own assembly language, threading support, and other advanced features, 
 SBTCVM Mark 2 has come a long way from a simple idea, 
 but still has a long way to go.
-
-
-

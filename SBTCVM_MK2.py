@@ -189,7 +189,11 @@ btstopthread=0
 
 TTYrenderflg="0"
 
-
+if 'GLOBKIOSK' in globals():
+	print "RUNNING IN KIOSK MODE."
+	KIOSKMODE=1
+else:
+	KIOSKMODE=0
 
 if 'GLOBRUNFLG' in globals():
 	
@@ -1734,10 +1738,13 @@ if logIOexit==1:
 		ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 	ramdmp.close()
 #"exitloop"
-evhappenflg3=0
-while evhappenflg3==0:
-		time.sleep(.1)
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				evhappenflg3=1
-				break
+if KIOSKMODE==0:
+	evhappenflg3=0
+	while evhappenflg3==0:
+			time.sleep(.1)
+			for event in pygame.event.get():
+				if event.type == pygame.KEYDOWN:
+					evhappenflg3=1
+					break
+else:
+	print "KIOSK MODE ACTIVE, SKIP WAIT ON EXIT."

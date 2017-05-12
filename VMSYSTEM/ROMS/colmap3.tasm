@@ -12,4 +12,5 @@ add
 setdata|>main
 setdata|>drawpixel
 gotodata|>main
-stop|000000000|loopexit
+userwait||loopexit
+stop

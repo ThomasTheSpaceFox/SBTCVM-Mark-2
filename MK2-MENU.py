@@ -6,11 +6,16 @@ import pygame
 from pygame.locals import *
 import VMSYSTEM.libSBTCVM as libSBTCVM
 import VMSYSTEM.libbaltcalc as libbaltcalc
-print "SBTCVM menu system v2.0.1 starting..."
+print "SBTCVM menu system v2.0.1"
 
 pygame.display.init()
 pygame.font.init()
 pygame.mixer.init()
+pygame.display.set_caption("SBTCVM Mark 2 | Menu", "SBTCVM Mark 2 | Menu")
+#put SBTCVM in kiosk mode.
+#this adjusts how SBTCVM works in certain cases to better mesh with the menu system.
+#such as disabling the wait-on-exit feature.
+GLOBKIOSK=1
 
 #SBTCVM Mark 2
 #Simple Balanced Ternary Computer Virtual Machine
@@ -193,10 +198,12 @@ vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-L
 qflg=0
 menuhighnum=1
 ixreturn=0
-retfromexec=1
+retfromexec=0
 while qflg!=1:
 	if retfromexec==1:
+		print "----------------"
 		print "return from VM execution."
+		print "----------------"
 		retfromexec=0
 		pygame.display.set_caption("SBTCVM Mark 2 | Menu", "SBTCVM Mark 2 | Menu")
 	#starting point for menu
@@ -231,18 +238,22 @@ while qflg!=1:
 				menuhighnum -= 1
 				evhappenflg=1
 				menusound2.play()
+				break
 			if event.type == KEYDOWN and event.key == K_RIGHT:
 				menuhighnum += 1
 				evhappenflg=1
 				menusound2.play()
+				break
 			if event.type == KEYDOWN and event.key == K_DOWN:
 				menuhighnum += 1
 				evhappenflg=1
 				menusound2.play()
+				break
 			if event.type == KEYDOWN and event.key == K_LEFT:
 				menuhighnum -= 1
 				evhappenflg=1
 				menusound2.play()
+				break
 			if event.type == KEYDOWN and event.key == K_RETURN:
 				ixreturn=1
 				evhappenflg=1
@@ -267,24 +278,36 @@ while qflg!=1:
 			GLOBSTREG="intro.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
 			exec(EXECVM)
 			retfromexec=1
 		if curmenucode[(menuhighnum - 1)]=="FIB":
 			GLOBSTREG="fib.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
 			exec(EXECVM)
 			retfromexec=1
 		if curmenucode[(menuhighnum - 1)]=="COLMAP":
 			GLOBSTREG="colmap3.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
 			exec(EXECVM)
 			retfromexec=1
 		if curmenucode[(menuhighnum - 1)]=="FLOWER":
 			GLOBSTREG="flower.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
 			exec(EXECVM)
 			retfromexec=1
 		#quit item
@@ -299,6 +322,16 @@ while qflg!=1:
 			textsciter("L_HELP.TXT")
 		if curmenucode[menuhighnum - 1]=="WELCOME":
 			textsciter("L_WEL.TXT")
+		if curmenucode[menuhighnum - 1]=="DEMOMODE":
+			#textsciter("L_WEL.TXT")
+			GLOBSTREG="colmap3.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
+			exec(EXECVM)
+			retfromexec=1
 		#Menu Swapping items
 		if curmenucode[menuhighnum - 1]=="MAIN":
 			menuhighnum=1
