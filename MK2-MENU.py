@@ -159,9 +159,11 @@ mainmenudesc=["Get started with SBTCVM", "A selection of various demo programs."
 #number of menu items:
 mainmenucnt=5
 menudesc="Main Menu"
-#select sound
+#these use the same squarewave generator as SBTCVM's buzzer.
+
+#sound A
 menusound1=pygame.mixer.Sound(libSBTCVM.autosquare(300, 0.1))
-#menu nav sound
+#menu select sound
 menusound2=pygame.mixer.Sound(libSBTCVM.autosquare(250, 0.1))
 #clock widget second sound
 menusound3=pygame.mixer.Sound(libSBTCVM.autosquare(280, 0.1))
@@ -237,27 +239,27 @@ while qflg!=1:
 			if event.type == KEYDOWN and event.key == K_UP:
 				menuhighnum -= 1
 				evhappenflg=1
-				menusound2.play()
+				#menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_RIGHT:
 				menuhighnum += 1
 				evhappenflg=1
-				menusound2.play()
+				#menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_DOWN:
 				menuhighnum += 1
 				evhappenflg=1
-				menusound2.play()
+			#	menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_LEFT:
 				menuhighnum -= 1
 				evhappenflg=1
-				menusound2.play()
+				#menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_RETURN:
 				ixreturn=1
 				evhappenflg=1
-				menusound1.play()
+				menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_F8:
 				pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT-MENU.png')))
@@ -266,11 +268,13 @@ while qflg!=1:
 				sys.exit()
 				evhappenflg=1
 				break
+	#makes menus "roll over"
 	if menuhighnum<=0:
 		menuhighnum=curmenucnt
 	elif menuhighnum>curmenucnt:
 		menuhighnum=1
 	#print menuhighnum
+	#when a menu item is chosen (return) this section determines the action to preform based on the menuitem code for that menu item
 	if ixreturn==1:
 		ixreturn=0
 		#launcher operations.
@@ -322,6 +326,7 @@ while qflg!=1:
 			textsciter("L_HELP.TXT")
 		if curmenucode[menuhighnum - 1]=="WELCOME":
 			textsciter("L_WEL.TXT")
+		#this code action id unfinished
 		if curmenucode[menuhighnum - 1]=="DEMOMODE":
 			#textsciter("L_WEL.TXT")
 			GLOBSTREG="colmap3.streg"
@@ -333,6 +338,7 @@ while qflg!=1:
 			exec(EXECVM)
 			retfromexec=1
 		#Menu Swapping items
+		#this is how the menu system is able to run many menus with one instance of code.
 		if curmenucode[menuhighnum - 1]=="MAIN":
 			menuhighnum=1
 			curmenulst=mainmenulst

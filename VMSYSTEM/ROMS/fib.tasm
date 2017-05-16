@@ -24,5 +24,36 @@ IOread1|>mem1
 setdata|>fibcollinevx
 setdata|>fibcolreg
 gotodata|>fibloopback
-userwait|000000000|fibdone
+null|000000000|fibdone
+
+
+textstart
+
+
+Fibonacci sequence.
+Starting with params -1 , -1
+textstop
+colorfill|---------
+
+setcolorvect|000------
+setcolorreg|00000000-
+
+setreg1|00000000-
+setreg2|00000000-
+
+dumpreg1|000000000|fibloopback2
+colorline|00000000-|fibcollinevx2
+setcolorreg|00000000-|fibcolreg2
+#wait|00000000-
+add
+IOwrite2|>mem1
+setreg2|+++++++++
+gotodataif|>fibdone2
+copy1to2
+IOread1|>mem1
+setdata|>fibcollinevx2
+setdata|>fibcolreg2
+gotodata|>fibloopback2
+userwait|000000000|fibdone2
+
 

@@ -1,20 +1,4 @@
-#SBTCVM Mark 2
-#Simple Balanced Ternary Computer Virtual Machine
-#
-#(c)2016-2017 Thomas Leathers
-#
-#  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#  
-#  SBTCVM Mark 2 is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#  GNU General Public License for more details.
-# 
-#  You should have received a copy of the GNU General Public License
-#  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
+
 
 
 #New SBTCVM Mark 2 Single-trom intro.
@@ -108,15 +92,15 @@ textstart
 Main Menu
 
 Info:
-1 for text intro.
+1 for text introduction
 2 for specs.
 
 demos:
-3 for color graphics
-4 for mono graphics
-5 for vector operations
+3 for color graphics demo
+4 for mono graphics demo
+5 for vector operations demo
 6 for a flower.
-7 for Fibonacci seq.
+7 for Fibonacci sequence
 
 q to quit.
 textstop
@@ -140,20 +124,19 @@ TTYbg|0,0,127
 gotodata|>pixart1
 #tidbit 1
 textstart
-top raster info:
+Color Raster Display:
 27x27 pixels
 6-trit RGB color (729 colors!)
-needs 2 CPU instructions per pixel.
-(at most 1458 instructions per full
+needs 2 CPU instructions per pixel. (at most 1458 instructions per full
 27x27 image)
 textstop||testautx
 userwait
 TTYclear
 textstart
-This image started out as a png,
-pixart1.png to be exact.
-but was autoconverted into tasm code
-with MK2-GFX's -cg2 conversion mode.
+This image started out as a png. pixart1.png to be exact.
+but was autoconverted into tasm code with MK2-GFX's -cg2 conversion
+mode.
+
 textstop
 userwait
 TTYclear
@@ -206,14 +189,13 @@ monorect|000++++00
 monoline|000++00--
 monoline|000++++--
 textstart
-As you can see. lines and filled
-rectangles can be used to draw
+Vector Demo:
+As you can see. lines and filled rectangles can be used to draw
 images in much less instructions.
 
-it would be smart to use them to
-speed things up a bit.
-
+it would be smart to use them to speed things up a bit.
 textstop
+
 userwait
 
 TTYclear
@@ -252,19 +234,26 @@ gotodata|>drawlogotext
 
 
 textstart
-SBTCVM Mark 2 Specifications:
->TTY: 36x27 display running at
-324x243, with 9x9 pixel font.
->9-trit IObus
->9-trit temp. editable rom bus with
- up to 6 hot-swappable roms of up to
- 19,683 instructions each.
->dual mini raster graphics displays.
->includes a custom assembler.
->togglable step-by-step execution.
->features a buzzer and various
- status displays and indicators.
->keyboard interrupt system.
+------------------------------------------------------------------------
+|  SBTCVM Mark 2  |  Specifications                                    |
+------------------------------------------------------------------------
+> TTY: 72x54 display running at 648x486, with 9x9 pixel font.
+
+> 9-trit IObus
+
+> 9-trit temporarily editable rom bus with up to 6 hot-swappable roms
+  of up to 19,683 instructions each.
+  
+> dual mini raster graphics displays.
+
+> includes a custom assembler.
+
+> togglable step-by-step execution.
+
+> features a buzzer and various status displays and indicators.
+ 
+> keyboard interrupt system.
+------------------------------------------------------------------------
 textstop
 userwait
 TTYclear
@@ -274,31 +263,29 @@ clearkeyint|00000000+
 TTYbg|0,0,0
 gotodata|>newminilogo
 textstart
-------------------------------------
-|  SBTCVM Mark 2  |  Introduction  |
-------------------------------------
-|While SBTCVM may not be a balanced|
-|ternary supercomputer, it is a    |
-|balanced ternary Virtual Machine  |
-|that you can run from the ease of |
-|your fancy binary PC. powered in  |
-|part by libbaltcalc's balanced    |
-|ternary integer mathematics       |
-|routines, SBTCVM is an interesting|
-|attempt to simulate a balanced    |
-|ternary computer using high level |
-|logic. Running 9 trit data and 6  |
-|trit instructions, SBTCVM is no   |
-|pocket calculator either.         |
-|----------------------------------|
-|   +   00000       |Simple.       |
-|   +   0   0       |Balanced.     |
-| +++++ 0   0 ----- |Ternary.      |
-|   +   0   0       |Computer.     |
-|   +   00000       |Virtual.      |
-|                   |Machine.      |
-|                   |              |
-------------------------------------
+------------------------------------------------------------------------
+|  SBTCVM Mark 2  |  Introduction                                      |
+------------------------------------------------------------------------
+While SBTCVM may not be a balanced ternary supercomputer, it is a
+balanced ternary Virtual Machine that you can run from the ease of
+your fancy binary PC. 
+
+powered in part by libbaltcalc's balanced
+ternary integer mathematics routines, SBTCVM is an interesting
+attempt to simulate a balanced ternary computer using high level
+logic. 
+
+Running 9 trit data and 6 trit instructions, SBTCVM is no pocket
+calculator either.
+|----------------------------------------------------------------------|
+|   +   00000       |Simple.                                           |
+|   +   0   0       |Balanced.                                         |
+| +++++ 0   0 ----- |Ternary.                                          |
+|   +   0   0       |Computer.                                         |
+|   +   00000       |Virtual.                                          |
+|                   |Machine.                                          |
+|                   |                                                  |
+------------------------------------------------------------------------
 textstop
 userwait
 TTYclear
@@ -314,7 +301,22 @@ SBTCVM introduction program
 this program is part of 
 SBTCVM Mark 2
 
-see README.md for details.
+Simple Balanced Ternary Computer Virtual Machine
+
+(c)2016-2017 Thomas Leathers
+
+  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  SBTCVM Mark 2 is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 textstop
 userwait
 stop
@@ -1894,7 +1896,35 @@ IOread1|>mem1
 setdata|>fibcollinevx
 setdata|>fibcolreg
 gotodata|>fibloopback
-userwait|000000000|fibdone
+null|000000000|fibdone
+textstart
+
+
+Fibonacci sequence.
+Starting with params -1 , -1
+textstop
+colorfill|---------
+
+setcolorvect|000------
+setcolorreg|00000000-
+
+setreg1|00000000-
+setreg2|00000000-
+
+dumpreg1|000000000|fibloopback2
+colorline|00000000-|fibcollinevx2
+setcolorreg|00000000-|fibcolreg2
+#wait|00000000-
+add
+IOwrite2|>mem1
+setreg2|+++++++++
+gotodataif|>fibdone2
+copy1to2
+IOread1|>mem1
+setdata|>fibcollinevx2
+setdata|>fibcolreg2
+gotodata|>fibloopback2
+userwait|000000000|fibdone2
 TTYclear
 gotodata|>menu
 

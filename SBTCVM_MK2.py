@@ -99,9 +99,18 @@ COLORDISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'COLOR
 MONODISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'MONODISP-DEF.png')).convert()
 #this list is what is displayed on the TTY on VM boot.
 
-abt=["SBTCVM", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
-abtpref=["This is different", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
-
+abt=["SBTCVM", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
+abtpref=["This is different", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready"]
+abtclear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+#abt54clear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+#tty mode
+#0=36x27
+#1=72x54
+listcnt=0
+for f in abt:
+	listcnt += 1
+print listcnt
+TTYMODE=0
 pygame.mixer.init(frequency=22050 , size=-16)
 
 extradraw=0
@@ -277,8 +286,8 @@ def tritlen(srcdata, destdata):
 #def stactdebug1():
 	
 
-TTYBGCOL=libSBTCVM.colorfind("000000")
-TTYBGCOLREG="000000"
+TTYBGCOL=libSBTCVM.colorfind("------")
+TTYBGCOLREG="------"
 
 
 colvectorreg="000000"
@@ -291,7 +300,7 @@ else:
 
 
 
-libSBTCVMsurf=pygame.Surface((324, 243)).convert()
+libSBTCVMsurf=pygame.Surface((648, 486)).convert()
 libSBTCVMsurf.fill(TTYBGCOL)
 #RAMBANK startup begin
 RAMbank = {}
@@ -439,8 +448,8 @@ while stopflag==0:
 			lineq +=1
 		
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
-		biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-		upt=screensurf.blit(biglibSBTCVM, (0, 0))
+		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+		upt=screensurf.blit(libSBTCVMsurf, (0, 0))
 		updtblits.extend([upt])
 	#aaaaannnnddd update display! :D
 	pygame.display.update(updtblits)
@@ -668,7 +677,7 @@ while stopflag==0:
 		extradraw=1	
 	#TTY clear
 	elif curinst=="--0+-+":
-		abt=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+		abt=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 	#Goto data if Reg 1 greater
 	elif curinst=="--0+0-":
 		if libbaltcalc.BTTODEC(REG1)>libbaltcalc.BTTODEC(REG2):
@@ -1202,8 +1211,8 @@ while stopflag==0:
 		if tuibig==0:
 			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
-			biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-			screensurf.blit(biglibSBTCVM, (0, 0))
+			#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+			screensurf.blit(libSBTCVMsurf, (0, 0))
 		pygame.display.update()
 		#abt=libSBTCVM.abtslackline(abt, jline)
 		extradraw=0
@@ -1715,8 +1724,8 @@ while stopflag==0:
 		if tuibig==0:
 			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
-			biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-			screensurf.blit(biglibSBTCVM, (0, 0))
+			#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+			screensurf.blit(libSBTCVMsurf, (0, 0))
 		#print "fbuff"
 	
 	pygame.display.update()

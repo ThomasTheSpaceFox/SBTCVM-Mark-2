@@ -297,7 +297,7 @@ fondir=os.path.join("VMSYSTEM", "FONT0")
 
 
 def abtslackline(receveabt, linetext):
-	interx=[(receveabt[1]), (receveabt[2]),(receveabt[3]), (receveabt[4]), (receveabt[5]), (receveabt[6]), (receveabt[7]), (receveabt[8]), (receveabt[9]), (receveabt[10]), (receveabt[11]), (receveabt[12]), (receveabt[13]), (receveabt[14]), (receveabt[15]), (receveabt[16]), (receveabt[17]), (receveabt[18]), (receveabt[19]), (receveabt[20]), (receveabt[21]), (receveabt[22]), (receveabt[23]), (receveabt[24]), (receveabt[25]),(receveabt[26]), (linetext)]
+	interx=[(receveabt[1]), (receveabt[2]),(receveabt[3]), (receveabt[4]), (receveabt[5]), (receveabt[6]), (receveabt[7]), (receveabt[8]), (receveabt[9]), (receveabt[10]), (receveabt[11]), (receveabt[12]), (receveabt[13]), (receveabt[14]), (receveabt[15]), (receveabt[16]), (receveabt[17]), (receveabt[18]), (receveabt[19]), (receveabt[20]), (receveabt[21]), (receveabt[22]), (receveabt[23]), (receveabt[24]), (receveabt[25]), (receveabt[26]), (receveabt[27]), (receveabt[28]), (receveabt[29]), (receveabt[30]), (receveabt[31]), (receveabt[32]), (receveabt[33]), (receveabt[34]), (receveabt[35]), (receveabt[36]), (receveabt[37]), (receveabt[38]), (receveabt[39]), (receveabt[40]), (receveabt[41]), (receveabt[42]), (receveabt[43]), (receveabt[44]), (receveabt[45]), (receveabt[46]), (receveabt[47]), (receveabt[48]), (receveabt[49]), (receveabt[50]), (receveabt[51]), (receveabt[52]), (receveabt[53]), (linetext)]
 	return interx
 newl=1
 def abtcharblit(receveabtb, charblit):
@@ -308,13 +308,13 @@ def abtcharblit(receveabtb, charblit):
 		receveabtb=abtslackline(receveabtb, "")
 	else:
 		charnum=0
-		curr=receveabtb[26]
+		curr=receveabtb[53]
 		for f in curr:
-			if charnum==36:
+			if charnum==71:
 				receveabtb=abtslackline(receveabtb, "")
 				newl=1
 			charnum += 1
-		receveabtb[26]=((receveabtb[26]) + charblit)
+		receveabtb[53]=((receveabtb[53]) + charblit)
 	return(receveabtb)
 
 def getnewlstate():
