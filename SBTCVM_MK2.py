@@ -110,12 +110,9 @@ abtclear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
 #tty mode
 #0=36x27
 #1=72x54
-listcnt=0
-for f in abt:
-	listcnt += 1
-print listcnt
+
 TTYMODE=0
-pygame.mixer.init(frequency=22050 , size=-16)
+pygame.mixer.init()
 
 extradraw=0
 
@@ -1237,6 +1234,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						evhappenflg2=1
 						break
 					else:
 						break
@@ -1295,6 +1293,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						evhappenflg2=1
 						break
 					else:
 						break
@@ -1348,6 +1347,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						evhappenflg2=1
 						break
 					else:
 						break

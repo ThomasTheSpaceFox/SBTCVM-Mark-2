@@ -6,6 +6,9 @@ import pygame
 from pygame.locals import *
 import VMSYSTEM.libSBTCVM as libSBTCVM
 import VMSYSTEM.libbaltcalc as libbaltcalc
+import VMSYSTEM.libvmui as vmui
+
+
 print "SBTCVM menu system v2.0.1"
 
 pygame.display.init()
@@ -39,108 +42,10 @@ GLOBKIOSK=1
 
 #simple text iterator. loads the refrenced text file from VMSYSTEM.
 #(shows the text screens)
-def textsciter(flookup):
-	abt = open(os.path.join("VMSYSTEM", flookup))
-	pixcnt1=96
-	pixjmp=16
-	
-	for fnx in abt:
-		fnx=fnx.replace('\n', '')
-		abttextB=simplefontA.render(fnx, True, (0, 0, 0), (0, 127, 255))
-		screensurf.blit(abttextB, (9, pixcnt1))
-		pixcnt1 += pixjmp
-	pixcnt1 += pixjmp
-	fnx="Press any key to continue"
-	abttextB=simplefontB.render(fnx, True, (0, 0, 0), (255, 255, 255))
-	screensurf.blit(abttextB, (9, pixcnt1))
-	pygame.display.update()
-	evhappenflg2=0
-	while evhappenflg2==0:
-			time.sleep(.1)
-			for event in pygame.event.get():
-				if event.type == KEYDOWN and event.key == K_F8:
-					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT-MENU.png')))
-					break
-				elif event.type == KEYDOWN:
-					evhappenflg2=1
-					menusound2.play()
-					break
-#Balanced ternary clock function. (shows clock that is in the extras menu.
-def BTCLOCKDATE():
-	
-	loopend=0
-	hourY=227
-	minY=227
-	secY=227
-	ttextY=204
-	helplab = simplefontB.render(('''Red=-, violet=0 blue=+'''), True, (255, 255, 255))
-	screensurf.blit(helplab, (3, 120))
-	prevtime=None
-	#quick fix to solve drawing glitches
-	scbak=screensurf.copy()
-	while loopend==0:
-		screensurf.blit(scbak, (0, 0))
-		#screensurf.fill((127, 127, 127))
-		time.sleep(0.2)
-		for event in pygame.event.get():
-			if event.type == KEYDOWN and event.key == K_F8:
-				pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT-MENU.png')))
-				break
-			elif event.type == KEYDOWN:
-				loopend=1
-			if event.type == QUIT:
-				loopend=1
-		pygame.event.clear()
-		curtim=time.localtime()
-		hourdec=curtim[3]
-		mindec=curtim[4]
-		secdec=curtim[5]
-		if prevtime!=secdec:
-			menusound3.play()
-		prevtime=secdec
-		hourbt=libSBTCVM.trunkto4(libbaltcalc.DECTOBT(hourdec))
-		minbt=libSBTCVM.trunkto5(libbaltcalc.DECTOBT(mindec))
-		secbt=libSBTCVM.trunkto5(libbaltcalc.DECTOBT(secdec))
-		hourX=3
-		hourtext = simplefont.render(("Hr. " + str(hourdec) + ""), True, (255, 255, 255), (0, 0, 0))
-		screensurf.blit(hourtext, (hourX, ttextY))
-		for fxg in hourbt:
-			if fxg=="0":
-				screensurf.blit(GNDlamp, (hourX, hourY))
-			if fxg=="+":
-				screensurf.blit(POSlamp, (hourX, hourY))
-			if fxg=="-":
-				screensurf.blit(NEGlamp, (hourX, hourY))
-			hourX += 9
-		minX=(hourX + 9)
-		mintext = simplefont.render(("Min. " + str(mindec) + ""), True, (255, 255, 255), (0, 0, 0))
-		screensurf.blit(mintext, (minX, ttextY))
-		for fxg in minbt:
-			if fxg=="0":
-				screensurf.blit(GNDlamp, (minX, minY))
-			if fxg=="+":
-				screensurf.blit(POSlamp, (minX, minY))
-			if fxg=="-":
-				screensurf.blit(NEGlamp, (minX, minY))
-			minX += 9
-		secX=(minX + 9)
-		sectext = simplefont.render(("Sec. " + str(secdec) + ""), True, (255, 255, 255), (0, 0, 0))
-		screensurf.blit(sectext, (secX, ttextY))
-		for fxg in secbt:
-			if fxg=="0":
-				screensurf.blit(GNDlamp, (secX, secY))
-			if fxg=="+":
-				screensurf.blit(POSlamp, (secX, secY))
-			if fxg=="-":
-				screensurf.blit(NEGlamp, (secX, secY))
-			secX += 9
-		pygame.display.update()
+
 
 #SBTCVM
 windowicon=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'icon64.png'))
-GNDlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampGND.png'))
-POSlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampPOS.png'))
-NEGlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampNEG.png'))
 
 pygame.display.set_icon(windowicon)
 #screen fonts
@@ -149,6 +54,11 @@ simplefontA = pygame.font.SysFont(None, 20)
 simplefontB = pygame.font.SysFont(None, 22)
 simplefontC = pygame.font.SysFont(None, 32)
 screensurf=pygame.display.set_mode((800, 600))
+
+#initalize VMUI system
+#SBTCVM_MK2.py also does this.
+#libvmui is where the menu support logic and menu extras functions are located.
+vmui.initui(screensurf, 1)
 #
 evhappenflg=0
 #visual menu item names:
@@ -319,16 +229,16 @@ while qflg!=1:
 			qflg=1
 		#text screens
 		if curmenucode[menuhighnum - 1]=="ABT":
-			textsciter("L_ABT.TXT")
+			vmui.textsciter_main("L_ABT.TXT")
 		if curmenucode[menuhighnum - 1]=="CLOCK":
-			BTCLOCKDATE()
+			vmui.BTCLOCKDATE()
 		if curmenucode[menuhighnum - 1]=="HLPOVER":
-			textsciter("L_HELP.TXT")
+			vmui.textsciter_main("L_HELP.TXT")
 		if curmenucode[menuhighnum - 1]=="WELCOME":
-			textsciter("L_WEL.TXT")
+			vmui.textsciter_main("L_WEL.TXT")
 		#this code action id unfinished
 		if curmenucode[menuhighnum - 1]=="DEMOMODE":
-			#textsciter("L_WEL.TXT")
+			#vmui.textsciter_main("L_WEL.TXT")
 			GLOBSTREG="colmap3.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
