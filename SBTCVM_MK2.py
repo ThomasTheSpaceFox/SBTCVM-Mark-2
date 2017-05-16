@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import VMSYSTEM.libtrom as libtrom
 import pygame
 from pygame.locals import *
@@ -6,6 +7,7 @@ import time
 import os
 import VMSYSTEM.libSBTCVM as libSBTCVM
 import VMSYSTEM.libbaltcalc as libbaltcalc
+import VMSYSTEM.libvmui as vmui
 import sys
 from random import randint
 pygame.display.init()
@@ -63,6 +65,8 @@ pygame.display.set_icon(windowicon)
 
 screensurf=pygame.display.set_mode((800, 600))
 #
+
+
 vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 screensurf.blit(vmbg, (0, 0))
 pygame.display.update()
@@ -203,6 +207,9 @@ if 'GLOBKIOSK' in globals():
 	KIOSKMODE=1
 else:
 	KIOSKMODE=0
+	
+#initalize VMUI system
+vmui.initui(screensurf, KIOSKMODE)
 
 if 'GLOBRUNFLG' in globals():
 	
@@ -1225,12 +1232,14 @@ while stopflag==0:
 					evhappenflg2=1
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
-					evhappenflg2=1
-					stopflag=1
-					abt=libSBTCVM.abtslackline(abt, "")
-					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
-					abt=libSBTCVM.abtslackline(abt, "User stop.")
-					break
+					pmenret=vmui.pausemenu()
+					if pmenret=="s":
+						stopflag=1
+						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						break
+					else:
+						break
 				if event.type == KEYDOWN and event.key == K_F7:
 					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
 					pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
@@ -1281,12 +1290,14 @@ while stopflag==0:
 					evhappenflg2=1
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
-					evhappenflg2=1
-					stopflag=1
-					abt=libSBTCVM.abtslackline(abt, "")
-					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
-					abt=libSBTCVM.abtslackline(abt, "User stop.")
-					break
+					pmenret=vmui.pausemenu()
+					if pmenret=="s":
+						stopflag=1
+						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						break
+					else:
+						break
 				if event.type == KEYDOWN and event.key == K_F7:
 					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
 					pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
@@ -1332,12 +1343,14 @@ while stopflag==0:
 					evhappenflg2=1
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
-					stopflag=1
-					
-					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
-					abt=libSBTCVM.abtslackline(abt, "User stop.")
-					evhappenflg2=1
-					break
+					pmenret=vmui.pausemenu()
+					if pmenret=="s":
+						stopflag=1
+						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						break
+					else:
+						break
 				if event.type == KEYDOWN and event.key == K_F7:
 					pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
 					pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
@@ -1367,10 +1380,14 @@ while stopflag==0:
 		#...otherwise this is used to passivly check for imput
 		for event in pygame.event.get():
 			if event.type == KEYDOWN and event.key == K_ESCAPE:
-				stopflag=1
-				abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
-				abt=libSBTCVM.abtslackline(abt, "User stop.")
-				break
+				pmenret=vmui.pausemenu()
+				if pmenret=="s":
+					stopflag=1
+					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+					abt=libSBTCVM.abtslackline(abt, "User stop.")
+					break
+				else:
+					break
 			if event.type == KEYDOWN and event.key == K_F7:
 				pygame.image.save(COLORDISP, (os.path.join('CAP', 'COLORDISP-OUT.png')))
 				pygame.image.save(MONODISP, (os.path.join('CAP', 'MONODISP-OUT.png')))
