@@ -110,7 +110,7 @@ def pausemenu():
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					screensurf.blit(scbak, (0, 0))
-					
+					pygame.display.update()
 					print "------------------"
 					print "continue VM. "
 					print "------------------"
@@ -137,7 +137,7 @@ def pausemenu():
 				textsciter_internal("L_ABT.TXT")
 			if curmenucode[menuhighnum - 1]=="CONTINUE":
 				screensurf.blit(scbak, (0, 0))
-				
+				pygame.display.update()
 				print "------------------"
 				print "continue VM. "
 				print "------------------"
@@ -145,7 +145,7 @@ def pausemenu():
 			if curmenucode[menuhighnum - 1]=="VMSTOP":
 				if KIOSKMODE==0:
 					screensurf.blit(scbak, (0, 0))
-				
+					pygame.display.update()
 				print "------------------"
 				print "stop VM. "
 				print "------------------"
