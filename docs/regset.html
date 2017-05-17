@@ -5,9 +5,8 @@
     <title>SBTCVM regset system</title>
   </head>
   <body>
-    <div align="center"><img
-src="GFXLOGO.png"
-        alt="SBTCVM Logo" width="144" height="36"><br>
+    <div align="center"><img src="GFXLOGO.png" alt="SBTCVM Logo"
+        width="144" height="36"><br>
     </div>
     <div align="center"> SBTCVM Mark 2<br>
     </div>
@@ -23,9 +22,13 @@ src="GFXLOGO.png"
               <td valign="top" bgcolor="#333333"><font color="#ffffff">instruction<br>
                 </font></td>
               <td valign="top" bgcolor="#333333"><font color="#ffffff">instruction
+
+
                   description<br>
                 </font></td>
               <td valign="top" bgcolor="#333333"><font color="#ffffff">assembly
+
+
                   instruction<br>
                 </font></td>
             </tr>
@@ -67,9 +70,13 @@ src="GFXLOGO.png"
               <td valign="top" bgcolor="#333333"><font color="#ffffff">description<br>
                 </font></td>
               <td valign="top" bgcolor="#333333"><font color="#ffffff">assembly
+
+
                   shortcut instruction<br>
                 </font></td>
               <td valign="top" bgcolor="#333333"><font color="#ffffff">assembly
+
+
                   notes:<br>
                 </font></td>
             </tr>
@@ -95,8 +102,35 @@ src="GFXLOGO.png"
                 &nbsp;&nbsp;&nbsp; use TTYlinedraw|off to enable normal
                 mode.</td>
             </tr>
+            <tr>
+              <td valign="top">--------+</td>
+              <td valign="top">TTY line mode<br>
+              </td>
+              <td valign="top"> ????????0=54 line mode (default)
+                ????????+=27 line mode<br>
+              </td>
+              <td valign="top">"TTYmode"<br>
+              </td>
+              <td valign="top">use "TTYmode|54" for 54 line
+                mode&nbsp;(9x9 font) (Mark 2 uses this mode by default)
+                ,<br>
+                use "TTYmode|27" for 27 line mode. (9x18 font)<br>
+                both of these modes are 72 columns<br>
+                and both run at 648x486 </td>
+            </tr>
           </tbody>
         </table>
+        <br>
+        NOTES ABOUT USE IN SBTCVM ASSEMBLY<br>
+        <br>
+        <font color="#cc0000"><b>WARNING</b>:<b> DO NOT PLACE GOTO
+            REFERENCES ON MULTI-INSTRUCTION COMMANDS.</b></font><br>
+        <b>SUCH AS:</b><b><br>
+        </b><b>TTY register set shortcuts</b><b><br>
+        </b><b>Any register set shortcut,</b><b><br>
+        </b><b>or otherwise.</b><b><br>
+        </b><b>When in doubt, place it on a null instruction.</b><br>
+        <br>
         <br>
         <br>
         <br>

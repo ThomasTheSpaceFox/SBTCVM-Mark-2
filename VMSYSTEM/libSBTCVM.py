@@ -294,6 +294,7 @@ simplefont = pygame.font.SysFont(None, 16)
 
 
 fondir=os.path.join("VMSYSTEM", "FONT0")
+fondir2=os.path.join("VMSYSTEM", "FONT1")
 
 
 def abtslackline(receveabt, linetext):
@@ -337,6 +338,17 @@ def charblit(chsurface, colx, liney, charcode):
 	chsurface.blit(glif, (colx, liney))
 	return chsurface
 
+def charblit2(chsurface, colx, liney, charcode):
+	colx=(colx*9)
+	liney=(liney*18)
+	glifcode=charcodedict.get(charcode)
+	#print glifcode
+	gliffile=(chargliph.get(glifcode))
+	#print gliffile
+	#glif=pygame.image.load(os.path.join(fondir, (chargliph.get(glifcode))))
+	glif=chargliphfileopt2[glifcode]
+	chsurface.blit(glif, (colx, liney))
+	return chsurface
 def codeshift(colch):
 	colch=int(colch)
 	#print colch
@@ -403,19 +415,26 @@ def charlook(char):
 
 #build bank of character images
 chargliphfile={}
-
+chargliphfile2={}
 for fxq in chargliph:
 	imgdat=chargliph[fxq]
 	chargliphfile[fxq]=(pygame.image.load(os.path.join(fondir, (imgdat))))
-
+for fxq in chargliph:
+	imgdat=chargliph[fxq]
+	chargliphfile2[fxq]=(pygame.image.load(os.path.join(fondir2, (imgdat))))
 
 chargliphfileopt=chargliphfile.copy()
+chargliphfileopt2=chargliphfile2.copy()
 def glyphoptim(surface):
 	global chargliphfileopt
 	for fxq in chargliphfile:
 		imgpreconv=chargliphfile[fxq]
 		imgpostconv=imgpreconv.convert(surface)
 		chargliphfileopt[fxq]=imgpostconv
+	for fxq in chargliphfile2:
+		imgpreconv=chargliphfile2[fxq]
+		imgpostconv=imgpreconv.convert(surface)
+		chargliphfileopt2[fxq]=imgpostconv
 		
 
 USERCONFTEMP='''#This is the USER config file.

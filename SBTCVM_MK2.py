@@ -102,16 +102,17 @@ CPULEDSTANDBY=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'L
 COLORDISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'COLORDISP-DEF.png')).convert()
 MONODISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'MONODISP-DEF.png')).convert()
 #this list is what is displayed on the TTY on VM boot.
-
-abt=["SBTCVM", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
+#the header text is so far in this list so it appears correct in 27 line mode
+abt=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "SBTCVM", "Mark 2", "v2.0.1", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
 abtpref=["This is different", "Mark 2", "v2.0.0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready"]
 abtclear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 #abt54clear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
-#tty mode
-#0=36x27
-#1=72x54
+#ttysize:
+#0=72x54 (9x9 chars)
+#1=72x27 (9x18 chars)
 
 TTYMODE=0
+TTYSIZE=0
 pygame.mixer.init()
 
 extradraw=0
@@ -439,17 +440,23 @@ while stopflag==0:
 		abtpref=abt
 		ttyredraw=0
 		lineq=0
+		linexq=0
 		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
-			for qlin in fnx:
-				#print qlin
-				charq=libSBTCVM.charlookupdict.get(qlin)
-				#print charq
-				libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-				colq +=1
-			lineq +=1
+			if TTYSIZE==0 or linexq>26:
+				for qlin in fnx:
+					#print qlin
+					charq=libSBTCVM.charlookupdict.get(qlin)
+					#print charq
+					if TTYSIZE==1:
+						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+					else:
+						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+					colq +=1
+				lineq +=1
+			linexq +=1
 		
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
@@ -805,16 +812,28 @@ while stopflag==0:
 	#set regset pointer
 	elif curinst=="-0-000":
 		regsetpoint=curdata
+		#print "testtest"
+		#print regsetpoint
 	#regset
 	elif curinst=="-0-00+":
-		if regsetpoint=="---------":
+		#print "Test0"
+		if regsetpoint=='---------':
 			TTYBGCOLREG=(curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8])
 			TTYBGCOL=libSBTCVM.colorfind(TTYBGCOLREG)
 			ttyredraw=1
-		if regsetpoint=="--------0":
+			#print "test2"
+		elif regsetpoint=='--------0':
 			TTYrenderflg=curdata[8]
 			if TTYrenderflg=="-":
 				TTYrenderflg="0"
+		elif regsetpoint=='--------+':
+			TTYSIZEFLG=curdata[8]
+			ttyredraw=1
+			#print "test1"
+			if TTYSIZEFLG=="+":
+				TTYSIZE=1
+			else:
+				TTYSIZE=0
 	#offset length
 	elif curinst=="-0-++0":
 		offlen1=(curdata[7] + curdata[8])
@@ -1199,19 +1218,26 @@ while stopflag==0:
 		screensurf.blit(COLORDISPBIG, (649, 1))
 		screensurf.blit(MONODISPBIG, (649, 150))
 		#TTY drawer :)
+		#abtpref=abt
+		#ttyredraw=0
 		lineq=0
-		
+		linexq=0
 		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
-			for qlin in fnx:
-				#print qlin
-				charq=libSBTCVM.charlookupdict.get(qlin)
-				#print charq
-				libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-				colq +=1
-			lineq +=1
+			if TTYSIZE==0 or linexq>26:
+				for qlin in fnx:
+					#print qlin
+					charq=libSBTCVM.charlookupdict.get(qlin)
+					#print charq
+					if TTYSIZE==1:
+						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+					else:
+						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+					colq +=1
+				lineq +=1
+			linexq +=1
 		if tuibig==0:
 			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
@@ -1726,17 +1752,23 @@ while stopflag==0:
 		CURROMTEXT=("ROM " + ROMLAMPFLG)
 		reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
 		lineq=0
+		linexq=0
 		libSBTCVMsurf.fill(TTYBGCOL)
 		for fnx in abt:
 			fnx=fnx.replace('\n', '')
 			colq=0
-			for qlin in fnx:
-				#print qlin
-				charq=libSBTCVM.charlookupdict.get(qlin)
-				#print charq
-				libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-				colq +=1
-			lineq +=1
+			if TTYSIZE==0 or linexq>26:
+				for qlin in fnx:
+					#print qlin
+					charq=libSBTCVM.charlookupdict.get(qlin)
+					#print charq
+					if TTYSIZE==1:
+						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+					else:
+						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+					colq +=1
+				lineq +=1
+			linexq +=1
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		if tuibig==0:
 			screensurf.blit(libSBTCVMsurf, (45, 40))

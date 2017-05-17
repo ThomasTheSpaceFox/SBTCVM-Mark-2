@@ -4,8 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>SBTCVM Plan Of Implementation - Graphics</title>
   </head>
-  <body
-    background="bg1.jpg">
+  <body background="bg1.jpg">
     <div align="center">
       <table width="100%" cellspacing="0" cellpadding="2" border="1"
         bgcolor="#ffffff" align="center">
@@ -41,23 +40,28 @@
                         &nbsp; "<b><font color="#ff0000">!</font></b>" =
                         higher priority</font></li>
                     <li><font face="Courier New, Courier, monospace">green
+
                         "<b><font color="#009900">C</font></b>" = goal
                         for SBTCVM Mark 2.* series.</font></li>
                     <li><font face="Courier New, Courier, monospace">green
+
                         "<b><font color="#009900">L</font></b>" = longer
                         term goal for beyond Mark 2.* series, but the
                         Mark 2.* series may get some work towards this
                         goal as well.</font></li>
                     <li><font face="Courier New, Courier, monospace">blue&nbsp;
+
                         "<font color="#3333ff"><b>L</b></font>" = longer
                         term goal for beyond Mark 2.* series that is
                         highly unlikely to be implemented in the Mark
                         2.* series for various reasons such as technical
                         and design limitations.</font></li>
                     <li><font face="Courier New, Courier, monospace">blue&nbsp;
+
                         "<b><font color="#3333ff">?</font></b>" =
                         possibility for beyond Mark 2.* series</font></li>
                     <li><font face="Courier New, Courier, monospace">green
+
                         "<font color="#009900"><b>?</b></font>" =
                         possibility for Mark 2.* series</font></li>
                     <li> <br>
@@ -94,14 +98,23 @@
                   <br>
                   [col]x[line]<br>
                   <br>
-                  36x27 [324x243] {4:3} &lt;9x9 chars&gt; [implemented
-                  as of SBTCVM mark 1.1]<br>
-                  48x27 [432x243] {16:9} &lt;9x9 chars&gt;<br>
+                  <strike>36x27 [324x243] {4:3} &lt;9x9 chars&gt;
+                    [implemented as of SBTCVM mark 1.1] </strike>[dropped
+                  as of SBTCVM Mark 2]<br>
+                  72x27 [648x486] {4:3} &lt;9x18 chars&gt; [implemented
+                  as of SBTCVM Mark 2]<br>
+                  72x54 [648x486] {4:3} &lt;9x9 chars&gt; [implemented
+                  as of SBTCVM Mark 2]<br>
                   <hr width="100%" size="2">Implimented modes:<br>
                   <br>
                   <ul>
                     <li>(text) 72x54 [648x486] {4:3} &lt;9x9 chars&gt;
-                      [implemented as of SBTCVM mark 2]</li>
+                      [implemented as of SBTCVM mark 2] (referred to as
+                      "54 line mode")<br>
+                    </li>
+                    <li>(text) 72x27 [648x486] {4:3} &lt;9x18 chars&gt;
+                      [implemented as of SBTCVM mark 2] (referred to as
+                      "27 line mode")</li>
                     <li>9x9&nbsp; [color mode 1] (will possibly be
                       removed in the future)</li>
                     <li>27x27 [color mode 4] (will possibly be removed
@@ -110,7 +123,7 @@
                   Dropped Modes:<br>
                   <ul>
                     <li>(text) 36x27 [324x243] {4:3} &lt;9x9 chars&gt;
-                      [implemented as of SBTCVM mark 1.1, dropped as of
+                      [implemented as of SBTCVM mark 1.1] [dropped as of
                       SBTCVM Mark 2]<br>
                     </li>
                   </ul>

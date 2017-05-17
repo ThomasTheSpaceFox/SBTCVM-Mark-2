@@ -5,9 +5,8 @@
     <title>SBTCVM assembly</title>
   </head>
   <body>
-    <div align="center"><img
-src="GFXLOGO.png"
-        alt="SBTCVM Logo" width="144" height="36"><br>
+    <div align="center"><img src="GFXLOGO.png" alt="SBTCVM Logo"
+        width="144" height="36"><br>
     </div>
     <div align="center"> SBTCVM Mark 2<br>
     </div>
@@ -15,6 +14,7 @@ src="GFXLOGO.png"
       <br>
       SBTCVM Assembly<br>
       <a href="index.html">index</a> <a href="sbtcvm-asm-list.html">SBTCVM
+
         assembly Instruction List</a><br>
       <table width="100%" cellspacing="2" cellpadding="2" border="1">
         <tbody>
@@ -86,7 +86,7 @@ src="GFXLOGO.png"
               <br>
               basic commands:<br>
               <br>
-              These correspond to SBTCVM Mk1.1 Opcodes:<br>
+              <i>most</i> of these correspond to SBTCVM Mk2 Opcodes:<br>
               any data specified should be specified&nbsp; as such:<br>
               'null|?????????'<br>
               SBTCVM has a pointer feature for data-based gotos and
@@ -105,6 +105,14 @@ src="GFXLOGO.png"
               'null|000000000|thisisanexample'<br>
               notice how the data should be present in this usage even
               if it is 000000000.<br>
+              <br>
+              <font color="#cc0000"><b>WARNING</b>:<b> DO NOT PLACE GOTO
+                  REFERENCES ON MULTI-INSTRUCTION COMMANDS.</b></font><br>
+              <b>SUCH AS:</b><b><br>
+              </b><b>TTY register set shortcuts</b><b><br>
+              </b><b>Any register set shortcut,</b><b><br>
+              </b><b>or otherwise.</b><b><br>
+              </b><b>When in doubt, place it on a null instruction.</b><br>
               <br>
               <br>
               on certain instructions you may point to a pointer as

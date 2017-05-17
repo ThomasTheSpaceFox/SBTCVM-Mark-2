@@ -324,6 +324,8 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			instcnt += 2
 		elif instword=="TTYlinedraw":
 			instcnt += 2
+		elif instword=="TTYmode":
+			instcnt += 2
 		elif instword=="threadref":
 			instcnt += 1
 		elif instword=="threadstart":
@@ -914,6 +916,18 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			else:
 				outn.write("-0-000" + "--------0" + "\n")
 				outn.write("-0-00+" + "00000000+" + "\n")
+				
+			instcnt += 2
+		elif instword=="TTYmode":
+			if instdat=="27":
+				outn.write("-0-000" + "--------+" + "\n")
+				outn.write("-0-00+" + "00000000+" + "\n")
+			elif instdat=="54":
+				outn.write("-0-000" + "--------+" + "\n")
+				outn.write("-0-00+" + "000000000" + "\n")
+			else:
+				outn.write("-0-000" + "--------+" + "\n")
+				outn.write("-0-00+" + "000000000" + "\n")
 				
 			instcnt += 2
 		elif instword=="threadref":

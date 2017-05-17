@@ -1,7 +1,7 @@
 #TTY font test
+TTYmode|54
 textstart
-This is a test of SBTCVM's raster
-TTY font
+This is a test of 54 line mode
 
 abcdefghijklmnopqrstuvwxyz
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -17,3 +17,24 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
   | | |  |  |   \ / | | |
 --- --   |  \--  V  | | |
 textstop
+userwait
+TTYclear
+TTYmode|27
+textstart
+This is a test of 27 line mode
+
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+`~-_+=!@#$ %^&*()
+[]{}\|:;"'<,>.?/
+
+:D c: :p :u >.> <.<
+
+--- --  --- /-- | | |-|-|
+|   | |  |  |   | | | | |
+--- |-   |  |   | | | | |
+  | | |  |  |   \ / | | |
+--- --   |  \--  V  | | |
+textstop
+userwait

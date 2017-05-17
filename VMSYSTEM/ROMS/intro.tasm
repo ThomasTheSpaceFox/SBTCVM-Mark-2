@@ -4,7 +4,9 @@
 #New SBTCVM Mark 2 Single-trom intro.
 setregset|---------#test
 regset|0000+0+++
-
+TTYmode|27
+#TTYmode|54
+#TTYmode|27
 buzzer|000-0++++
 buzzer|00000++++
 buzzer|000-0++++
@@ -59,7 +61,8 @@ userwait
 TTYclear
 
 TTYlinedraw|on
-TTYbg|000000+00|menu
+TTYbg|000000+00
+null||menu
 setkeyint|:1
 keyint|>textsc1demo
 setkeyint|:2
@@ -1869,6 +1872,7 @@ continue
 #fib demo.
 #fib. sequence
 null||fibdemo
+TTYmode|54
 clearkeyint|00000000+
 TTYclear
 textstart
@@ -1926,6 +1930,7 @@ setdata|>fibcolreg2
 gotodata|>fibloopback2
 userwait|000000000|fibdone2
 TTYclear
+TTYmode|27
 gotodata|>menu
 
 
