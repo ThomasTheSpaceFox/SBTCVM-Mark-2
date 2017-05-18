@@ -1,4 +1,17 @@
 #TTY font test
+TTYmode|27
+TTYlinedraw
+textstart
+Some Background:
+
+SBTCVM, being a balanced ternary computer, Naturally uses a balanced
+ternary text encoding.  The specific encoding has been developed in
+conjunction with SBTCVM. its called SBTCVM-BTT-6. That stands for
+SBTCVM balanced ternary text encoding 6 trits.
+textstop
+
+userwait
+TTYclear
 TTYmode|54
 textstart
 This is a test of 54 line mode
@@ -38,3 +51,16 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 --- --   |  \--  V  | | |
 textstop
 userwait
+TTYclear
+textstart
+----------------------------------------
+   SSS  BBB   TTT   CCC  V  V  MM   MM 
+  S     B  B   T   C     V  V  M M M M 
+  S     M  B   T   C     V  V  M  M  M 
+   SS   BBB    T   C     V  V  M  M  M  
+     S  B  B   T   C     VVVV  M  M  M 
+     S  B  B   T   C      VV   M  M  M 
+  SSS   BBB    T    CCC   VV   M  M  M 
+----------------------------------------
+    \n/           \n/            \n/
+textstop

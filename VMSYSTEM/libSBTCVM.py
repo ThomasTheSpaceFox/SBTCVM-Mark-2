@@ -413,8 +413,10 @@ def charcodelook(code):
 def charlook(char):
 	return(charlookupdict[char])
 
-#build bank of character images
+#build banks of character images
+#9x9 font
 chargliphfile={}
+#9x18 font
 chargliphfile2={}
 for fxq in chargliph:
 	imgdat=chargliph[fxq]
@@ -427,6 +429,7 @@ chargliphfileopt=chargliphfile.copy()
 chargliphfileopt2=chargliphfile2.copy()
 def glyphoptim(surface):
 	global chargliphfileopt
+	global chargliphfileopt2
 	for fxq in chargliphfile:
 		imgpreconv=chargliphfile[fxq]
 		imgpostconv=imgpreconv.convert(surface)

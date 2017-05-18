@@ -62,12 +62,12 @@ vmui.initui(screensurf, 1)
 #
 evhappenflg=0
 #visual menu item names:
-mainmenulst=["Get Started", "Demo Menu", "Help Menu", "Extras Menu", "Quit"]
+mainmenulst=["Get Started", "Demo Menu", "Help Menu", "Games Menu", "Extras Menu", "Quit"]
 #selection codes:
-mainmenucode=["GETSTART", "DEMO", "HELP", "EXTRAS", "QUIT"]
-mainmenudesc=["Get started with SBTCVM", "A selection of various demo programs.", "Get Help", "A selection of various extras.", "Quit."]
+mainmenucode=["GETSTART", "DEMO", "HELP", "GAMES", "EXTRAS", "QUIT"]
+mainmenudesc=["Get started with SBTCVM", "A selection of various demo programs.", "Get Help", "Play some balanced ternary computer games.", "A selection of various extras.", "Quit."]
 #number of menu items:
-mainmenucnt=5
+mainmenucnt=6
 menudesc="Main Menu"
 #these use the same squarewave generator as SBTCVM's buzzer.
 
@@ -80,10 +80,10 @@ menusound3=pygame.mixer.Sound(libSBTCVM.autosquare(280, 0.1))
 menusound2.play()
 
 #demomenu
-demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower"]
-demomenucode=["MAIN", "COLMAP", "FIB", "FLOWER"]
-demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence.", "See an example of image conversion."]
-demomenucnt=4
+demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower", "Dazzle"]
+demomenucode=["MAIN", "COLMAP", "FIB", "FLOWER", "DEMODAZ"]
+demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence.", "See an example of image conversion.", "A randomly seeded, endless rainbow box demo."]
+demomenucnt=5
 
 #getstartmenu
 stmenulst=["Main Menu", "Welcome",  "Intro Program"]
@@ -101,16 +101,23 @@ exmenucode=["MAIN", "CLOCK"]
 exmenudesc=["Return to main menu.", "A balanced ternary clock."]
 exmenucnt=2
 
+gamemenulst=["Main Menu", "Guess That Trit"]
+gamemenucode=["MAIN", "GAMEGTT"]
+gamemenudesc=["Return to main menu.", "a number guessing game with a gameshow theme."]
+gamemenucnt=2
+
 curmenulst=mainmenulst
 curmenucnt=mainmenucnt
 curmenucode=mainmenucode
 curmenudesc=mainmenudesc
 
-vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-LAUNCH.png')).convert()
+vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-LAUNCH.png')).convert_alpha()
+vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 qflg=0
 menuhighnum=1
 ixreturn=0
 retfromexec=0
+screensurf.blit(vmbg, (0, 0))
 while qflg!=1:
 	if retfromexec==1:
 		print "----------------"
@@ -118,13 +125,16 @@ while qflg!=1:
 		print "----------------"
 		retfromexec=0
 		pygame.display.set_caption("SBTCVM Mark 2 | Menu", "SBTCVM Mark 2 | Menu")
+		screensurf.blit(vmbg, (0, 0))
 	#starting point for menu
 	texhigcnt=2
 	#separation between each line of text's origin
 	texhigjump=22
 	#menu line count variable. should be set to 1 here.
 	indlcnt=1
+	
 	screensurf.blit(vmlaunchbg, (0, 0))
+	
 	for indx in curmenulst:
 		if indlcnt==menuhighnum:
 			textit=simplefontB.render(indx, True, (0, 0, 0), (255, 255, 255))
@@ -224,6 +234,24 @@ while qflg!=1:
 			print "----------------"
 			exec(EXECVM)
 			retfromexec=1
+		if curmenucode[(menuhighnum - 1)]=="DEMODAZ":
+			GLOBSTREG="dazzle.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
+			exec(EXECVM)
+			retfromexec=1
+		if curmenucode[(menuhighnum - 1)]=="GAMEGTT":
+			GLOBSTREG="gtt.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
+			exec(EXECVM)
+			retfromexec=1
 		#quit item
 		if curmenucode[menuhighnum - 1]=="QUIT":
 			qflg=1
@@ -284,7 +312,13 @@ while qflg!=1:
 			curmenucode=exmenucode
 			curmenudesc=exmenudesc
 			menudesc="Extras Menu"
-	
+		elif curmenucode[menuhighnum - 1]=="GAMES":
+			menuhighnum=1
+			curmenulst=gamemenulst
+			curmenucnt=gamemenucnt
+			curmenucode=gamemenucode
+			curmenudesc=gamemenudesc
+			menudesc="Games Menu"
 	
 	
 	

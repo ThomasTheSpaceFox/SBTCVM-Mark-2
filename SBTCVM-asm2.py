@@ -389,10 +389,10 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			instdat="000000000"
 			print "NOTICE: data portion at source line:\"" + str(srcline) + "\" blank, defaulting to ground..."
 			complog("NOTICE: data portion at source line:\"" + str(srcline) + "\" blank, defaulting to ground...\n")
-		if len(instdat)==6 and instdat[0]!=">" and instdat[0]!=":":
-			print "Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually."
-			complog("Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually.\n")
-			instdat=("000" + instdat)
+		#if len(instdat)==6 and instdat[0]!=">" and instdat[0]!=":":
+		#	print "Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually."
+		#	complog("Mark 1.x legacy NOTICE: instruction \"" + instword + "\" at \"" + str(srcline) + "\"  did not have 9 trits data. it has been padded far from radix. please pad any legacy instructions manually.\n")
+		#	instdat=("000" + instdat)
 		if instword=="textstop":
 			txtblk=0
 			complog("TEXTBLOCK END\n")
@@ -643,10 +643,11 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			instcnt += 1
 		elif instword=="gotodata":
 			instgpe=instdat.split(">")
+			autostpflg=1
 			if (len(instgpe))==1:
 				outn.write("--000+" + instdat + "\n")#
 				instcnt += 1
-				autostpflg=1
+				
 			else:
 				gtpoint=instgpe[1]
 				gtmatch=0
@@ -666,10 +667,11 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 			autostpflg=1
 		elif instword=="gotodataif":
 			instgpe=instdat.split(">")
+			autostpflg=1
 			if (len(instgpe))==1:
 				outn.write("--00+0" + instdat + "\n")#
 				instcnt += 1
-				autostpflg=1
+				
 			else:
 				gtpoint=instgpe[1]
 				gtmatch=0
@@ -685,10 +687,11 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 					
 		elif instword=="gotoifgreater":
 			instgpe=instdat.split(">")
+			autostpflg=1
 			if (len(instgpe))==1:
 				outn.write("--0+0-" + instdat + "\n")#
 				instcnt += 1
-				autostpflg=1
+				
 			else:
 				gtpoint=instgpe[1]
 				gtmatch=0

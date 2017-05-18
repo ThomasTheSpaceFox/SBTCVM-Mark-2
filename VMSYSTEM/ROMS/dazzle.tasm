@@ -1,0 +1,37 @@
+IOread1|>random
+setdata|>idlelooplinevec2
+#SBTCVM demo
+#"dazzle"
+# under 27 instructions. .o.
+# hmm i wonder what it does :o
+
+
+#set base.
+setreg1|+++++++++
+#get random 3-trit integer integer
+offsetlen|on,0,3
+IOread2|>random
+offsetlen|off,0,9
+#main loop
+null||menuloop2
+null
+null
+null
+null
+#add random integer to base
+add
+#write current reg1 to monorect instruction.
+#make color rect and color vect coordinates the inverse of each other.
+setdata|>loopfidget2
+invert1
+setdata|>loopfidget4
+invert1
+
+setcolorvect||loopfidget4
+#set color register
+setdata|>idlelooplinevec2
+setcolorreg||idlelooplinevec2
+#draw rect
+colorrect||loopfidget2
+#goto beginning of main loop
+gotodata|>menuloop2

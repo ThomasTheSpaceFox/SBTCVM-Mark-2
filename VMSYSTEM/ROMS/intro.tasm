@@ -61,8 +61,9 @@ userwait
 TTYclear
 
 TTYlinedraw|on
-TTYbg|000000+00
 null||menu
+TTYbg|000000+00
+
 setkeyint|:1
 keyint|>textsc1demo
 setkeyint|:2

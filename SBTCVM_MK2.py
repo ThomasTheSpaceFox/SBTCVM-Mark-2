@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import VMSYSTEM.libtrom as libtrom
 import pygame
 from pygame.locals import *
@@ -99,8 +98,11 @@ LEDGREENOFF=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAM
 CPULEDACT=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-BLUE.png')).convert()
 CPULEDSTANDBY=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-ORANGE.png')).convert()
 
-COLORDISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'COLORDISP-DEF.png')).convert()
-MONODISP=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'MONODISP-DEF.png')).convert()
+COLORDISP=pygame.Surface((27, 27)).convert()
+MONODISP=pygame.Surface((9, 9)).convert()
+COLORDISP.fill((127, 127, 127))
+MONODISP.fill((127, 127, 127))
+
 #this list is what is displayed on the TTY on VM boot.
 #the header text is so far in this list so it appears correct in 27 line mode
 abt=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "SBTCVM", "Mark 2", "v2.0.1", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "ready", ""]
