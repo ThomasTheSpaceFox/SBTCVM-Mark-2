@@ -374,6 +374,9 @@ for cur_id in ["-0","-+","0-","00","0+","+-","+0","++"]:
 btthreadcnt=1
 btcurthread="--"
 
+curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert()
+upt=screensurf.blit(curthrtex, (170, 522))
+updtblits.extend([upt])
 
 #for f in BTSTACK:
 #	print str(BTSTACK[f].qxtact) + " " + f
@@ -1720,7 +1723,9 @@ while stopflag==0:
 		threadref=BTSTACK[btcurthread].threadref
 		ROMFILE=BTSTACK[btcurthread].ROMFILE
 		ROMLAMPFLG=BTSTACK[btcurthread].ROMLAMPFLG
-		
+		curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert()
+		upt=screensurf.blit(curthrtex, (170, 522))
+		updtblits.extend([upt])
 		
 		#print EXECADDR
 	if stopflag==1:
@@ -1779,7 +1784,7 @@ while stopflag==0:
 			screensurf.blit(libSBTCVMsurf, (0, 0))
 		#print "fbuff"
 	
-	pygame.display.update()
+	#pygame.display.update()
 	
 	
 	time.sleep(CPUWAIT)

@@ -117,7 +117,7 @@ null
 add
 #write current reg1 to monorect instruction.
 setdata|>loopfidget
-monorect||loopfidget
+monopixel||loopfidget
 gotodata|>menuloop
 TTYclear
 #Ye old raster demos. ported to SBTCVM Mark 2
@@ -1908,7 +1908,7 @@ textstart
 Fibonacci sequence.
 Starting with params -1 , -1
 textstop
-colorfill|---------
+#colorfill|---------
 
 setcolorvect|000------
 setcolorreg|00000000-

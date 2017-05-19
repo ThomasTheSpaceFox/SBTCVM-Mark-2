@@ -1,4 +1,5 @@
 #fib. sequence
+TTYlinedraw|on
 textstart
 Fibonacci sequence.
 Starting with params 1 , 1
@@ -33,7 +34,7 @@ textstart
 Fibonacci sequence.
 Starting with params -1 , -1
 textstop
-colorfill|---------
+#colorfill|---------
 
 setcolorvect|000------
 setcolorreg|00000000-
