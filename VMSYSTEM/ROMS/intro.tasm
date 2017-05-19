@@ -195,9 +195,12 @@ monoline|000++++--
 textstart
 Vector Demo:
 As you can see. lines and filled rectangles can be used to draw
-images in much less instructions.
+images in much less instructions. This can help when speed is
+important, but for most full color images, "MK2-GFX.py -cg2
+your27x27image.png" will work just fine, and be as easy to
+add to your program as copy-pasting code to your tasm file,
+and adding a goto refrence or two.
 
-it would be smart to use them to speed things up a bit.
 textstop
 
 userwait
@@ -241,22 +244,18 @@ textstart
 ------------------------------------------------------------------------
 |  SBTCVM Mark 2  |  Specifications                                    |
 ------------------------------------------------------------------------
-> TTY: 72x54 display running at 648x486, with 9x9 pixel font.
-
-> 9-trit IObus
-
-> 9-trit temporarily editable rom bus with up to 6 hot-swappable roms
-  of up to 19,683 instructions each.
-  
-> dual mini raster graphics displays.
-
-> includes a custom assembler.
-
-> togglable step-by-step execution.
-
-> features a buzzer and various status displays and indicators.
- 
-> keyboard interrupt system.
+> TTY: a multi-mode display running at 648x486, with custom Text 
+  encoding.
+> 9-trit IObus with features such as a random integer port and 
+  scratch memory.
+> 9-trit executable RAM memory bus with capacity to load and bank
+  switch up to 6 loaded ROMs.
+> Dual mini raster graphics displays.
+> Includes a custom assembler.
+> Features a buzzer and various status displays and indicators.
+> Keyboard interrupt system and threading support.
+> Features a menu launcher and a pause menu (try it: press escape)
+  and various other utilities.
 ------------------------------------------------------------------------
 textstop
 userwait

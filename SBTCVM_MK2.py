@@ -1723,9 +1723,11 @@ while stopflag==0:
 		threadref=BTSTACK[btcurthread].threadref
 		ROMFILE=BTSTACK[btcurthread].ROMFILE
 		ROMLAMPFLG=BTSTACK[btcurthread].ROMLAMPFLG
-		curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert()
-		upt=screensurf.blit(curthrtex, (170, 522))
-		updtblits.extend([upt])
+		#change the Thread status display.
+		if disablereadouts==0 or stepbystep==1:
+			curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert()
+			upt=screensurf.blit(curthrtex, (170, 522))
+			updtblits.extend([upt])
 		
 		#print EXECADDR
 	if stopflag==1:
@@ -1776,15 +1778,11 @@ while stopflag==0:
 					colq +=1
 				lineq +=1
 			linexq +=1
-		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		if tuibig==0:
 			screensurf.blit(libSBTCVMsurf, (45, 40))
 		else:
-			#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
 			screensurf.blit(libSBTCVMsurf, (0, 0))
-		#print "fbuff"
-	
-	#pygame.display.update()
+		pygame.display.update()
 	
 	
 	time.sleep(CPUWAIT)
