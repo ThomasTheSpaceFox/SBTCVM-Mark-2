@@ -113,6 +113,27 @@ elif cmd==None:
 				print "Please specify one decimal integer."
 			except ValueError:
 				print "Please specify one decimal integer."
+		if (usercalllst[0]).lower()=="mpi":
+			try:
+				arg=usercalllst[1]
+				#calculate the MPI of the user-specifed number of trits
+				print int(((3**(int(arg)))-1)/2)
+			except IndexError:
+				print "please specify one decimal integer"
+			except TypeError:
+				print "Please specify one decimal integer."
+			except ValueError:
+				print "Please specify one decimal integer."
+		if (usercalllst[0]).lower()=="mcv":
+			try:
+				arg=usercalllst[1]
+				print int(3**(int(arg)))
+			except IndexError:
+				print "please specify one decimal integer"
+			except TypeError:
+				print "Please specify one decimal integer."
+			except ValueError:
+				print "Please specify one decimal integer."
 		if (usercalllst[0]).lower()=="add":
 			try:
 				arg=usercalllst[1]

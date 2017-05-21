@@ -29,6 +29,8 @@ mul    : multiply two balanced ternary integers (separated by a space)
 btdec  : convert a balanced ternary integer to decimal
 decbt  : convert a decimal integer to balanced ternary
 invert : invert a balanced ternary integer
+mpi    : calculate the Max Positive Integer for a given number of trits
+mcv    : calculate the Max Combinations Value for a given number of trits
 '''
 
 abouttext='''SBTCVM MK2-CS command shell
