@@ -11,10 +11,10 @@ try:
 	cmd=sys.argv[1]
 except:
 	cmd=None
-if cmd=="-h" or cmd=="--help":
+if cmd=="-h" or cmd=="--help" or cmd=="help":
 	print '''This is MK2-CS.py, a command shell for SBTCVM Mark 2
 commands:
-MK2-CS.py -h (--help): this text
+MK2-CS.py -h (--help) (help): this text
 MK2-CS.py -v (--version)
 MK2-CS.py -a (--about): about MK2-RUN.py
 '''
@@ -40,30 +40,29 @@ elif cmd==None:
 			print cmdshell.versiontext
 		if (usercalllst[0]).lower()=="list":
 			try:
-				if (usercalllst[1]).lower()=="trom":
-					for diter in cmdshell.pathlist:
-						for fname in os.listdir(diter):
-							fnamelo=fname.lower()
-							if fnamelo.endswith(".trom"): 
-								print(os.path.join(diter, fname))
-				if (usercalllst[1]).lower()=="tasm":
-					for diter in cmdshell.pathlist:
-						for fname in os.listdir(diter):
-							fnamelo=fname.lower()
-							if fnamelo.endswith(".tasm"): 
-								print(os.path.join(diter, fname))
-				if (usercalllst[1]).lower()=="streg":
-					for diter in cmdshell.pathlist:
-						for fname in os.listdir(diter):
-							fnamelo=fname.lower()
-							if fnamelo.endswith(".streg"): 
-								print(os.path.join(diter, fname))
+				if (usercalllst[1]).lower()=="types":
+					for typename in cmdshell.keyftypes:
+						print typename
+				elif (usercalllst[1]).lower()=="paths":
+					for typename in cmdshell.pathlist:
+						print typename
+				elif (usercalllst[1]).lower()=="help":
+					print cmdshell.listhelptext
+				else:
+					for dittype in cmdshell.keyftypes:
+						if (usercalllst[1]).lower()==dittype:
+							for diter in cmdshell.pathlist:
+								for fname in os.listdir(diter):
+									fnamelo=fname.lower()
+									if fnamelo.endswith(("." + dittype)): 
+										print(os.path.join(diter, fname))
 			except IndexError:
 				for diter in cmdshell.pathlist:
 					for fname in os.listdir(diter):
 						fnamelo=fname.lower()
-						if fnamelo.endswith(".trom") or fnamelo.endswith(".tasm") or fnamelo.endswith(".streg"): 
-							print(os.path.join(diter, fname))
+						for dittype in cmdshell.keyftypes:
+							if fnamelo.endswith("." + dittype):
+								print(os.path.join(diter, fname))
 		#these simply call another python process altogether to re-use the command line syntax of these utilities:
 		if (usercalllst[0]).lower()=="asm":
 			try:

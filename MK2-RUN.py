@@ -11,10 +11,10 @@ try:
 	cmd=sys.argv[1]
 except:
 	cmd=None
-if cmd=="-h" or cmd=="--help":
+if cmd=="-h" or cmd=="--help" or cmd=="help":
 	print '''This is MK2-RUN.py, a command line launcher for SBTCVM Mark 2
 commands:
-MK2-RUN.py -h (--help): this text
+MK2-RUN.py -h (--help) (help): this text
 MK2-RUN.py -v (--version)
 MK2-RUN.py -a (--about): about MK2-RUN.py
 MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA

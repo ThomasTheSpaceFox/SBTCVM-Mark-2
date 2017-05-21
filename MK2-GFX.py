@@ -178,10 +178,10 @@ try:
 	cmd=sys.argv[1]
 except:
 	cmd=None
-if cmd=="-h" or cmd=="--help":
+if cmd=="-h" or cmd=="--help" or cmd=="help":
 	print '''This is SBTCVM Mark 2's GFX toolkit.
 commands:
-MK2-GFX.py -h (--help): this text
+MK2-GFX.py -h (--help) (help): this text
 MK2-GFX.py -v (--version)
 MK2-GFX.py -a (--about): about MK2-GFX.py
 MK2-GFX.py -c (--colraster) [imagefile]: convert a 27x27 pixel or smaller image to color raster instrucions (exported as a *.tasm)

@@ -2,13 +2,20 @@
 import os
 #used by list function to search for important files.
 pathlist=[(os.path.join("VMSYSTEM", "ROMS")), "VMSYSTEM", "ROMS", "VMUSER"]
+keyftypes=["streg", "trom", "tasm"]
+
+listhelptext='''
+The main uses of list are to list important file types like troms, SBTCVM
+assembly files, and so on, that SBTCVM can see without explicit paths.
+list types : list known important file type keywords
+list paths : list paths searched by sbtcvm for important file types
+list [type] : look for the specified type.'''
 
 helptext='''Commands: 
-run [arguments] : SBTCVM command line launcher. use "run -h" for help.
-asm [arguments] : SBTCVM assembler. "asm -h" for help.
-gfx [arguments] : SBTCVM graphics toolkit. use "asm -h" for help.
-list [type]     : list available important SBTCVM files. eg: 
-   "list trom" would list all trom files. other types are "tasm" and "streg"
+run [arguments] : SBTCVM command line launcher. use "run help" for help.
+asm [arguments] : SBTCVM assembler. "asm help" for help.
+gfx [arguments] : SBTCVM graphics toolkit. use "asm help" for help.
+list [type]     : use "list help" for help on the list command.
 help            : this text
 version         : version info
 about           : about info

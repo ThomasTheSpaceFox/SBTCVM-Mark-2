@@ -57,10 +57,10 @@ except:
 
 if "GLOBASMFLG" in globals():
 	cmd=GLOBASMFLG
-if cmd=="-h" or cmd=="--help":
+if cmd=="-h" or cmd=="--help" or cmd=="help":
 	print '''This is SBTCVM-asm2.py, SBTCVM Mark 2's assembler.
 commands:
-SBTCVM-asm2.py -h (--help): this text
+SBTCVM-asm2.py -h (--help) (help): this text
 SBTCVM-asm2.py -v (--version)
 SBTCVM-asm2.py -a (--about): about SBTCVM-asm2.py
 SBTCVM-asm2.py -c (--compile) [sourcefile]: build a tasm source into a trom
