@@ -73,6 +73,7 @@ def redefA(filenameq):
 		rmline=rmline.replace("\n", "")
 		AROM[linecnt]=rmline
 		linecnt += 1
+	TROMAfile.close()
 
 def redefB(filenameq):
 	global BROM
@@ -85,6 +86,7 @@ def redefB(filenameq):
 		rmline=rmline.replace("\n", "")
 		BROM[linecnt]=rmline
 		linecnt += 1
+	TROMBfile.close()
 
 def redefC(filenameq):
 	global CROM
@@ -97,6 +99,7 @@ def redefC(filenameq):
 		rmline=rmline.replace("\n", "")
 		CROM[linecnt]=rmline
 		linecnt += 1
+	TROMCfile.close()
 
 def redefD(filenameq):
 	global DROM
@@ -109,6 +112,7 @@ def redefD(filenameq):
 		rmline=rmline.replace("\n", "")
 		DROM[linecnt]=rmline
 		linecnt += 1
+	TROMDfile.close()
 
 def redefE(filenameq):
 	global EROM
@@ -121,6 +125,7 @@ def redefE(filenameq):
 		rmline=rmline.replace("\n", "")
 		EROM[linecnt]=rmline
 		linecnt += 1
+	TROMEfile.close()
 
 
 def redefF(filenameq):
@@ -134,6 +139,7 @@ def redefF(filenameq):
 		rmline=rmline.replace("\n", "")
 		FROM[linecnt]=rmline
 		linecnt += 1
+	TROMFfile.close()
 
 #load TROMS from TROM files to respective dictionaries
 print "libtrom: parsing TROMs into dictionaries..."
@@ -146,6 +152,7 @@ for rmline in TROMAfile:
 	rmline=rmline.replace("\n", "")
 	AROM[linecnt]=rmline
 	linecnt += 1
+TROMAfile.close()
 BROM= {}
 TROMBfile=loadtrom(TROMB)
 linecnt=1
@@ -153,6 +160,7 @@ for rmline in TROMBfile:
 	rmline=rmline.replace("\n", "")
 	BROM[linecnt]=rmline
 	linecnt += 1
+TROMBfile.close()
 CROM= {}
 TROMCfile=loadtrom(TROMC)
 linecnt=1
@@ -160,6 +168,7 @@ for rmline in TROMCfile:
 	rmline=rmline.replace("\n", "")
 	CROM[linecnt]=rmline
 	linecnt += 1
+TROMCfile.close()
 DROM= {}
 TROMDfile=loadtrom(TROMD)
 linecnt=1
@@ -167,6 +176,7 @@ for rmline in TROMDfile:
 	rmline=rmline.replace("\n", "")
 	DROM[linecnt]=rmline
 	linecnt += 1
+TROMDfile.close()
 EROM= {}
 TROMEfile=loadtrom(TROME)
 linecnt=1
@@ -174,6 +184,7 @@ for rmline in TROMEfile:
 	rmline=rmline.replace("\n", "")
 	EROM[linecnt]=rmline
 	linecnt += 1
+TROMEfile.close()
 FROM= {}
 TROMFfile=loadtrom(TROMF)
 linecnt=1
@@ -181,6 +192,7 @@ for rmline in TROMFfile:
 	rmline=rmline.replace("\n", "")
 	FROM[linecnt]=rmline
 	linecnt += 1
+TROMFfile.close()
 if tromlogging==1:
 	tromlog1.write("Done.  Logging TROM filenames for refrence:\n")
 	tromlog1.write("TROMA:" + TROMA + "\n")

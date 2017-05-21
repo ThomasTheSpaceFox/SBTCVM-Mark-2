@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #SBTCVM Mark 2 GFX toolkit
+import os
 
 import pygame
 import time
@@ -7,8 +8,49 @@ from pygame.locals import *
 import sys
 import VMSYSTEM.libbaltcalc as libbaltcalc
 
+VMSYSROMS=os.path.join("VMSYSTEM", "ROMS")
 
-
+def gfxargfind(arg):
+	lowarg=arg.lower()
+	argisfile=0
+	qfilewasvalid=0
+	for extq in ["", ".png", ".PNG", ".gif", ".GIF"]:
+		qarg=(arg + extq)
+		qlowarg=(lowarg + extq.lower())
+		print "searching for: \"" + qarg + "\"..."
+		if os.path.isfile(qarg):
+			argisfile=1
+			print "found: " + qarg
+		elif os.path.isfile(os.path.join("VMSYSTEM", qarg)):
+			qarg=os.path.join("VMSYSTEM", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join(VMSYSROMS, qarg)):
+			qarg=os.path.join(VMSYSROMS, qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("VMUSER", qarg)):
+			qarg=os.path.join("VMUSER", qarg)
+			print "found: " + qarg
+			argisfile=1
+		elif os.path.isfile(os.path.join("ROMS", qarg)):
+			qarg=os.path.join("ROMS", qarg)
+			print "found: " + qarg
+			argisfile=1
+		if argisfile==1:
+			if os.path.isfile(qarg):
+				
+				qfilewasvalid=1
+				return(qarg)
+			
+			else:
+				print "not valid."
+				argisfile=0
+				
+	if qfilewasvalid==0:
+		print "File not found."
+		sys.exit()
+	
 
 def trunkto3(code):
 	codecnt=0
@@ -172,7 +214,7 @@ v2.1.0
 '''
 elif cmd=="-c" or cmd=="--colraster":
 	arg=sys.argv[2]
-	
+	arg=gfxargfind(arg)
 	pygame.display.init()
 	screensurf=pygame.display.set_mode((27, 27))
 	
@@ -228,7 +270,7 @@ elif cmd=="-c" or cmd=="--colraster":
 	#print(IMGSOURCE.get_at((639, 479)))
 elif cmd=="-cg" or cmd=="--colraster_groupcolor":
 	arg=sys.argv[2]
-	
+	arg=gfxargfind(arg)
 	pygame.display.init()
 	screensurf=pygame.display.set_mode((27, 27))
 	
@@ -299,7 +341,7 @@ elif cmd=="-cg" or cmd=="--colraster_groupcolor":
 	#print(IMGSOURCE.get_at((639, 479)))
 elif cmd=="-cg2" or cmd=="--colraster_groupcolor2":
 	arg=sys.argv[2]
-	
+	arg=gfxargfind(arg)
 	pygame.display.init()
 	screensurf=pygame.display.set_mode((27, 27))
 	
@@ -382,3 +424,4 @@ elif cmd=="-cg2" or cmd=="--colraster_groupcolor2":
 	#print(IMGSOURCE.get_at((639, 479)))
 else:
 	print "see MK2-GFX.py -h for help."
+	print cmd

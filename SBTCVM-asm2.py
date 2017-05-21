@@ -54,6 +54,9 @@ try:
 	cmd=sys.argv[1]
 except:
 	cmd=None
+
+if "GLOBASMFLG" in globals():
+	cmd=GLOBASMFLG
 if cmd=="-h" or cmd=="--help":
 	print '''This is SBTCVM-asm2.py, SBTCVM Mark 2's assembler.
 commands:
@@ -91,10 +94,13 @@ elif cmd==None:
 	print "tip: use SBTCVM-asm2.py -h for help."
 elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracecompile":
 	print("SBTCVM-asm " + compvers + " starting")
-	if cmd[0]!="-":
-		arg=sys.argv[1]
+	if "GLOBASMFLG" in globals():
+		arg=GLOBASMFLG
 	else:
-		arg=sys.argv[2]
+		if cmd[0]!="-":
+			arg=sys.argv[1]
+		else:
+			arg=sys.argv[2]
 	print arg
 	lowarg=arg.lower()
 	argisfile=0
@@ -994,6 +1000,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 	while instpad!=19683 and instcnt<19684:
 		outn.write("000000" + "000000000" + "\n")
 		instpad += 1
+	outn.close()
 	
 	instextra=(instpad - instcnt)
 	print ("SBTCVM Mk 2 assembly file \"" + assmflename + "\" has been compiled into: \"" + outfile + "\"")

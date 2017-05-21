@@ -152,8 +152,10 @@ logromexit=0
 logIOexit=0
 disablereadouts=0
 exec(exconf)
+scconf.close()
 if runuserconf==1:
 	exec(userexconf)
+	userscconf.close()
 
 key1=0
 key2=0
@@ -226,6 +228,7 @@ elif 'GLOBSTREG' in globals():
 	scstreg=open(ncstreg, 'r')
 	exstreg=compile(scstreg.read(), ncstreg, 'exec')
 	exec(exstreg)
+	scstreg.close()
 	print ("streg program title:" + streg_subtitle)
 	libtrom.redefA(TROMA)
 	libtrom.redefB(TROMA)
@@ -1811,3 +1814,5 @@ if KIOSKMODE==0:
 					break
 else:
 	print "KIOSK MODE ACTIVE, SKIP WAIT ON EXIT."
+
+

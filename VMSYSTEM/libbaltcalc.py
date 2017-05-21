@@ -74,9 +74,14 @@ def btsub(numA, numB):
 def btdev(numA, numB):
 	numAcon=BTTODEC(numA)
 	numBcon=BTTODEC(numB)
-	decRes=int(numAcon / numBcon)
+	try:
+		decRes=int(numAcon / numBcon)
+	except ZeroDivisionError:
+		decRes=0
 	btRes=(DECTOBT(decRes))
 	return(btRes)
+
+btdiv=btdev
 
 
 
