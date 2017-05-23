@@ -234,12 +234,16 @@ def initui(scsurf, kiomode):
 	global NEGlamp
 	global CPULEDSTANDBY
 	global LEDGREENOFF
+	global GFXLOGO
+	global CREDITHBAR
 	KIOSKMODE=kiomode
 	#vmlaunchbg=pygame.image.load(os.path.join('GFX', 'VM-LAUNCH.png')).convert()
 	vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-PAUSEMASK.png')).convert_alpha()
 	GNDlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampGND.png'))
 	POSlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampPOS.png'))
 	NEGlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampNEG.png'))
+	GFXLOGO=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'GFXLOGO.png'))
+	CREDITHBAR=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'CREDITHBAR.png'))
 	#indicator lamps
 	#GREEN
 	#LEDGREENON=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN.png')).convert()
@@ -414,26 +418,38 @@ def creditsscroll():
 	pixjmp=14
 	scrollsurfwid=24
 	
-	texttable=["","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+	texttable=["","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+	GFXLOGOCRED=GFXLOGO.copy()
 	while True:
 		abt = open(os.path.join("VMSYSTEM", "L_CREDIT.TXT"))
 		for flid in abt:
 			flid=flid.replace('\n', '')
 			texttable.pop(0)
 			texttable.append(flid)
-			scrollsurfyaw=0
+			scrollsurfyaw=-20
 			scrollmaskyaw=65
 			slidecnt=0
 			pixcnt1=0
-			scrollsurf=pygame.Surface((600, 390))
+			scrollsurf=pygame.Surface((600, 410))
 			scrollmask=pygame.Surface((600, 370))
 			scrollsurf.fill((255, 255, 255))
 			for qlid in texttable:
-				abttext=simplefont.render(qlid, True, (0,0,0), (255, 255, 255))
-				abttextbox=abttext.get_rect()
-				abttextbox.centerx=scrollsurf.get_rect().centerx
-				abttextbox.y=pixcnt1
-				scrollsurf.blit(abttext, abttextbox)
+				if qlid=="-<GFXLOGO>-":
+					abttextbox=GFXLOGOCRED.get_rect()
+					abttextbox.centerx=scrollsurf.get_rect().centerx
+					abttextbox.y=pixcnt1
+					scrollsurf.blit(GFXLOGOCRED, abttextbox)
+				elif qlid=="-<HBAR>-":
+					abttextbox=CREDITHBAR.get_rect()
+					abttextbox.centerx=scrollsurf.get_rect().centerx
+					abttextbox.y=pixcnt1
+					scrollsurf.blit(CREDITHBAR, abttextbox)
+				elif qlid!="":
+					abttext=simplefont.render(qlid, True, (0,0,0), (255, 255, 255))
+					abttextbox=abttext.get_rect()
+					abttextbox.centerx=scrollsurf.get_rect().centerx
+					abttextbox.y=pixcnt1
+					scrollsurf.blit(abttext, abttextbox)
 				pixcnt1 += pixjmp
 			while slidecnt!=14:
 				scrollmask.blit(scrollsurf, (0, scrollsurfyaw))

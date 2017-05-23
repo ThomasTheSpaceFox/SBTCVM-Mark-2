@@ -1,6 +1,8 @@
 <><><><><><><><><><><><><>
+-<GFXLOGO>-
 
-SBTCVM Mark 2
+
+Mark 2
 Simple Balanced Ternary Computer Virtual Machine
 
 v2.0.1
@@ -20,43 +22,58 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
---------------
+-<HBAR>-
 
 Lead Developer:
 Thomas Leathers
 
---------------
+-<HBAR>-
 
 Graphics and UI:
 Thomas Leathers
 
---------------
+-<HBAR>-
 
 Utilities and systems programming:
 Thomas Leathers
 
---------------
+-<HBAR>-
 
 VM architecture and system design:
 Thomas Leathers
 
---------------
+-<HBAR>-
 
 Research:
 Thomas Leathers
 
---------------
+-<HBAR>-
 
 Other Contributors:
 
---------------
+-<HBAR>-
 
 Words from the team:
 Thomas | "Can i get some help here, eh?"
 
---------------
+-<HBAR>-
 Special Thanks:
 
 Thomas would like to thank his peers for dealing
 with his constant babbling about balanced ternary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
