@@ -25,7 +25,7 @@ GLOBKIOSK=1
 #
 #v2.0.1
 #
-#(c)2016-2017 Thomas Leathers
+#(c)2016-2017 Thomas Leathers and Contributors
 #
 #  SBTCVM Mark 2 is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -92,8 +92,8 @@ stmenudesc=["Return to main menu.", "A welcome to SBTCVM.", "An introduction to 
 stmenucnt=3
 
 hlpmenulst=["Main Menu", "More help",  "About"]
-hlpmenucode=["MAIN", "HLPOVER", "ABT"]
-hlpmenudesc=["Return to main menu.", "How to get more help.", "About SBTCVM."]
+hlpmenucode=["MAIN", "HLPOVER", "CREDIT"]
+hlpmenudesc=["Return to main menu.", "How to get more help.", "About SBTCVM Mark 2."]
 hlpmenucnt=3
 
 exmenulst=["Main Menu", "Clock"]
@@ -258,8 +258,8 @@ while qflg!=1:
 		if curmenucode[menuhighnum - 1]=="QUIT":
 			qflg=1
 		#text screens
-		if curmenucode[menuhighnum - 1]=="ABT":
-			vmui.textsciter_main("L_ABT.TXT")
+		if curmenucode[menuhighnum - 1]=="CREDIT":
+			vmui.creditsscroll()
 		if curmenucode[menuhighnum - 1]=="CLOCK":
 			vmui.BTCLOCKDATE()
 		if curmenucode[menuhighnum - 1]=="HLPOVER":

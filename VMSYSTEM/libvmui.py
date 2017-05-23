@@ -35,7 +35,7 @@ menusound3=pygame.mixer.Sound(libSBTCVM.autosquare(280, 0.1))
 paumenulst=["Continue VM", "Quick Help", "About", "Extras Menu", "Stop VM"]
 paumenulstKIOSK=["Continue VM", "Quick Help", "About", "Extras Menu", "Exit to Main Menu"]
 #selection codes:
-paumenucode=["CONTINUE", "QHELP", "ABT", "EXTRAS", "VMSTOP"]
+paumenucode=["CONTINUE", "QHELP", "CREDIT", "EXTRAS", "VMSTOP"]
 paumenudesc=["Continue running VM", "Get Quick Help", "About SBTCVM Mark 2", "Extra stuff", "Stop VM"]
 paumenudescKIOSK=["Continue running VM", "Get Quick Help", "About SBTCVM Mark 2", "Extras", "Exit to the Main Menu."]
 #number of menu items:
@@ -180,8 +180,8 @@ def pausemenu():
 			ixreturn=0
 			if curmenucode[menuhighnum - 1]=="QHELP":
 				textsciter_internal("L_QHELP.TXT")
-			if curmenucode[menuhighnum - 1]=="ABT":
-				textsciter_internal("L_ABT.TXT")
+			if curmenucode[menuhighnum - 1]=="CREDIT":
+				creditsscroll()
 			if curmenucode[menuhighnum - 1]=="CLOCK":
 				BTCLOCKDATE()
 			
@@ -408,5 +408,48 @@ def BTCLOCKDATE():
 				screensurf.blit(NEGlamp, (secX, secY))
 			secX += 9
 		pygame.display.update()
+
+def creditsscroll():
+	pixcnt1=0
+	pixjmp=14
+	scrollsurfwid=24
+	
+	texttable=["","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+	while True:
+		abt = open(os.path.join("VMSYSTEM", "L_CREDIT.TXT"))
+		for flid in abt:
+			flid=flid.replace('\n', '')
+			texttable.pop(0)
+			texttable.append(flid)
+			scrollsurfyaw=0
+			scrollmaskyaw=65
+			slidecnt=0
+			pixcnt1=0
+			scrollsurf=pygame.Surface((600, 390))
+			scrollmask=pygame.Surface((600, 370))
+			scrollsurf.fill((255, 255, 255))
+			for qlid in texttable:
+				abttext=simplefont.render(qlid, True, (0,0,0), (255, 255, 255))
+				abttextbox=abttext.get_rect()
+				abttextbox.centerx=scrollsurf.get_rect().centerx
+				abttextbox.y=pixcnt1
+				scrollsurf.blit(abttext, abttextbox)
+				pixcnt1 += pixjmp
+			while slidecnt!=14:
+				scrollmask.blit(scrollsurf, (0, scrollsurfyaw))
+				screensurf.blit(scrollmask, (scrollsurfwid, scrollmaskyaw))
+				scrollsurfyaw -= 1
+				slidecnt += 1
+				time.sleep(.05)
+				pygame.display.update()
+			scrollmask.blit(scrollsurf, (0, scrollsurfyaw))
+			screensurf.blit(scrollmask, (scrollsurfwid, scrollmaskyaw))
+			pygame.display.update()
+			for event in pygame.event.get():
+				if event.type == KEYDOWN and event.key == K_F8:
+					pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT-MENU.png')))
+				elif event.type == KEYDOWN:
+					return()
+
 
 

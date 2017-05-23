@@ -7,7 +7,7 @@ need help? open index.html inside the docs directory,
 or view the documentaion online at:
 <https://thomasthespacefox.github.io/SBTCVM-Mark-2/index.html>
 
-(c)2016-2017 Thomas Leathers
+(c)2016-2017 Thomas Leathers and Contributors
 
   SBTCVM Mark 2 is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
