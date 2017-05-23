@@ -113,7 +113,7 @@ def pausemenu():
 			if indlcnt==menuhighnum:
 				textit=simplefontB.render(indx, True, (0, 0, 0), (255, 255, 255))
 			else:
-				textit=simplefontB.render(indx, True, (0, 0, 0), (127, 127, 255))
+				textit=simplefontB.render(indx, True, (0, 0, 0))
 			screensurf.blit(textit, (650, texhigcnt))
 			texhigcnt += texhigjump
 			indlcnt += 1
@@ -153,7 +153,7 @@ def pausemenu():
 				if event.type == KEYDOWN and event.key == K_RETURN:
 					ixreturn=1
 					evhappenflg=1
-					menusound2.play()
+					#menusound2.play()
 					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					screensurf.blit(scbak, (0, 0))
@@ -258,7 +258,7 @@ def textsciter_internal(flookup):
 	
 	for fnx in abt:
 		fnx=fnx.replace('\n', '')
-		abttextB=simplefontA.render(fnx, True, (255, 255, 255), (0, 0, 127))
+		abttextB=simplefontA.render(fnx, True, (255, 255, 255))
 		screensurf.blit(abttextB, (9, pixcnt1))
 		pixcnt1 += pixjmp
 	pixcnt1 += pixjmp
@@ -275,7 +275,7 @@ def textsciter_internal(flookup):
 					break
 				elif event.type == KEYDOWN:
 					evhappenflg2=1
-					menusound2.play()
+					#menusound2.play()
 					break
 
 def textsciter(flookup):
@@ -317,7 +317,7 @@ def textsciter_main(flookup):
 	
 	for fnx in abt:
 		fnx=fnx.replace('\n', '')
-		abttextB=simplefontA.render(fnx, True, (0, 0, 0), (0, 127, 255))
+		abttextB=simplefontA.render(fnx, True, (0, 0, 0))
 		screensurf.blit(abttextB, (9, pixcnt1))
 		pixcnt1 += pixjmp
 	pixcnt1 += pixjmp
@@ -334,7 +334,7 @@ def textsciter_main(flookup):
 					break
 				elif event.type == KEYDOWN:
 					evhappenflg2=1
-					menusound2.play()
+					#menusound2.play()
 					break
 
 #Balanced ternary clock function. (shows clock that is in the extras menu.
@@ -351,7 +351,7 @@ def BTCLOCKDATE():
 	#quick fix to solve drawing glitches
 	scbak=screensurf.copy()
 	while loopend==0:
-		screensurf.blit(scbak, (0, 0))
+		
 		#screensurf.fill((127, 127, 127))
 		time.sleep(0.2)
 		for event in pygame.event.get():
@@ -362,6 +362,7 @@ def BTCLOCKDATE():
 				loopend=1
 			if event.type == QUIT:
 				loopend=1
+		screensurf.blit(scbak, (0, 0))
 		pygame.event.clear()
 		curtim=time.localtime()
 		hourdec=curtim[3]

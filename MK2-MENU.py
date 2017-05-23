@@ -77,7 +77,7 @@ menusound1=pygame.mixer.Sound(libSBTCVM.autosquare(300, 0.1))
 menusound2=pygame.mixer.Sound(libSBTCVM.autosquare(250, 0.1))
 #clock widget second sound
 menusound3=pygame.mixer.Sound(libSBTCVM.autosquare(280, 0.1))
-menusound2.play()
+#menusound2.play()
 
 #demomenu
 demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower", "Dazzle"]
@@ -141,7 +141,7 @@ while qflg!=1:
 		if indlcnt==menuhighnum:
 			textit=simplefontB.render(indx, True, (0, 0, 0), (255, 255, 255))
 		else:
-			textit=simplefontB.render(indx, True, (0, 0, 0), (127, 127, 255))
+			textit=simplefontB.render(indx, True, (0, 0, 0))
 		screensurf.blit(textit, (650, texhigcnt))
 		texhigcnt += texhigjump
 		indlcnt += 1
@@ -181,7 +181,7 @@ while qflg!=1:
 			if event.type == KEYDOWN and event.key == K_RETURN:
 				ixreturn=1
 				evhappenflg=1
-				menusound2.play()
+				#menusound2.play()
 				break
 			if event.type == KEYDOWN and event.key == K_F8:
 				pygame.image.save(screensurf, (os.path.join('CAP', 'SCREENSHOT-MENU.png')))
