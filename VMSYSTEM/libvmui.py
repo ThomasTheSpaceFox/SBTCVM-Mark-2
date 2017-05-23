@@ -12,6 +12,12 @@ simplefont = pygame.font.SysFont(None, 16)
 simplefontA = pygame.font.SysFont(None, 20)
 simplefontB = pygame.font.SysFont(None, 22)
 simplefontC = pygame.font.SysFont(None, 32)
+#used for smaller data displays (inst. data etc.)
+#smldispfont = pygame.font.SysFont(None, 16)
+smldispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
+#used in larger data displays (register displays, etc.)
+#lgdispfont = pygame.font.SysFont(None, 20)
+lgdispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
 
 #these use the same squarewave generator as SBTCVM's buzzer.
 
@@ -46,7 +52,24 @@ expaumenucnt=2
 expmenudesc="Pause Menu | extras"
 #-----
 
-
+#used to show placeholder readouts.
+def dummyreadouts():
+	screensurf.blit(CPULEDSTANDBY, (749, 505))
+	screensurf.blit(LEDGREENOFF, (750, 512))
+	curROMtex=lgdispfont.render("A", True, (255, 0, 255), (0, 0, 0)).convert()
+	screensurf.blit(curROMtex, (126, 522))
+	ROMadrtex=lgdispfont.render("---------", True, (0, 127, 255), (0, 0, 0)).convert()
+	screensurf.blit(ROMadrtex, (425, 564))
+	reg2text=lgdispfont.render("000000000", True, (255, 127, 0), (0, 0, 0)).convert()
+	screensurf.blit(reg2text, (219, 564))
+	reg1text=lgdispfont.render("000000000", True, (255, 0, 127), (0, 0, 0)).convert()
+	screensurf.blit(reg1text, (219, 521))
+	datatext=smldispfont.render("000000000", True, (0, 255, 127), (0, 0, 0)).convert()
+	screensurf.blit(datatext, (8, 566))
+	insttext=smldispfont.render("000000", True, (0, 255, 255), (0, 0, 0)).convert()
+	screensurf.blit(insttext, (8, 522))
+	curthrtex=lgdispfont.render("--", True, (127, 0, 255), (0, 0, 0)).convert()
+	screensurf.blit(curthrtex, (170, 522))
 
 #SBTCVM pause menu.
 #called upon by SBTCVM_MK2.py when Escape is pressed.
@@ -209,12 +232,21 @@ def initui(scsurf, kiomode):
 	global GNDlamp
 	global POSlamp
 	global NEGlamp
+	global CPULEDSTANDBY
+	global LEDGREENOFF
 	KIOSKMODE=kiomode
 	#vmlaunchbg=pygame.image.load(os.path.join('GFX', 'VM-LAUNCH.png')).convert()
 	vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-PAUSEMASK.png')).convert_alpha()
 	GNDlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampGND.png'))
 	POSlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampPOS.png'))
 	NEGlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampNEG.png'))
+	#indicator lamps
+	#GREEN
+	#LEDGREENON=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN.png')).convert()
+	LEDGREENOFF=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN-OFF.png')).convert()
+	#CPU
+	#CPULEDACT=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-BLUE.png')).convert()
+	CPULEDSTANDBY=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-ORANGE.png')).convert()
 
 	
 

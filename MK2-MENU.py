@@ -118,6 +118,7 @@ menuhighnum=1
 ixreturn=0
 retfromexec=0
 screensurf.blit(vmbg, (0, 0))
+vmui.dummyreadouts()
 while qflg!=1:
 	if retfromexec==1:
 		print "----------------"
@@ -126,6 +127,7 @@ while qflg!=1:
 		retfromexec=0
 		pygame.display.set_caption("SBTCVM Mark 2 | Menu", "SBTCVM Mark 2 | Menu")
 		screensurf.blit(vmbg, (0, 0))
+		vmui.dummyreadouts()
 	#starting point for menu
 	texhigcnt=2
 	#separation between each line of text's origin

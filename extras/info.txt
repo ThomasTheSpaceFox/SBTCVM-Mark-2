@@ -1,0 +1,10 @@
+What's this? this is the extra's directory. 
+
+it has some stuff that doesn't really fit anywhere else. 
+
+such as some Gimp palettes for simulating some balanced ternary greyscale
+modes and 3-trit RGB color.
+
+speaking of 3-trit RGB some 27x27 3-trit RGB icons are also found here.
+
+see what else you can find.

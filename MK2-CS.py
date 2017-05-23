@@ -25,8 +25,6 @@ elif cmd=="-a" or cmd=="--about":
 elif cmd==None:
 	qflg=0
 	usrinp=""
-	#RUNFILE=open('MK2-RUN.py', 'r')
-	#EXECRUN=compile(RUNFILE.read(), 'MK2-RUN.py', 'exec')
 	print cmdshell.versiontext
 	print "ready."
 	while qflg!=1:
@@ -89,6 +87,8 @@ elif cmd==None:
 				call(arglst2)
 			except IndexError:
 				call(["python", "MK2-GFX.py"])
+		if (usercalllst[0]).lower()=="mainmenu":
+				call(["python", "MK2-MENU.py"])
 		if (usercalllst[0]).lower()=="quit":
 			qflg=1
 		if (usercalllst[0]).lower()=="btdec":
@@ -178,7 +178,7 @@ elif cmd==None:
 		
 		
 else:
-	print "tip: use MK2-RUN.py -h for help."
+	print "tip: use MK2-CS.py -h for help."
 #elif cmd=="-s" or cmd=="--shell" or cmd[0]!="-":
 	
 			

@@ -468,6 +468,10 @@ USERCONFTEMP='''#This is the USER config file.
 
 #MAIN VM ENGINE:
 
+#log execution process in CAP directory:
+#Note that these logs can be VERY LONG.
+#vmexeclogflg=0
+
 #Dump EXEC MEMORY at exit (This will dump the current state of the
 #troms in memory, into the CAP directory as TROMA.dmp... TROMB.dmp.. Etc.)
 #useful for debugging

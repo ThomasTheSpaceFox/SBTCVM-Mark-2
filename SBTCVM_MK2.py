@@ -68,6 +68,8 @@ screensurf=pygame.display.set_mode((800, 600))
 
 vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 screensurf.blit(vmbg, (0, 0))
+vmui.initui(screensurf, 0)
+vmui.dummyreadouts()
 pygame.display.update()
 libSBTCVM.glyphoptim(screensurf)
 pygame.display.set_caption("SBTCVM Mark 2", "SBTCVM Mark 2")
@@ -138,25 +140,38 @@ exconf=compile(scconf.read(), os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'exec')
 
 if os.path.isfile(os.path.join("VMUSER", "USERBOOT.CFG")):
 	userscconf=open(os.path.join("VMUSER", "USERBOOT.CFG"), "r")
-	userexconf=compile(scconf.read(), os.path.join("VMUSER", 'USERBOOT.CFG'), 'exec')
+	userexconf=compile(userscconf.read(), os.path.join("VMUSER", 'USERBOOT.CFG'), 'exec')
 	runuserconf=1
+	print "user config found."
 else:
 	print "user config not found... creating user config in VMUSER..."
 	userscconfcreate=open(os.path.join("VMUSER", "USERBOOT.CFG"), "w")
 	userscconfcreate.write(libSBTCVM.USERCONFTEMP)
 	userscconfcreate.close()
-	runuserconf=0
+	userscconf=open(os.path.join("VMUSER", "USERBOOT.CFG"), "r")
+	userexconf=compile(userscconf.read(), os.path.join("VMUSER", 'USERBOOT.CFG'), 'exec')
+	runuserconf=1
 DEFAULTSTREG="intro.streg"
 tuibig=1
 logromexit=0
 logIOexit=0
+vmexeclogflg=0
 disablereadouts=0
 exec(exconf)
+
 scconf.close()
 if runuserconf==1:
+	#print "arg"
 	exec(userexconf)
 	userscconf.close()
 
+if vmexeclogflg==1:
+	vmexlogf=open(os.path.join("CAP", "vmexeclog.log"), "w")
+
+def vmexeclog(texttolog):
+	if vmexeclogflg==1:
+		vmexlogf.write(texttolog + "\n")
+#vmexeclog("SYSTEM STARTUP. EXECUTION LOG ENABLED.")
 key1=0
 key2=0
 key3=0
@@ -363,11 +378,13 @@ updtcdisp=1
 updtmdisp=1
 updtblits=list()
 updtrandport=1
-screensurf.blit(CPULEDACT, (749, 505))
-screensurf.blit(STEPLED, (750, 512))
+upt=screensurf.blit(CPULEDACT, (749, 505))
+updtblits.extend([upt])
+upt=screensurf.blit(STEPLED, (750, 512))
+updtblits.extend([upt])
 print "Prep threading system..."
 threadref="00"
-
+#vmexeclog("Preping threading system...")
 
 
 BTSTACK={"--": BTTHREAD(1, EXECADDR, REG1, REG2, contaddr, EXECADDRraw, regsetpoint, TTYBGCOLREG, TTYBGCOL, colvectorreg, monovectorreg, colorreg, tritloadlen, tritoffset, tritdestgnd, threadref, ROMFILE, ROMLAMPFLG)}
@@ -381,18 +398,23 @@ curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert
 upt=screensurf.blit(curthrtex, (170, 522))
 updtblits.extend([upt])
 
+exlogclockticnum=0
+
 #for f in BTSTACK:
 #	print str(BTSTACK[f].qxtact) + " " + f
 #for f in BTSTACK:
 #	print str(BTSTACK[f].qxtact) + " " + f	
 print "SBTCVM Mark 2 Ready. the VM will now begin."
+#vmexeclog("SBTCVM Mark 2 Ready. the VM will now begin.")
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
 	curdata=(libtrom.tromreaddata(EXECADDR,ROMFILE))
 	#some screen display stuff & general blitting
 	#screensurf.fill((0,127,255))
 	#draw Background
-	
+	if vmexeclogflg==1:
+		exlogclockticnum += 1
+		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum))
 	if disablereadouts==0 or stepbystep==1:
 		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
@@ -655,6 +677,7 @@ while stopflag==0:
 		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "soft stop.")
+		vmexeclog("VMSYSHALT: SOFT STOP")
 		ttyredraw=1
 	#NULL INSTRUCTION (DOES NOTHING) USE WHEN YOU WISH TO DO NOTHING :p
 	#elif curinst=="--0000":
@@ -903,6 +926,7 @@ while stopflag==0:
 			stopflag=1
 			abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 			abt=libSBTCVM.abtslackline(abt, "THREAD COLLISION!")
+			vmexeclog("VMSYSHALT: THREAD COLLISION!")
 			#for threaddex in BTSTACK:
 			#	print (str(BTSTACK[threaddex].qxtact) + " rerror " + threaddex)
 		elif BTSTACK[threadref].qxtact==0:
@@ -1268,6 +1292,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						vmexeclog("VMSYSHALT: USER STOP")
 						evhappenflg2=1
 						break
 					else:
@@ -1327,6 +1352,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						vmexeclog("VMSYSHALT: USER STOP")
 						evhappenflg2=1
 						break
 					else:
@@ -1381,6 +1407,7 @@ while stopflag==0:
 						stopflag=1
 						abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 						abt=libSBTCVM.abtslackline(abt, "User stop.")
+						vmexeclog("VMSYSHALT: USER STOP")
 						evhappenflg2=1
 						break
 					else:
@@ -1419,6 +1446,7 @@ while stopflag==0:
 					stopflag=1
 					abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 					abt=libSBTCVM.abtslackline(abt, "User stop.")
+					vmexeclog("VMSYSHALT: USER STOP")
 					break
 				else:
 					break
@@ -1627,7 +1655,7 @@ while stopflag==0:
 		abt=libSBTCVM.abtslackline(abt, "End Of Rom.")
 	#check the current rom. 
 	if EXECADDRraw=="+------":
-		topflag=1
+		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "End Of RomBus.")
 	#print "eek " + EXECADDRNEXT
@@ -1662,11 +1690,13 @@ while stopflag==0:
 		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "NO ACTIVE THREADS!")
+		vmexeclog("VMSYSHALT: NO ACTIVE THREADS")
 	#thread switcher
 	if BTSTACK[btcurthread].qxtact==0:
 		stopflag=1
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "T-ACT FAULT")
+		vmexeclog("VMSYSHALT: T-ACT FAULT")
 	if btthreadcnt>1:
 		selnext=0
 		vecnext=1
@@ -1804,6 +1834,9 @@ if logIOexit==1:
 		ramdmp.write("A:" + str(IOitm) + " D:" + RAMbank[IOitm] + "\n")
 	ramdmp.close()
 #"exitloop"
+if vmexeclogflg==1:
+	vmexeclog("--END OF VM EXEC--")
+	vmexlogf.close()
 if KIOSKMODE==0:
 	evhappenflg3=0
 	while evhappenflg3==0:
