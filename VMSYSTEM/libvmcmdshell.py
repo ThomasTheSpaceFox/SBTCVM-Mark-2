@@ -12,15 +12,16 @@ list paths : list paths searched by sbtcvm for important file types
 list [type] : look for the specified type.'''
 
 helptext='''Commands: 
-run [arguments] : SBTCVM command line launcher. use "run help" for help.
-asm [arguments] : SBTCVM assembler. "asm help" for help.
-gfx [arguments] : SBTCVM graphics toolkit. use "asm help" for help.
-mainmenu        : Start SBTCVM's main menu.
-list [type]     : use "list help" for help on the list command.
-help            : this text
-version         : version info
-about           : about info
-quit            : quit SBTCVM command shell
+run [arguments]   : SBTCVM command line launcher. use "run help" for help.
+asm [arguments]   : SBTCVM assembler. "asm help" for help.
+gfx [arguments]   : SBTCVM graphics toolkit. use "asm help" for help.
+tools (t) [arguments] : SBTCVM tools launcher. use "asm help" for help.
+mainmenu          : Start SBTCVM's main menu.
+list [type]       : use "list help" for help on the list command.
+help              : this text
+version           : version info
+about             : about info
+quit              : quit SBTCVM command shell
 
 math commands:
 add    : add two balanced ternary integers (separated by a space)

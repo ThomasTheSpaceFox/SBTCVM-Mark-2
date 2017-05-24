@@ -87,6 +87,14 @@ elif cmd==None:
 				call(arglst2)
 			except IndexError:
 				call(["python", "MK2-GFX.py"])
+		if (usercalllst[0]).lower()=="t" or (usercalllst[0]).lower()=="tools":
+			try:
+				arglst=list((usercalllst[1]).split(" "))
+				arglst2=list(["python", "MK2-TOOLS.py"])
+				arglst2.extend(arglst)
+				call(arglst2)
+			except IndexError:
+				call(["python", "MK2-TOOLS.py"])
 		if (usercalllst[0]).lower()=="mainmenu":
 				call(["python", "MK2-MENU.py"])
 		if (usercalllst[0]).lower()=="quit":
