@@ -558,9 +558,18 @@ while stopflag==0:
 	#mul both registers, load awnser into REG1
 	elif curinst=="---000":
 		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btmul(REG1, REG2)))
-	#dev both registers, load awnser into REG1
+	#div both registers, load awnser into REG1
 	elif curinst=="---00+":
-		REG1 = (libSBTCVM.trunkto6math(libbaltcalc.btdev(REG1, REG2)))
+		ZDIVCHECKTMP=libbaltcalc.btdivcpu(REG1, REG2)
+		if ZDIVCHECKTMP=="ZDIV":
+			stopflag=1
+			abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
+			abt=libSBTCVM.abtslackline(abt, "DIVIDE BY ZERO")
+			vmexeclog("VMSYSHALT: DIVIDE BY ZERO")
+			REG1=="000000000"
+		else:
+			REG1 = (libSBTCVM.trunkto6math(ZDIVCHECKTMP))
+		
 	#set REG1
 	elif curinst=="---0+-":
 		REG1 = curdata

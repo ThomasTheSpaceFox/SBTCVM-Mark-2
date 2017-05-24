@@ -8,19 +8,22 @@ import libSBTCVM
 import libbaltcalc
 pygame.font.init()
 pygame.mixer.init()
+
+#libvmui
+#this library handles many graphical tasks, as well as containing
+#functions for many tools and features found in the menus and in MK2-TOOLS
+#even the VM pause menu is in here.
+
+#fonts
 simplefont = pygame.font.SysFont(None, 16)
 simplefontA = pygame.font.SysFont(None, 20)
 simplefontB = pygame.font.SysFont(None, 22)
 simplefontC = pygame.font.SysFont(None, 32)
-#used for smaller data displays (inst. data etc.)
-#smldispfont = pygame.font.SysFont(None, 16)
 smldispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
-#used in larger data displays (register displays, etc.)
-#lgdispfont = pygame.font.SysFont(None, 20)
 lgdispfont = pygame.font.Font(os.path.join("VMSYSTEM", "SBTCVMreadout.ttf"), 16)
 
-#these use the same squarewave generator as SBTCVM's buzzer.
 
+#these use the same squarewave generator as SBTCVM's buzzer.
 #sound A
 menusound1=pygame.mixer.Sound(libSBTCVM.autosquare(300, 0.1))
 #menu select sound
@@ -51,6 +54,23 @@ expaumenudesc=["Return To Pause Menu", "A balanced Ternary clock"]
 expaumenucnt=2
 expmenudesc="Pause Menu | extras"
 #-----
+
+
+#used by tools launcher to draw backgrounds as needed.
+def toolsscreen(mode):
+	if mode==1:
+		screensurf.blit(vmbg, (0, 0))
+		screensurf.blit(vmtoolsbg, (0, 0))
+		dummyreadouts()
+		menulabel=simplefontC.render("Tools and Utilities", True, (0, 0, 0), (255, 255, 255))
+		screensurf.blit(menulabel, (158, 4))
+	if mode==2:
+		screensurf.blit(vmtoolsbgfull, (0, 0))
+		menulabel=simplefontC.render("Tools and Utilities", True, (0, 0, 0), (255, 255, 255))
+		screensurf.blit(menulabel, (158, 4))
+	if mode==3:
+		screensurf.blit(vmbg, (0, 0))
+		dummyreadouts()
 
 #used to show placeholder readouts.
 def dummyreadouts():
@@ -236,14 +256,19 @@ def initui(scsurf, kiomode):
 	global LEDGREENOFF
 	global GFXLOGO
 	global CREDITHBAR
+	global vmtoolsbg
+	global vmtoolsbgfull
+	global vmbg
 	KIOSKMODE=kiomode
-	#vmlaunchbg=pygame.image.load(os.path.join('GFX', 'VM-LAUNCH.png')).convert()
+	vmtoolsbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-TOOLS.png')).convert_alpha()
+	vmtoolsbgfull=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-TOOLS_FULL.png')).convert()
+	vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 	vmlaunchbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-PAUSEMASK.png')).convert_alpha()
-	GNDlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampGND.png'))
-	POSlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampPOS.png'))
-	NEGlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampNEG.png'))
-	GFXLOGO=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'GFXLOGO.png'))
-	CREDITHBAR=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'CREDITHBAR.png'))
+	GNDlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampGND.png')).convert()
+	POSlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampPOS.png')).convert()
+	NEGlamp=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), '3lampNEG.png')).convert()
+	GFXLOGO=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'GFXLOGO.png')).convert()
+	CREDITHBAR=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'CREDITHBAR.png')).convert()
 	#indicator lamps
 	#GREEN
 	#LEDGREENON=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'LAMP-GREEN.png')).convert()

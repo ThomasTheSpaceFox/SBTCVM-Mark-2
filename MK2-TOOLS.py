@@ -9,6 +9,8 @@ import VMSYSTEM.libbaltcalc as libbaltcalc
 import VMSYSTEM.libvmui as vmui
 #SBTCVM MK2 Graphical Tools launcher
 
+
+
 try:
 	cmd=sys.argv[1]
 except:
@@ -17,15 +19,20 @@ if cmd=="-h" or cmd=="--help" or cmd=="help":
 	print '''This is MK2-TOOLS.py, a command line tools launcher for SBTCVM Mark 2
 commands:
 MK2-RUN.py -h (--help) (help): this text
-MK2-RUN.py -v (--version)
-MK2-RUN.py -a (--about): about MK2-RUN.py
-MK2-RUN.py about       : run menu about screen.
-MK2-RUN.py btclock     : run Balanced Ternary clock.
-MK2-RUN.py pause       : test pause menu
-
+MK2-RUN.py -v (--version)    : version information.
+MK2-RUN.py -a (--about)      : about MK2-RUN.py
+MK2-RUN.py -l (--list)       : list all tools and their toolnames.
+MK2-RUN.py [toolname]        : run tool
 '''
 elif cmd=="-v" or cmd=="--version":
 	print "SBTCVM MK2-TOOLS tool launcher v2.0.1"
+elif cmd=="-l" or cmd=="--list":
+	print '''List of tools:
+[Toolname]  |  [Tool description]
+-----------------------------------------------
+about       :  show about screen shown in menus
+btclock     :  show a balanced ternary clock
+pause       :  test VM pause menu'''
 elif cmd=="-a" or cmd=="--about":
 	print '''#SBTCVM Mark 2 tool launcher
 
@@ -55,32 +62,24 @@ elif cmd=="about" or cmd=="btclock" or cmd=="pause":
 	pygame.font.init()
 	pygame.mixer.init()
 	pygame.display.set_caption("SBTCVM Mark 2 | Tools", "SBTCVM Mark 2 | Tools")
-	#put SBTCVM in kiosk mode.
-	#this adjusts how SBTCVM works in certain cases to better mesh with the menu system.
-	#such as disabling the wait-on-exit feature.
 	GLOBKIOSK=1
 	windowicon=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'icon64.png'))
 	pygame.display.set_icon(windowicon)
 	#screen fonts
-	simplefont = pygame.font.SysFont(None, 16)
-	simplefontA = pygame.font.SysFont(None, 20)
-	simplefontB = pygame.font.SysFont(None, 22)
-	simplefontC = pygame.font.SysFont(None, 32)
 	screensurf=pygame.display.set_mode((800, 600))
+	#init VMUI library.
 	vmui.initui(screensurf, 1)
-	vmtoolsbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VM-TOOLS.png')).convert_alpha()
-	vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
-	screensurf.blit(vmbg, (0, 0))
-	screensurf.blit(vmtoolsbg, (0, 0))
-	vmui.dummyreadouts()
-	menulabel=simplefontC.render("Tools and Utilities", True, (0, 0, 0), (255, 255, 255))
-	screensurf.blit(menulabel, (158, 4))
+	
 	if cmd=="about":
+		vmui.toolsscreen(1)
 		vmui.creditsscroll()
 	if cmd=="btclock":
+		vmui.toolsscreen(1)
 		vmui.BTCLOCKDATE()
 	if cmd=="pause":
 		print "launching SBTCVM VM pause menu."
+		#pause menu needs readouts area to be drawn.
+		vmui.toolsscreen(3)
 		pmenret=vmui.pausemenu()
 		if pmenret=="c":
 			print "Pause menu reports a continue VM"

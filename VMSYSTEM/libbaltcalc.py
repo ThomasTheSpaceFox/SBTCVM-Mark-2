@@ -1,18 +1,12 @@
 #!/usr/bin/env python
 import math
-#HELPTEXT = ('''commands:
-#BTTODEC: convert a number into balancet
-#''')
-# syntax info:
-#trit order is least signifigant digit on right
-#1=+
-#0=0
-#T=-
+
+
 
 def numflip(numtoflip):
 	return(numtoflip[::-1])
 
-#converts balanced ternary numbers to decimal.
+#converts balanced ternary integers to decimal.
 #this is a core function to the library.
 def BTTODEC(NUMTOCONV1):
 	FLIPPEDSTR1=(numflip(NUMTOCONV1))
@@ -27,7 +21,7 @@ def BTTODEC(NUMTOCONV1):
 		EXTRAP1 += 1
 	return (SUMDEC1)
 
-#converts decimal numbers to balanced ternary.
+#converts decimal integers to balanced ternary.
 #this is a core function to the library.
 def DECTOBT(NUMTOCONV1):
 	digbat=""
@@ -71,22 +65,36 @@ def btsub(numA, numB):
 	return(btRes)
 
 #note that values may not be exact. this is due to that the libbaltcalc currently handles integers only.
-def btdev(numA, numB):
+
+def btdivcpu(numA, numB):
 	numAcon=BTTODEC(numA)
 	numBcon=BTTODEC(numB)
 	try:
 		decRes=int(numAcon / numBcon)
 	except ZeroDivisionError:
-		decRes=0
+		#Special zero divisoon return for SBTCVM to detect. "ZDIV"
+		return "ZDIV"
+	btRes=(DECTOBT(decRes))
+	return(btRes)
+	
+def btdiv(numA, numB):
+	numAcon=BTTODEC(numA)
+	numBcon=BTTODEC(numB)
+	try:
+		decRes=int(numAcon / numBcon)
+	except ZeroDivisionError:
+		#decRes=0
+		return "Zero Division Error"
 	btRes=(DECTOBT(decRes))
 	return(btRes)
 
-btdiv=btdev
+
+btdev=btdiv
 
 
 
 
-#inverts the positive and negative numerals in a balanced ternary number, 
+#inverts the positive and negative numerals in a balanced ternary integer, 
 #(ie 1T0T would become T101 and vice versa)
 def BTINVERT(numtoinvert):
 	BTINV1 = numtoinvert.replace("-", "P").replace("+", "-").replace("P", "+")
@@ -119,9 +127,8 @@ def trailzerostrip(numtostri):
 
 
 
-#prodotype addition function.
+#prototype addition function.
 #preserved for its interesting logic
-#eventually will add longer balanced ternary numbers.
 def btaddreal(numA, numB):
 	#check to ensure any final carries are preformed.
 	numA=("E" + numA)
