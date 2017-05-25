@@ -68,13 +68,14 @@ screensurf=pygame.display.set_mode((800, 600))
 
 vmbg=pygame.image.load(os.path.join(os.path.join('VMSYSTEM', 'GFX'), 'VMBG.png')).convert()
 screensurf.blit(vmbg, (0, 0))
+#init in non-kiosk mode for now, SBTCVM will re-init once it knows the kioskmode state.
 vmui.initui(screensurf, 0)
 vmui.dummyreadouts()
 pygame.display.update()
 libSBTCVM.glyphoptim(screensurf)
 pygame.display.set_caption("SBTCVM Mark 2", "SBTCVM Mark 2")
 pygame.font.init()
-#used for TTY
+
 simplefont = pygame.font.SysFont(None, 16)
 #used for smaller data displays (inst. data etc.)
 #smldispfont = pygame.font.SysFont(None, 16)
@@ -133,7 +134,7 @@ TROMC=("DEFAULT.TROM")
 TROMD=("DEFAULT.TROM")
 TROME=("DEFAULT.TROM")
 TROMF=("DEFAULT.TROM")
-CPUWAIT=(0.005)
+CPUWAIT=(0.0005)
 stepbystep=0
 scconf=open(os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'r')
 exconf=compile(scconf.read(), os.path.join("VMSYSTEM", 'BOOTUP.CFG'), 'exec')
@@ -148,9 +149,7 @@ else:
 	userscconfcreate=open(os.path.join("VMUSER", "USERBOOT.CFG"), "w")
 	userscconfcreate.write(libSBTCVM.USERCONFTEMP)
 	userscconfcreate.close()
-	userscconf=open(os.path.join("VMUSER", "USERBOOT.CFG"), "r")
-	userexconf=compile(userscconf.read(), os.path.join("VMUSER", 'USERBOOT.CFG'), 'exec')
-	runuserconf=1
+	runuserconf=0
 DEFAULTSTREG="intro.streg"
 tuibig=1
 logromexit=0
