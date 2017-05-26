@@ -421,6 +421,8 @@ exlogclockticnum=0
 #	print str(BTSTACK[f].qxtact) + " " + f	
 print "SBTCVM Mark 2 Ready. the VM will now begin."
 #vmexeclog("SBTCVM Mark 2 Ready. the VM will now begin.")
+initaltime=time.time()
+
 while stopflag==0:
 	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
 	curdata=(libtrom.tromreaddata(EXECADDR,ROMFILE))
@@ -429,7 +431,7 @@ while stopflag==0:
 	#draw Background
 	if vmexeclogflg==1:
 		exlogclockticnum += 1
-		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum))
+		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + str(time.time() - initaltime))
 	if disablereadouts==0 or stepbystep==1:
 		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
