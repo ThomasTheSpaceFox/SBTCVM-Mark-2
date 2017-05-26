@@ -32,7 +32,9 @@ elif cmd=="-l" or cmd=="--list":
 -----------------------------------------------
 about       :  show about screen shown in menus
 btclock     :  show a balanced ternary clock
-pause       :  test VM pause menu'''
+pause       :  test VM pause menu
+namecrunch [string] : test namecrunch function'''
+
 elif cmd=="-a" or cmd=="--about":
 	print '''#SBTCVM Mark 2 tool launcher
 
@@ -56,7 +58,7 @@ v2.0.1
 '''
 elif cmd==None:
 	print "tip: use MK2-TOOLS.py -h for help."
-elif cmd=="about" or cmd=="btclock" or cmd=="pause":
+elif cmd=="about" or cmd=="btclock" or cmd=="pause" or cmd=="namecrunch":
 	print "SBTCVM Graphical Tools launcher starting..."
 	pygame.display.init()
 	pygame.font.init()
@@ -73,6 +75,13 @@ elif cmd=="about" or cmd=="btclock" or cmd=="pause":
 	if cmd=="about":
 		vmui.toolsscreen(1)
 		vmui.creditsscroll()
+	if cmd=="namecrunch":
+		try:
+			ncruncharg=sys.argv[2]
+		except IndexError:
+			ncruncharg="thisisatest"
+		print ncruncharg
+		print libSBTCVM.namecrunch(ncruncharg, "-tools-test.log")
 	if cmd=="btclock":
 		vmui.toolsscreen(1)
 		vmui.BTCLOCKDATE()

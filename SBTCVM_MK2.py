@@ -164,8 +164,7 @@ if runuserconf==1:
 	exec(userexconf)
 	userscconf.close()
 
-if vmexeclogflg==1:
-	vmexlogf=open(os.path.join("CAP", "vmexeclog.log"), "w")
+
 
 def vmexeclog(texttolog):
 	if vmexeclogflg==1:
@@ -220,9 +219,11 @@ TTYrenderflg="0"
 
 if 'GLOBKIOSK' in globals():
 	print "RUNNING IN KIOSK MODE."
-	KIOSKMODE=1
+	KIOSKMODE=GLOBKIOSK
 else:
 	KIOSKMODE=0
+
+
 	
 #initalize VMUI system
 vmui.initui(screensurf, KIOSKMODE)
@@ -231,6 +232,8 @@ if 'GLOBRUNFLG' in globals():
 	
 	TROMA=GLOBRUNFLG
 	libtrom.redefA(TROMA)
+	runtype=0
+	LOGBASE=TROMA
 	print ("GLOBRUNFLG found... \n running trom: \"" + TROMA + "\" as TROMA")
 
 
@@ -250,6 +253,8 @@ elif 'GLOBSTREG' in globals():
 	libtrom.redefD(TROMA)
 	libtrom.redefE(TROMA)
 	libtrom.redefF(TROMA)
+	runtype=1
+	LOGBASE=GLOBSTREG
 	pygame.display.set_caption("SBTCVM Mark 2 | " + streg_subtitle, "SBTCVM Mark 2 | " + streg_subtitle)
 	print ("GLOBSTREG found... \n Starting SBTCVM with setup in streg file: \"" + GLOBSTREG + "\"")
 else:
@@ -266,8 +271,19 @@ else:
 	libtrom.redefD(TROMA)
 	libtrom.redefE(TROMA)
 	libtrom.redefF(TROMA)
+	runtype=1
+	LOGBASE=DEFAULTSTREG
 	pygame.display.set_caption("SBTCVM Mark 2 | " + streg_subtitle, "SBTCVM Mark 2 | " + streg_subtitle)
 	print ("nither GLOBSTREG or GLOBRUNFLG have been found... \nStarting SBTCVM with setup in default streg file: \"" + DEFAULTSTREG + "\"")
+if vmexeclogflg==1:
+	vmexlogf=open(os.path.join("CAP", libSBTCVM.namecrunch(LOGBASE, "-vmexeclog.log")), "w")
+
+if 'GLOBLOGEXEC' in globals():
+	print "RUNNING IN KIOSK MODE."
+	if GLOBLOGEXEC==1:
+		vmexeclogflg=1
+		vmexlogf=open(os.path.join("CAP", libSBTCVM.namecrunch(LOGBASE, "-vmexeclog.log")), "w")
+
 #tritlength defaults
 tritloadlen=9
 tritoffset=0

@@ -143,13 +143,14 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 		#print "ERROR: file not found, or is not a tasm file STOP"
 		sys.exit("ERROR: SBTCVM assembler was unable to load the specified filename. STOP")
 	#generate a name for logs in case its needed
-	logsub=arg.replace("/", "-")
-	logsub=logsub.replace("~", "")
-	logsub=logsub.split(".")
+	#logsub=arg.replace("/", "-")
+	#logsub=logsub.replace("~", "")
+	#logsub=logsub.split(".")
+	logsub=libSBTCVM.namecrunch(arg, "-tasm-comp.log")
 	#detect if command line options specify tracelog compile mode:
 	if cmd=="-t" or cmd=="--tracecompile":
 		tracecomp=1
-		compilerlog=open(os.path.join('CAP', logsub[0] + "-tasm-comp.log"), "w")
+		compilerlog=open(os.path.join('CAP', logsub), "w")
 	else:
 		tracecomp=0
 	#arg=arg.replace("./", "")
@@ -1006,7 +1007,7 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 	print ("SBTCVM Mk 2 assembly file \"" + assmflename + "\" has been compiled into: \"" + outfile + "\"")
 	complog("SBTCVM Mk 2 assembly file \"" + assmflename + "\" has been compiled into: \"" + outfile + "\"\n")
 	if tracecomp==1:
-		print "tracelog enabled. log file: \"" + (os.path.join('CAP', logsub[0] + "-tasm-comp.log")) + "\""
+		print "tracelog enabled. log file: \"" + (os.path.join('CAP', logsub)) + "\""
 	print ("total instructions: " + str(instcnt))
 	complog("total instructions: " + str(instcnt) + "\n")
 	print ("extra space: " + str(instextra))

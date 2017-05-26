@@ -21,6 +21,7 @@ MK2-RUN.py -r (--run) [trom file]: run a trom as TROMA
 MK2-RUN.py [trom file]: run a trom as TROMA
 MK2-RUN.py -r (--run) [streg file]: run specified streg file.
 MK2-RUN.py [streg file]: run specified streg file.
+MK2-RUN.py -le (--log_exec): same as -r but activates exec logging.
 
 note:
 MK2-RUN.py is equipped with a searching capacity. 
@@ -52,12 +53,14 @@ v2.0.1
 '''
 elif cmd==None:
 	print "tip: use MK2-RUN.py -h for help."
-elif cmd=="-r" or cmd=="--run" or cmd[0]!="-":
+elif cmd=="-r" or cmd=="--run" or cmd[0]!="-" or cmd=="-le" or cmd=="--log_exec":
 	if cmd[0]!="-":
 		arg=sys.argv[1]
 	else:
 		arg=sys.argv[2]
 		print arg
+	if cmd=="-le" or cmd=="--log_exec":
+		GLOBLOGEXEC=1
 	lowarg=arg.lower()
 	argisfile=0
 	qfilewasvalid=0

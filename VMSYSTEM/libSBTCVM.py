@@ -28,6 +28,23 @@ import os
 #  You should have received a copy of the GNU General Public License
 #  along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
+valfchars=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "_"] 
+
+#used to create things like log names.
+#such as asssembler tracelogs and VM execlogs
+def namecrunch(fnameraw, apendtoend):
+	namx=fnameraw.lower()
+	namx=namx.replace("/", "-")
+	namx=namx.replace("\\", "-")
+	namx=namx.replace("~", "")
+	#namx=namx.split(".")
+	namq=namx
+	namn=namq
+	for RENX in namq:
+		if RENX not in valfchars:
+			namn=namn.replace(RENX, "_")
+	return (namn + apendtoend)
+
 def trunkto4(code):
 	codecnt=0
 	for fel in code:

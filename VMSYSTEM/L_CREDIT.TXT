@@ -22,7 +22,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SBTCVM Mark 2. If not, see <http://www.gnu.org/licenses/>
 
--<HBAR>-
+
+<><><><> Development Team <><><><>
+
 
 Lead Developer:
 Thomas Leathers
@@ -35,6 +37,11 @@ Thomas Leathers
 -<HBAR>-
 
 Utilities and systems programming:
+Thomas Leathers
+
+-<HBAR>-
+
+STREG and TROM programming:
 Thomas Leathers
 
 -<HBAR>-
