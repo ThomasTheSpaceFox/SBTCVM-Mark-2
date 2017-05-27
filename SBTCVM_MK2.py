@@ -431,7 +431,8 @@ while stopflag==0:
 	#draw Background
 	if vmexeclogflg==1:
 		exlogclockticnum += 1
-		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + str(time.time() - initaltime))
+		exlogcurtime=(time.time() - initaltime)
+		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + format((exlogcurtime), '.11f'))
 	if disablereadouts==0 or stepbystep==1:
 		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
@@ -1862,7 +1863,13 @@ if logIOexit==1:
 #"exitloop"
 if vmexeclogflg==1:
 	vmexeclog("--END OF VM EXEC--")
+	vmexeclog("final clock tic: " + str(exlogclockticnum) + " |final time passed: " + format((exlogcurtime), '.11f'))
+	vmexeclog("aprox operations/second: " + format((exlogclockticnum / exlogcurtime), '.11f'))
 	vmexlogf.close()
+#if vmexeclogflg==1:
+	#exlogclockticnum += 1
+	#exlogcurtime=time.time()
+	
 if KIOSKMODE==0:
 	evhappenflg3=0
 	while evhappenflg3==0:
