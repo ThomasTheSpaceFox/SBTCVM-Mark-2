@@ -480,6 +480,9 @@ USERCONFTEMP='''#This is the USER config file.
 #your PC has the processing power.
 #CPUWAIT=(0.0005)
 
+#default setting for readout updates
+#setting this to 1 may speed up SBTCVM on some computers.
+#disablereadouts=0
 
 #LOGGING RELATED SETTINGS BELOW
 

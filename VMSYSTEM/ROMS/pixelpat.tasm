@@ -1,11 +1,10 @@
 IOread1|>random
 setdata|>idlelooplinevec2
 #SBTCVM demo
-#"dazzle"
 TTYmode|27
 TTYlinedraw|on
 textstart
-Dazzle
+Pixel Patterns
 An SBTCVM Mark 2 Demo
 press space for new pattern :D
 q to quit
@@ -17,32 +16,28 @@ setkeyint|:q
 keyint|>quit
 
 #set base.
-setreg1|+++++++++|space
-#get random 3-trit integer integer
-offsetlen|on,0,3
+null||space
+setreg1|+++++++++
+colorfill|---------
+#get random 6-trit integer
+offsetlen|on,0,6
 IOread2|>random
 offsetlen|off,0,9
 #main loop
-null||menuloop2
-null
-null
-null
-null
 #add random integer to base
-add
-#write current reg1 to monorect instruction.
-#make color rect and color vect coordinates the inverse of each other.
+add||menuloop2
+#make pixel coordinates the inverse of each other.
 setdata|>loopfidget2
 invert1
 setdata|>loopfidget4
 invert1
 
-setcolorvect||loopfidget4
 #set color register
 setdata|>idlelooplinevec2
 setcolorreg||idlelooplinevec2
-#draw rect
-colorrect||loopfidget2
+#draw pixels
+colorpixel||loopfidget4
+colorpixel||loopfidget2
 #goto beginning of main loop
 gotodata|>menuloop2
 null||quit

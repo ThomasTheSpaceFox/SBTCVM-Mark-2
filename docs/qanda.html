@@ -27,7 +27,7 @@
             <td width="50%" valign="top">Q1:<br>
               SBTCVM looks complicated... Where should I start?<br>
             </td>
-            <td valign="top">A1:<br>
+            <td valign="top">A:<br>
               Well... You are looking in the right place. The HTML
               documentation is the best place to start.&nbsp; A decent
               understanding of balanced ternary won't hurt.&nbsp; Also,
@@ -42,7 +42,7 @@
             <td width="50%" valign="top">Q2:<br>
               I want to help. What can I do?<br>
             </td>
-            <td valign="top">A2:<br>
+            <td valign="top">A:<br>
               Well. that depends... best place to start, is reading <a
                 href="hthsbtcvm.html">this page.</a><br>
             </td>
@@ -51,10 +51,60 @@
             <td width="50%" valign="top">Q3:<br>
               What exactly is SBTCVM again?<br>
             </td>
-            <td valign="top">A3:<br>
+            <td valign="top">A:<br>
               A balanced ternary virtual machine written in
               python.&nbsp; It's not a simple program. Not a common type
               of program either.<br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">Q4:<br>
+              How Fast is SBTCVM?<br>
+            </td>
+            <td valign="top">A:<br>
+              Fast enough to run hundreds of operations a second.&nbsp;
+              Its exact speed will vary. <br>
+              (if your curious, try running benchmark1.trom with
+              MK2-RUN.py's -le option, and look at the bottom of the
+              resulting execution log in the CAP directory.)<br>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top">Q5:<br>
+              How does SBTCVM work?<br>
+              Q6:<br>
+              Why is SBTCVM so fast?<br>
+              Q7:<br>
+              How is this even possible in python again?<br>
+              Q8: <br>
+              How does SBTCVM and its utilities preform balanced ternary
+              integer mathematics?<br>
+              <br>
+            </td>
+            <td valign="top">A:<br>
+              SBTCVM uses a instruction level tactic towards its VM
+              design. meaning it interprets the VM program code using
+              high level logic, Thus avoiding slow, complex, circuit
+              emulation.<br>
+              <br>
+              That's why SBTCVM is able to get such high speed
+              operation. its mimicking the functionality of a mythical
+              balanced ternary microprocessor and accompanying computer
+              that doesn't even exist as a circuit diagram at this
+              point.<br>
+              <br>
+              of course SBTCVM needs some special support code to do
+              that. and one of the key libraries, in fact arguably the
+              most important, libbaltcalc. <br>
+              <br>
+              libbaltcalc of course, works by using high-speed balanced
+              ternary to decimal conversion, and decimal to balanced
+              ternary conversion, to preform mathematical operations in
+              decimal, thus using python's existing mathematics routines
+              to quickly preform operations. those conversion routines
+              are also used quite heavily by SBTCVM.<br>
+              <br>
+              <br>
             </td>
           </tr>
         </tbody>

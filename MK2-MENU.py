@@ -80,10 +80,10 @@ menusound3=pygame.mixer.Sound(libSBTCVM.autosquare(280, 0.1))
 #menusound2.play()
 
 #demomenu
-demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower", "Dazzle"]
-demomenucode=["MAIN", "COLMAP", "FIB", "FLOWER", "DEMODAZ"]
-demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence.", "See an example of image conversion.", "A randomly seeded, endless rainbow box demo."]
-demomenucnt=5
+demomenulst=["Main Menu", "6-trit Color map", "Fibonacci", "Flower", "Dazzle", "Pixel Patterns", "Ray Burst"]
+demomenucode=["MAIN", "COLMAP", "FIB", "FLOWER", "DEMODAZ", "DEMOPIXPAT", "DEMORAYBURST"]
+demomenudesc=["Return to main menu.", "See a 6-trit color map be calculated.", "The Fibonacci Sequence.", "See an example of image conversion.", "A randomly seeded, endless rainbow box demo.", "A randomly seeded, pixel patterns demo.", "A randomly seeded, Ray 'burst' demo."]
+demomenucnt=7
 
 #getstartmenu
 stmenulst=["Main Menu", "Welcome",  "Intro Program"]
@@ -238,6 +238,24 @@ while qflg!=1:
 			retfromexec=1
 		if curmenucode[(menuhighnum - 1)]=="DEMODAZ":
 			GLOBSTREG="dazzle.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
+			exec(EXECVM)
+			retfromexec=1
+		if curmenucode[(menuhighnum - 1)]=="DEMOPIXPAT":
+			GLOBSTREG="pixelpat.streg"
+			VMFILE=open('SBTCVM_MK2.py', 'r')
+			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
+			print "----------------"
+			print "starting VM..."
+			print "----------------"
+			exec(EXECVM)
+			retfromexec=1
+		if curmenucode[(menuhighnum - 1)]=="DEMORAYBURST":
+			GLOBSTREG="rayburst.streg"
 			VMFILE=open('SBTCVM_MK2.py', 'r')
 			EXECVM=compile(VMFILE.read(), 'SBTCVM_MK2.py', 'exec')
 			print "----------------"

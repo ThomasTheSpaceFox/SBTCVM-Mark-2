@@ -821,9 +821,9 @@ elif cmd=="-c" or cmd=="--compile" or cmd[0]!="-" or cmd=="-t" or cmd=="--tracec
 				outn.write("-0-+++" + instdat + "\n")
 				instcnt += 1
 			else:
-				if instgpe[1]=="enter":
+				if instgpe[1]=="space":
 					ksc=" "
-				elif instgpe[1]=="space":
+				elif instgpe[1]=="enter":
 					ksc="\n"
 				else:
 					ksc=(instgpe[1])[0]
