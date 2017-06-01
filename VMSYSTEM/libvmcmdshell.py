@@ -32,6 +32,7 @@ btdec  : convert a balanced ternary integer to decimal
 decbt  : convert a decimal integer to balanced ternary
 invert : invert a balanced ternary integer
 mpi    : calculate the Max Positive Integer for a given number of trits
+mni    : calculate the Max Negative Integer for a given number of trits
 mcv    : calculate the Max Combinations Value for a given number of trits
 '''
 

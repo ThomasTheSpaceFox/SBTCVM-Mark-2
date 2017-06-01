@@ -2,6 +2,7 @@
 
 #import VMSYSTEM.libSBTCVM as libSBTCVM
 import VMSYSTEM.libbaltcalc as libbaltcalc
+from VMSYSTEM.libbaltcalc import btint
 import VMSYSTEM.libvmcmdshell as cmdshell
 import sys
 import os
@@ -102,19 +103,20 @@ elif cmd==None:
 		if (usercalllst[0]).lower()=="btdec":
 			try:
 				arg=usercalllst[1]
-				print libbaltcalc.BTTODEC(arg)
+				print btint(arg).dec()
 			except IndexError:
 				print "please specify one balanced ternary integer"
 		if (usercalllst[0]).lower()=="invert":
 			try:
 				arg=usercalllst[1]
-				print libbaltcalc.BTINVERT(arg)
+				print btint(arg).invert()
 			except IndexError:
 				print "please specify one balanced ternary integer"
 		if (usercalllst[0]).lower()=="decbt":
 			try:
 				arg=usercalllst[1]
-				print libbaltcalc.DECTOBT(int(arg))
+				#print libbaltcalc.DECTOBT(int(arg))
+				print btint(int(arg))
 			except IndexError:
 				print "please specify one decimal integer"
 			except TypeError:
@@ -125,7 +127,18 @@ elif cmd==None:
 			try:
 				arg=usercalllst[1]
 				#calculate the MPI of the user-specifed number of trits
-				print int(((3**(int(arg)))-1)/2)
+				print libbaltcalc.mpi(int(arg))
+			except IndexError:
+				print "please specify one decimal integer"
+			except TypeError:
+				print "Please specify one decimal integer."
+			except ValueError:
+				print "Please specify one decimal integer."
+		if (usercalllst[0]).lower()=="mni":
+			try:
+				arg=usercalllst[1]
+				#calculate the MPI of the user-specifed number of trits
+				print libbaltcalc.mni(int(arg))
 			except IndexError:
 				print "please specify one decimal integer"
 			except TypeError:
@@ -135,7 +148,7 @@ elif cmd==None:
 		if (usercalllst[0]).lower()=="mcv":
 			try:
 				arg=usercalllst[1]
-				print int(3**(int(arg)))
+				print libbaltcalc.mcv(int(arg))
 			except IndexError:
 				print "please specify one decimal integer"
 			except TypeError:
@@ -149,7 +162,7 @@ elif cmd==None:
 				arg1=arglst[0]
 				arg2=arglst[1]
 				
-				print libbaltcalc.btadd(arg1, arg2)
+				print (btint(arg1) + btint(arg2))
 			except IndexError:
 				print "please specify two balanced ternary integers separated by a space."
 		if (usercalllst[0]).lower()=="mul":
@@ -159,7 +172,7 @@ elif cmd==None:
 				arg1=arglst[0]
 				arg2=arglst[1]
 				
-				print libbaltcalc.btmul(arg1, arg2)
+				print (btint(arg1) * btint(arg2))
 			except IndexError:
 				print "please specify two balanced ternary integers separated by a space."
 		if (usercalllst[0]).lower()=="sub":
@@ -169,7 +182,7 @@ elif cmd==None:
 				arg1=arglst[0]
 				arg2=arglst[1]
 				
-				print libbaltcalc.btsub(arg1, arg2)
+				print (btint(arg1) - btint(arg2))
 			except IndexError:
 				print "please specify two balanced ternary integers separated by a space."
 		if (usercalllst[0]).lower()=="div":
@@ -179,7 +192,9 @@ elif cmd==None:
 				arg1=arglst[0]
 				arg2=arglst[1]
 				
-				print libbaltcalc.btdiv(arg1, arg2)
+				print (btint(arg1) // btint(arg2))
+			except ZeroDivisionError:
+				print "ERROR: DIVISION BY ZERO"
 			except IndexError:
 				print "please specify two balanced ternary integers separated by a space."
 		
