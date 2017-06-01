@@ -35,6 +35,7 @@ print "SBTCVM Mark 2 Starting up..."
 
 
 #thread data storage class
+#used to store thread-specific data in BTSTACK dictionary when thread is inactive.
 class BTTHREAD:
 	def __init__(self, qxtactg, EXECADDRg, REG1g, REG2g, contaddrg, EXECADDRrawg, regsetpointg, TTYBGCOLREGg, TTYBGCOLg, colvectorregg, monovectorregg, colorregg, tritloadleng, tritoffsetg, tritdestgndg, threadrefg, ROMFILEg, ROMLAMPFLGg):
 		self.qxtact=qxtactg
@@ -117,7 +118,7 @@ abtclear=["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
 #1=72x27 (9x18 chars)
 
 TTYMODE=0
-TTYSIZE=0
+TTYSIZE=1
 pygame.mixer.init()
 
 extradraw=0
@@ -338,7 +339,8 @@ if stepbystep==1:
 else:
 	STEPLED=LEDGREENOFF
 
-
+#keep unused events out of queue
+pygame.event.set_allowed([QUIT, KEYDOWN])
 
 libSBTCVMsurf=pygame.Surface((648, 486)).convert()
 libSBTCVMsurf.fill(TTYBGCOL)
@@ -350,7 +352,7 @@ RAMbank = {}
 
 
 
-
+#build IObus dictionary.
 IOgen="---------"
 RAMbank["---------"] = "000000000"
 while IOgen!="+++++++++":

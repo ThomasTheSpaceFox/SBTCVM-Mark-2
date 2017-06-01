@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-import math
 
-
+#v3.0.0
 
 def numflip(numtoflip):
 	return(numtoflip[::-1])
@@ -70,7 +69,7 @@ def btdivcpu(numA, numB):
 	numAcon=BTTODEC(numA)
 	numBcon=BTTODEC(numB)
 	try:
-		decRes=int(numAcon / numBcon)
+		decRes=(numAcon // numBcon)
 	except ZeroDivisionError:
 		#Special zero divisoon return for SBTCVM to detect. "ZDIV"
 		return "ZDIV"
@@ -80,18 +79,25 @@ def btdivcpu(numA, numB):
 def btdiv(numA, numB):
 	numAcon=BTTODEC(numA)
 	numBcon=BTTODEC(numB)
-	try:
-		decRes=int(numAcon / numBcon)
-	except ZeroDivisionError:
-		#decRes=0
-		return "Zero Division Error"
+	decRes=(numAcon // numBcon)
 	btRes=(DECTOBT(decRes))
 	return(btRes)
 
-
+def btdivclass(numA, numB):
+	numAcon=BTTODEC(numA)
+	numBcon=BTTODEC(numB)
+	decRes=(numAcon // numBcon)
+	btRes=(DECTOBT(decRes))
+	return(btRes)
 btdev=btdiv
 
-
+def mpi(tritlen):
+	return (((3**(tritlen))-1)//2)
+def mni(tritlen):
+	return ( - ((3**(tritlen))-1)//2)
+def mcv(tritlen):
+	return (3**(tritlen))
+	
 
 
 #inverts the positive and negative numerals in a balanced ternary integer, 
@@ -124,207 +130,6 @@ def trailzerostrip(numtostri):
 	#print (numretbankd.replace("T", "-").replace("1", "+"))
 	return (numretbankd.replace("T", "-").replace("1", "+"))
 
-
-
-
-#prototype addition function.
-#preserved for its interesting logic
-def btaddreal(numA, numB):
-	#check to ensure any final carries are preformed.
-	numA=("E" + numA)
-	numB=("E" + numB)
-	numA=(numflip(numA))
-	numB=(numflip(numB))
-	numAcnt=0
-	numBcnt=0
-	curregA=1
-	curregB=1
-	carry="0"
-	eotA=0
-	eotB=0
-	resbt=""
-	for anA in numA:
-		numAcnt += 1
-	for anB in numB:
-		numBcnt += 1
-	if (numAcnt > numBcnt):
-		forlist = numA
-		overload=numAcnt
-	if (numAcnt < numBcnt):
-		forlist = numB
-		overload=numBcnt
-	if (numAcnt==numBcnt):
-		forlist = numA
-		overload=numAcnt
-	overcnt=1
-	for dxpink in forlist:
-		loopregA=1
-		loopregB=1
-		for Areg in numA:
-			
-			if curregA==loopregA:
-				returnedA=1
-				Aval = Areg
-				break
-			loopregA += 1
-		for Breg in numB:
-			
-			if curregB==loopregB:
-				returnedB=1
-				Bval = Breg
-				break
-			loopregB += 1
-		#print ("A:" + Aval + str(returnedA))
-		#print ("B:" + Bval + str(returnedB))
-		#Aval=+ rules:
-		if Aval=="E":
-			eotA=1
-			Aval="0"
-		if Bval=="E":
-			eotB=1
-			Bval="0"
-		if (Aval=="+" and Bval=="+"):
-			if carry=="0":
-				resbt = ("-" + resbt)
-				carry="+"
-			elif carry=="+":
-				resbt = ("0" + resbt)
-				carry="+"
-			elif carry=="-":
-				resbt = ("+" + resbt)
-				carry="0"
-		elif (Aval=="+" and Bval=="0"):
-			if carry=="0":
-				resbt = ("+" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("-" + resbt)
-				carry="+"
-			elif carry=="-":
-				resbt = ("0" + resbt)
-				carry="0"
-		elif (Aval=="+" and Bval=="-"):
-			if carry=="0":
-				resbt = ("0" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("+" + resbt)
-				carry="0"
-			elif carry=="-":
-				resbt = ("-" + resbt)
-				carry="0"
-		#Aval=- rules
-		elif (Aval=="-" and Bval=="-"):
-			if carry=="0":
-				resbt = ("+" + resbt)
-				carry="-"
-			elif carry=="-":
-				resbt = ("0" + resbt)
-				carry="-"
-			elif carry=="+":
-				resbt = ("-" + resbt)
-				carry="0"
-		elif (Aval=="-" and Bval=="0"):
-			if carry=="0":
-				resbt = ("-" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("0" + resbt)
-				carry="0"
-			elif carry=="-":
-				resbt = ("+" + resbt)
-				carry="-"
-		elif (Aval=="-" and Bval=="+"):
-			if carry=="0":
-				resbt = ("0" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("+" + resbt)
-				carry="0"
-			elif carry=="-":
-				resbt = ("-" + resbt)
-				carry="0"
-		#Aval=0 rules
-		elif (Aval=="0" and Bval=="0"):
-			if carry=="0":
-				resbt = ("0" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("+" + resbt)
-				carry="0"
-			elif carry=="-":
-				resbt = ("-" + resbt)
-				carry="0"
-		elif (Aval=="0" and Bval=="-"):
-			if carry=="0":
-				resbt = ("-" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("0" + resbt)
-				carry="0"
-			elif carry=="-":
-				resbt = ("+" + resbt)
-				carry="-"
-		elif (Aval=="0" and Bval=="+"):
-			if carry=="0":
-				resbt = ("+" + resbt)
-				carry="0"
-			elif carry=="+":
-				resbt = ("-" + resbt)
-				carry="+"
-			elif carry=="-":
-				resbt = ("0" + resbt)
-				carry="0"
-		curregA += 1
-		curregB += 1
-		Aval="0"
-		Bval="0"
-		returnedA=0
-		returnedB=0
-	#print ()
-	buzzt=trailzerostrip(str(resbt))
-	vexping=str(buzzt)
-	return (buzzt)
-
-
-#count up based Decimal to balanced ternary converter.
-def DECTOBTold(NUMTOCONV1):
-	decicnt=0
-	prevbtnum="0"
-	charlst1=str(NUMTOCONV1)
-	for fstdig in charlst1:
-		firstsym=fstdig
-		break
-	if firstsym=="-":
-		btcntdig="-"
-	elif firstsym!="-":
-		btcntdig="+"
-	#print("actual decimal count| BT count in decimal | BT count")
-	while decicnt!=NUMTOCONV1:
-		
-		#print (str(decicnt) + "|" +  str(libbaltcalc.BTTODEC(prevbtnum)) + "|" +  prevbtnum)
-		prevbtnum=(btadd(prevbtnum, btcntdig))
-		vixiestr=prevbtnum
-		if firstsym=="-":
-			decicnt -= 1
-		elif firstsym!="-":
-			decicnt += 1
-	return (vixiestr)
-
-#print(DECTOBT(19))
-
-#gets a balanced ternary number from the user an parses it based on various 
-#balanced ternary notation conventions. currently only the 1,0,T and +,0,- conventions.
-def BTstrgetsort():
-	NUMPARS = raw_input('>:')
-	NUMPARS = NUMPARS.replace("1", "+").replace("T", "-")
-	return (NUMPARS)
-#gets a sigle-trit balanced ternary number from the user an parses it based on various 
-#balanced ternary notation conventions. currently only the 1,0,T and +,0,- conventions.
-def BTstrgetsingle():
-	NUMPX = BTstrgetsort()
-	for fstdig in NUMPX:
-		return (fstdig)
 
 # a "programmable" biased and gate. returns a positive if:
 #input a (inpA) = input b (inpB) = polarity line (polarset)
@@ -367,3 +172,48 @@ def progbiasnor(polarset, inpA, inpB):
 	elif (inpA!=polarset and inpB!=polarset):
 		return("0")
 
+class btint:
+	def __init__(self, stringint):
+		#store integer in signed decimal integer.
+		if type(stringint) is int:
+			self.intval=stringint
+		else:
+			try:
+				self.intval=stringint.dec()
+			except AttributeError:
+				self.intval=BTTODEC(str(stringint))
+	def __str__(self):
+		return DECTOBT(self.intval)
+	def __int__(self):
+		return self.intval
+	def dec(self):
+		return self.intval
+	def bt(self):
+		return DECTOBT(self.intval)
+	#addition
+	def __add__(self, other):
+		return btint((self.dec() + other.dec()))
+	#subtraction
+	def __sub__(self, other):
+		return btint((self.dec() - other.dec()))
+	#division
+	def __truediv__(self, other):
+		return btint((self.dec() // other.dec()))
+	def __div__(self, other):
+		return btint((self.dec() // other.dec()))
+	def __floordiv__(self, other):
+		return btint((self.dec() // other.dec()))
+	#multiplication
+	def __mul__(self, other):
+		return btint((self.dec() * other.dec()))
+	#others
+	def __abs__(self):
+		return btint(abs(self.intval))
+	def __neg__(self):
+		return btint( - self.intval)
+	def __pos__(self):
+		return btint( + self.intval)
+	def __invert__(self):
+		return btint(BTINVERT(DECTOBT(self.intval)))
+	def invert(self):
+		return btint(BTINVERT(DECTOBT(self.intval)))

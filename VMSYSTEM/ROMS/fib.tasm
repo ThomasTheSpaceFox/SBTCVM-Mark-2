@@ -1,5 +1,6 @@
 #fib. sequence
 TTYlinedraw|on
+TTYmode|54
 textstart
 Fibonacci sequence.
 Starting with params 1 , 1

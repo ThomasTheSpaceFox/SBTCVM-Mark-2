@@ -1,6 +1,7 @@
 #fib. sequence
 #SBTCVM benchmmark 1. heavy bus write, mathematics, and high speed line drawing.
 TTYlinedraw|on
+TTYmode|54
 colorfill|---------
 
 setcolorvect|000------
