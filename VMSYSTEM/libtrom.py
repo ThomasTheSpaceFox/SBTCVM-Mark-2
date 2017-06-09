@@ -78,6 +78,7 @@ if tromlogging==1:
 def redefA(filenameq):
 	global AROM
 	global TROMA
+	global ROMDICT
 	AROM= {}
 	TROMA=filenameq
 	TROMAfile=loadtrom(filenameq)
@@ -87,10 +88,12 @@ def redefA(filenameq):
 		AROM[linecnt]=rmline
 		linecnt += 1
 	TROMAfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 def redefB(filenameq):
 	global BROM
 	global TROMB
+	global ROMDICT
 	BROM= {}
 	TROMB=filenameq
 	TROMBfile=loadtrom(filenameq)
@@ -100,10 +103,12 @@ def redefB(filenameq):
 		BROM[linecnt]=rmline
 		linecnt += 1
 	TROMBfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 def redefC(filenameq):
 	global CROM
 	global TROMC
+	global ROMDICT
 	CROM= {}
 	TROMC=filenameq
 	TROMCfile=loadtrom(filenameq)
@@ -113,10 +118,12 @@ def redefC(filenameq):
 		CROM[linecnt]=rmline
 		linecnt += 1
 	TROMCfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 def redefD(filenameq):
 	global DROM
 	global TROMD
+	global ROMDICT
 	DROM= {}
 	TROMD=filenameq
 	TROMDfile=loadtrom(filenameq)
@@ -126,10 +133,13 @@ def redefD(filenameq):
 		DROM[linecnt]=rmline
 		linecnt += 1
 	TROMDfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
+
 
 def redefE(filenameq):
 	global EROM
 	global TROME
+	global ROMDICT
 	EROM= {}
 	TROME=filenameq
 	TROMEfile=loadtrom(filenameq)
@@ -139,11 +149,13 @@ def redefE(filenameq):
 		EROM[linecnt]=rmline
 		linecnt += 1
 	TROMEfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 
 def redefF(filenameq):
 	global FROM
 	global TROMF
+	global ROMDICT
 	FROM= {}
 	TROMF=filenameq
 	TROMFfile=loadtrom(filenameq)
@@ -153,6 +165,7 @@ def redefF(filenameq):
 		FROM[linecnt]=rmline
 		linecnt += 1
 	TROMFfile.close()
+	ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 #load TROMS from TROM files to respective dictionaries
 print "libtrom: parsing TROMs into dictionaries..."
@@ -218,6 +231,7 @@ else:
 	print "done."
 
 
+ROMDICT={TROMA: AROM, TROMB: BROM, TROMC: CROM, TROME: EROM, TROMF: FROM}
 
 libtromready=1
 
@@ -268,6 +282,7 @@ def tromsetdata(romaddr, datax, ROMNAME):
 	global DROM
 	global EROM
 	global FROM
+	global ROMDICT
 	if ROMNAME==TROMA:
 		inst=(AROM[line])[0] + (AROM[line])[1] + (AROM[line])[2] + (AROM[line])[3] + (AROM[line])[4] + (AROM[line])[5]
 		AROM[line]=(inst + datax)
@@ -298,7 +313,7 @@ def tromsetdata(romaddr, datax, ROMNAME):
 		FROM[line]=(inst + datax)
 		if logwrites==1:
 			tromlog1.write("SET DATA. TROMF, Addr:" + romaddr + " line:" + str(line) + " Data:" + datax + "\n")
-
+	ROMDICT[ROMNAME][line]=(inst + datax)
 
 #set instruction function
 
@@ -311,6 +326,7 @@ def tromsetinst(romaddr, inst, ROMNAME):
 	global DROM
 	global EROM
 	global FROM
+	global ROMDICT
 	if ROMNAME==TROMA:
 		datax=(AROM[line])[6] + (AROM[line])[7] + (AROM[line])[8] + (AROM[line])[9] + (AROM[line])[10] + (AROM[line])[11] + (AROM[line])[12] + (AROM[line])[13] + (AROM[line])[14]
 		AROM[line]=(inst + datax)
@@ -342,7 +358,7 @@ def tromsetinst(romaddr, inst, ROMNAME):
 		FROM[line]=(inst + datax)
 		if logwrites==1:
 			tromlog1.write("SET inst. TROMF, Addr:" + romaddr + " line:" + str(line) + " inst:" + inst + "\n")
-
+	ROMDICT[ROMNAME][line]=(inst + datax)
 
 	
 def tromreaddata(romaddr, ROMNAME):

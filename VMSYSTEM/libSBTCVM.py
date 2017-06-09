@@ -482,7 +482,9 @@ USERCONFTEMP='''#This is the USER config file.
 
 #default setting for readout updates
 #setting this to 1 may speed up SBTCVM on some computers.
-#disablereadouts=0
+#you can toggle the readout update setting in-VM using F4
+#step-by-step mode always has readouts enabled regardless of the update setting.
+#disablereadouts=1
 
 #LOGGING RELATED SETTINGS BELOW
 

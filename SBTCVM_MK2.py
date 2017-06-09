@@ -156,7 +156,9 @@ tuibig=1
 logromexit=0
 logIOexit=0
 vmexeclogflg=0
-disablereadouts=0
+#set this to 1 as SBTCVM now runs too fast with default setting for these to be useful in normal execution.
+#user can overide this in USERBOOT.CFG and toggle it using F4 key.
+disablereadouts=1
 exec(exconf)
 
 scconf.close()
@@ -224,7 +226,7 @@ if 'GLOBKIOSK' in globals():
 else:
 	KIOSKMODE=0
 
-
+stepcont=0
 	
 #initalize VMUI system
 vmui.initui(screensurf, KIOSKMODE)
@@ -280,10 +282,18 @@ if vmexeclogflg==1:
 	vmexlogf=open(os.path.join("CAP", libSBTCVM.namecrunch(LOGBASE, "-vmexeclog.log")), "w")
 
 if 'GLOBLOGEXEC' in globals():
-	print "RUNNING IN KIOSK MODE."
 	if GLOBLOGEXEC==1:
 		vmexeclogflg=1
 		vmexlogf=open(os.path.join("CAP", libSBTCVM.namecrunch(LOGBASE, "-vmexeclog.log")), "w")
+
+if 'GLOBOPSEC' in globals():
+	if GLOBOPSEC==1:
+		trackopsec=1
+	else:
+		trackopsec=0
+else:
+	trackopsec=0
+		
 
 #tritlength defaults
 tritloadlen=9
@@ -340,7 +350,7 @@ else:
 	STEPLED=LEDGREENOFF
 
 #keep unused events out of queue
-pygame.event.set_allowed([QUIT, KEYDOWN])
+pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
 
 libSBTCVMsurf=pygame.Surface((648, 486)).convert()
 libSBTCVMsurf.fill(TTYBGCOL)
@@ -359,8 +369,8 @@ while IOgen!="+++++++++":
 	IOgen=libSBTCVM.trunkto6(libbaltcalc.btadd(IOgen, "+"))
 	RAMbank[IOgen] = "000000000"
 RAMbank["+++++++++"] = "000000000"
-
-
+#set Random integer port with an inital random integer
+RAMbank["--0------"]=libSBTCVM.trunkto6(libbaltcalc.DECTOBT(randint(-9841,9841)))
 
 ttyredraw=1
 
@@ -426,12 +436,31 @@ print "SBTCVM Mark 2 Ready. the VM will now begin."
 initaltime=time.time()
 
 while stopflag==0:
-	curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
-	curdata=(libtrom.tromreaddata(EXECADDR,ROMFILE))
+	#curinst=(libtrom.tromreadinst(EXECADDR,ROMFILE))
+	#curdata=(libtrom.tromreaddata(EXECADDR,ROMFILE))
+	EXECADDRNUM=libSBTCVM.numstruct(EXECADDR)
+	#fdelta=libtrom.ROMDICT[ROMFILE][EXECADDRNUM]
+	if ROMFILE==TROMA:
+		fdelta=libtrom.AROM[EXECADDRNUM]
+	elif ROMFILE==TROMB:
+		fdelta=libtrom.BROM[EXECADDRNUM]
+	elif ROMFILE==TROMC:
+		fdelta=libtrom.CROM[EXECADDRNUM]
+	elif ROMFILE==TROMD:
+		fdelta=libtrom.DROM[EXECADDRNUM]
+	elif ROMFILE==TROME:
+		fdelta=libtrom.EROM[EXECADDRNUM]
+	elif ROMFILE==TROMF:
+		fdelta=libtrom.FROM[EXECADDRNUM]
+	curinst=((fdelta[0]) + (fdelta[1]) + (fdelta[2]) + (fdelta[3]) + (fdelta[4]) + (fdelta[5]))
+	curdata=((fdelta[6]) + (fdelta[7]) + (fdelta[8]) + (fdelta[9]) + (fdelta[10]) + (fdelta[11]) + (fdelta[12]) + (fdelta[13]) + (fdelta[14]))
 	#some screen display stuff & general blitting
 	#screensurf.fill((0,127,255))
 	#draw Background
-	if vmexeclogflg==1:
+	if trackopsec==1:
+		exlogclockticnum += 1
+		exlogcurtime=(time.time() - initaltime)
+	elif vmexeclogflg==1:
 		exlogclockticnum += 1
 		exlogcurtime=(time.time() - initaltime)
 		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + format((exlogcurtime), '.11f'))
@@ -1430,6 +1459,14 @@ while stopflag==0:
 				if event.type == KEYDOWN and event.key == K_RETURN:
 					evhappenflg2=1
 					break
+				if event.type == KEYDOWN and event.key == K_LSHIFT:
+					stepcont=1
+					evhappenflg2=1
+					break
+				if event.type == KEYUP and event.key == K_LSHIFT:
+					stepcont=0
+					evhappenflg2=1
+					break
 				if event.type == KEYDOWN and event.key == K_ESCAPE:
 					pmenret=vmui.pausemenu()
 					if pmenret=="s":
@@ -1464,6 +1501,8 @@ while stopflag==0:
 					ramdmp.close()
 					libtrom.manualdumptroms()
 					break
+			if stepcont==1:
+				break
 				
 		
 	else:
@@ -1671,12 +1710,6 @@ while stopflag==0:
 				EXECCHANGE=2
 				break
 			
-	#pygame.event.clear()
-	
-	
-	
-	#aaaaannnnddd update display! :D
-	#pygame.display.update()
 	
 	if curinst=="--":
 		stopflag=1
@@ -1688,6 +1721,7 @@ while stopflag==0:
 		abt=libSBTCVM.abtslackline(abt, "VM SYSHALT:")
 		abt=libSBTCVM.abtslackline(abt, "End Of RomBus.")
 	#print "eek " + EXECADDRNEXT
+	#increment the program counter (EXEC addr)
 	EXECADDR=libbaltcalc.btadd(EXECADDR, "+")
 	EXECADDRraw=EXECADDR
 	#print EXECADDR
@@ -1868,6 +1902,9 @@ if vmexeclogflg==1:
 	vmexeclog("final clock tic: " + str(exlogclockticnum) + " |final time passed: " + format((exlogcurtime), '.11f'))
 	vmexeclog("aprox operations/second: " + format((exlogclockticnum / exlogcurtime), '.11f'))
 	vmexlogf.close()
+if trackopsec==1:
+	print ("final clock tic: " + str(exlogclockticnum) + " |final time passed: " + format((exlogcurtime), '.11f'))
+	print ("aprox operations/second: " + format((exlogclockticnum / exlogcurtime), '.11f'))
 #if vmexeclogflg==1:
 	#exlogclockticnum += 1
 	#exlogcurtime=time.time()
