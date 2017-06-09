@@ -91,6 +91,8 @@ USRWAIT=0
 
 keyintreg="0000"
 
+ttyfont = pygame.font.SysFont("Mono", 10)
+ttyfontB =pygame.font.SysFont("Mono", 18)
 #graphics:
 #background pixmap
 
@@ -156,6 +158,7 @@ tuibig=1
 logromexit=0
 logIOexit=0
 vmexeclogflg=0
+ttystyle=0
 #set this to 1 as SBTCVM now runs too fast with default setting for these to be useful in normal execution.
 #user can overide this in USERBOOT.CFG and toggle it using F4 key.
 disablereadouts=1
@@ -354,6 +357,7 @@ pygame.event.set_allowed([QUIT, KEYDOWN, KEYUP])
 
 libSBTCVMsurf=pygame.Surface((648, 486)).convert()
 libSBTCVMsurf.fill(TTYBGCOL)
+libSBTCVM.glyphoptim(libSBTCVMsurf)
 #RAMBANK startup begin
 RAMbank = {}
 
@@ -404,6 +408,7 @@ regsetpoint="000000000"
 updtcdisp=1
 updtmdisp=1
 updtblits=list()
+updtttyprev=list()
 updtrandport=1
 upt=screensurf.blit(CPULEDACT, (749, 505))
 updtblits.extend([upt])
@@ -520,27 +525,60 @@ while stopflag==0:
 		ttyredraw=0
 		lineq=0
 		linexq=0
-		libSBTCVMsurf.fill(TTYBGCOL)
-		for fnx in abt:
-			fnx=fnx.replace('\n', '')
-			colq=0
-			if TTYSIZE==0 or linexq>26:
-				for qlin in fnx:
-					#print qlin
-					charq=libSBTCVM.charlookupdict.get(qlin)
-					#print charq
-					if TTYSIZE==1:
-						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
-					else:
-						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-					colq +=1
-				lineq +=1
-			linexq +=1
+		if ttystyle==0:
+			libSBTCVMsurf.fill(TTYBGCOL)
+			for fnx in abt:
+				fnx=fnx.replace('\n', '')
+				colq=0
+				if TTYSIZE==0 or linexq>26:
+					for qlin in fnx:
+						#print qlin
+						charq=libSBTCVM.charlookupdict.get(qlin)
+						#print charq
+						if TTYSIZE==1:
+							libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+						else:
+							libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+						colq +=1
+					lineq +=1
+				linexq +=1		
+			upt=screensurf.blit(libSBTCVMsurf, (0, 0))
+			updtblits.extend([upt])
+		lineq=0
+		linexq=0
+		#if ttystyle==1:
+			#print "-----newpage---"
+			#for fnx in abt:
+				#if TTYSIZE==0 or linexq>26:
+					#fnx=fnx.replace('\n', '')
+					#colq=0
+					#print ("TTY|" + fnx)
+					#lineq +=1
+				#linexq +=1
+		lineq=0
+		linexq=0
+		#disabled as its far too buggy
+		#if ttystyle==2:
+			#for fnx in abt:
+				#fnx=fnx.replace('\n', '')
+				#colq=0
+				#if TTYSIZE==0 or linexq>26:
+					#if TTYSIZE==1:
+						#ttyfn=ttyfontB.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*18)))
+						##updtblits.extend([upt])
+					#else:
+						#ttyfn=ttyfont.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*9)))
+						##updtblits.extend([upt])
+					#lineq +=1
+				#linexq +=1
 		
+			
+		#print ("ttystyle" + str(ttystyle))
 		#screensurf.blit(libSBTCVMsurf, (45, 40))
 		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-		upt=screensurf.blit(libSBTCVMsurf, (0, 0))
-		updtblits.extend([upt])
+			
 	#aaaaannnnddd update display! :D
 	pygame.display.update(updtblits)
 	updtblits=list()
@@ -867,12 +905,12 @@ while stopflag==0:
 	
 	#dump register 1 to TTY
 	elif curinst=="--++0+":
-		print ("REG1 DUMP:" + REG1 + " " + str(libbaltcalc.BTTODEC(REG1)))
+		#print ("REG1 DUMP:" + REG1 + " " + str(libbaltcalc.BTTODEC(REG1)))
 		ttyredraw=1
 		abt=libSBTCVM.abtslackline(abt, ("REG1 DUMP:" + REG1 + " " + str(libbaltcalc.BTTODEC(REG1))))
 	#dump Register 2 to TTY
 	elif curinst=="--+++-":
-		print ("REG2 DUMP:" + REG2 + " " + str(libbaltcalc.BTTODEC(REG2)))
+		#print ("REG2 DUMP:" + REG2 + " " + str(libbaltcalc.BTTODEC(REG2)))
 		ttyredraw=1
 		abt=libSBTCVM.abtslackline(abt, ("REG2 DUMP:" + REG2 + " " + str(libbaltcalc.BTTODEC(REG2))))
 	#tty write port (direct)
@@ -1312,27 +1350,59 @@ while stopflag==0:
 		#ttyredraw=0
 		lineq=0
 		linexq=0
-		libSBTCVMsurf.fill(TTYBGCOL)
-		for fnx in abt:
-			fnx=fnx.replace('\n', '')
-			colq=0
-			if TTYSIZE==0 or linexq>26:
-				for qlin in fnx:
-					#print qlin
-					charq=libSBTCVM.charlookupdict.get(qlin)
-					#print charq
-					if TTYSIZE==1:
-						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
-					else:
-						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-					colq +=1
-				lineq +=1
-			linexq +=1
-		if tuibig==0:
-			screensurf.blit(libSBTCVMsurf, (45, 40))
-		else:
-			#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-			screensurf.blit(libSBTCVMsurf, (0, 0))
+		if ttystyle==0:
+			libSBTCVMsurf.fill(TTYBGCOL)
+			for fnx in abt:
+				fnx=fnx.replace('\n', '')
+				colq=0
+				if TTYSIZE==0 or linexq>26:
+					for qlin in fnx:
+						#print qlin
+						charq=libSBTCVM.charlookupdict.get(qlin)
+						#print charq
+						if TTYSIZE==1:
+							libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+						else:
+							libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+						colq +=1
+					lineq +=1
+				linexq +=1
+			upt=screensurf.blit(libSBTCVMsurf, (0, 0))
+			updtblits.extend([upt])
+		lineq=0
+		linexq=0
+		#if ttystyle==1:
+			#print (chr(27) + "[2J" + chr(27) + "[H")
+			#for fnx in abt:
+				#fnx=fnx.replace('\n', '')
+				#colq=0
+				#print ("TTY|" + fnx)
+				#lineq +=1
+				#linexq +=1
+		#lineq=0
+		#linexq=0
+		#disabled as its too buggy
+		#if ttystyle==2:
+			#for fnx in abt:
+				#fnx=fnx.replace('\n', '')
+				#colq=0
+				#if TTYSIZE==0 or linexq>26:
+					#if TTYSIZE==1:
+						#ttyfn=ttyfontB.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*18)))
+						##updtblits.extend([upt])
+					#else:
+						#ttyfn=ttyfont.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*9)))
+						##updtblits.extend([upt])
+					#lineq +=1
+				#linexq +=1
+		
+			
+		#print ("ttystyle" + str(ttystyle))
+		#screensurf.blit(libSBTCVMsurf, (45, 40))
+		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
+			
 		pygame.display.update()
 		#abt=libSBTCVM.abtslackline(abt, jline)
 		extradraw=0
@@ -1858,26 +1928,53 @@ while stopflag==0:
 		reg2text=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0))
 		lineq=0
 		linexq=0
-		libSBTCVMsurf.fill(TTYBGCOL)
-		for fnx in abt:
-			fnx=fnx.replace('\n', '')
-			colq=0
-			if TTYSIZE==0 or linexq>26:
-				for qlin in fnx:
-					#print qlin
-					charq=libSBTCVM.charlookupdict.get(qlin)
-					#print charq
-					if TTYSIZE==1:
-						libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
-					else:
-						libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-					colq +=1
-				lineq +=1
-			linexq +=1
-		if tuibig==0:
-			screensurf.blit(libSBTCVMsurf, (45, 40))
-		else:
-			screensurf.blit(libSBTCVMsurf, (0, 0))
+		if ttystyle==0:
+			libSBTCVMsurf.fill(TTYBGCOL)
+			for fnx in abt:
+				fnx=fnx.replace('\n', '')
+				colq=0
+				if TTYSIZE==0 or linexq>26:
+					for qlin in fnx:
+						#print qlin
+						charq=libSBTCVM.charlookupdict.get(qlin)
+						#print charq
+						if TTYSIZE==1:
+							libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+						else:
+							libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+						colq +=1
+					lineq +=1
+				linexq +=1
+			upt=screensurf.blit(libSBTCVMsurf, (0, 0))
+			updtblits.extend([upt])
+		lineq=0
+		linexq=0
+		#if ttystyle==1:
+			#print (chr(27) + "[2J" + chr(27) + "[H")
+			#for fnx in abt:
+				#fnx=fnx.replace('\n', '')
+				#colq=0
+				#print ("TTY|" + fnx)
+				#lineq +=1
+				#linexq +=1
+		lineq=0
+		linexq=0
+		#disabled as its too buggy
+		#if ttystyle==2:
+			#for fnx in abt:
+				#fnx=fnx.replace('\n', '')
+				#colq=0
+				#if TTYSIZE==0 or linexq>26:
+					#if TTYSIZE==1:
+						#ttyfn=ttyfontB.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*18)))
+						##updtblits.extend([upt])
+					#else:
+						#ttyfn=ttyfont.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+						#upt=screensurf.blit(ttyfn, (0, (lineq*9)))
+						##updtblits.extend([upt])
+					#lineq +=1
+				#linexq +=1
 		pygame.display.update()
 	
 	

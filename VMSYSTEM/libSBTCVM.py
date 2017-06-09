@@ -316,6 +316,10 @@ fondir2=os.path.join("VMSYSTEM", "FONT1")
 
 def abtslackline(receveabt, linetext):
 	interx=[(receveabt[1]), (receveabt[2]),(receveabt[3]), (receveabt[4]), (receveabt[5]), (receveabt[6]), (receveabt[7]), (receveabt[8]), (receveabt[9]), (receveabt[10]), (receveabt[11]), (receveabt[12]), (receveabt[13]), (receveabt[14]), (receveabt[15]), (receveabt[16]), (receveabt[17]), (receveabt[18]), (receveabt[19]), (receveabt[20]), (receveabt[21]), (receveabt[22]), (receveabt[23]), (receveabt[24]), (receveabt[25]), (receveabt[26]), (receveabt[27]), (receveabt[28]), (receveabt[29]), (receveabt[30]), (receveabt[31]), (receveabt[32]), (receveabt[33]), (receveabt[34]), (receveabt[35]), (receveabt[36]), (receveabt[37]), (receveabt[38]), (receveabt[39]), (receveabt[40]), (receveabt[41]), (receveabt[42]), (receveabt[43]), (receveabt[44]), (receveabt[45]), (receveabt[46]), (receveabt[47]), (receveabt[48]), (receveabt[49]), (receveabt[50]), (receveabt[51]), (receveabt[52]), (receveabt[53]), (linetext)]
+	if linetext=="":
+		print ("TTY|" + receveabt[53])
+	else:
+		print ("TTY|" + linetext)
 	return interx
 newl=1
 def abtcharblit(receveabtb, charblit):
@@ -352,8 +356,8 @@ def charblit(chsurface, colx, liney, charcode):
 	#print gliffile
 	#glif=pygame.image.load(os.path.join(fondir, (chargliph.get(glifcode))))
 	glif=chargliphfileopt[glifcode]
-	chsurface.blit(glif, (colx, liney))
-	return chsurface
+	xg=chsurface.blit(glif, (colx, liney))
+	return (chsurface, xg)
 
 def charblit2(chsurface, colx, liney, charcode):
 	colx=(colx*9)
@@ -364,8 +368,8 @@ def charblit2(chsurface, colx, liney, charcode):
 	#print gliffile
 	#glif=pygame.image.load(os.path.join(fondir, (chargliph.get(glifcode))))
 	glif=chargliphfileopt2[glifcode]
-	chsurface.blit(glif, (colx, liney))
-	return chsurface
+	xg=chsurface.blit(glif, (colx, liney))
+	return (chsurface, xg)
 def codeshift(colch):
 	colch=int(colch)
 	#print colch
@@ -485,6 +489,10 @@ USERCONFTEMP='''#This is the USER config file.
 #you can toggle the readout update setting in-VM using F4
 #step-by-step mode always has readouts enabled regardless of the update setting.
 #disablereadouts=1
+
+#set this to 1 to disable TTY rendering. (you would still be able to read tty
+#output, as SBTCVM mirrors the TTY to standard output.
+#ttystyle=0
 
 #LOGGING RELATED SETTINGS BELOW
 
