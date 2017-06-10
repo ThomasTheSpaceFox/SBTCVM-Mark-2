@@ -8,6 +8,9 @@ SBTCVM, being a balanced ternary computer, Naturally uses a balanced
 ternary text encoding.  The specific encoding has been developed in
 conjunction with SBTCVM. its called SBTCVM-BTT-6. That stands for
 SBTCVM balanced ternary text encoding 6 trits.
+
+Note: if you have ttystyle=1 set, the TTY wont be rendered in
+sbtcvm's main window, but still will be written to Standard output.
 textstop
 
 userwait
