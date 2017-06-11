@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head profile="http://www.w3.org/2005/10/profile">
-	<link rel="icon" type="image/png" href="icon32.png">
+    <link rel="icon" type="image/png" href="icon32.png">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>SBTCVM Q&amp;A</title>
   </head>
@@ -119,22 +119,41 @@
               SBTCVM is too fast for me to debug my trom! (see notes)<br>
               <b><a name="Q11"></a><a href="#Q11">Q11:</a></b><br>
               SBTCVM uses too much CPU!<br>
+              <b><a name="Q12"></a><a href="#Q12">Q12:</a></b><br>
+              Is there a frame skip setting?<br>
             </td>
-            <td valign="top">Well, if you use the command shell
-              (MK2-CS.py) alot, you might consider turning off the TTY
-              rendering (its kinda slow). <br>
+            <td valign="top"><b>TTY rendering</b><br>
+              Well, if you use the command shell (MK2-CS.py) alot, you
+              might consider turning off the TTY rendering (its kinda
+              slow). <br>
               in USERBOOT.CFG (its created on first-run of the VM in
               VMUSER)<br>
               find the line: "#ttystyle=0" and set it to "ttystyle=1"<br>
               <br>
-              also, you may try, if your computer is fast enough,
-              shortening the cpu delay.<br>
+              <b>CPU Wait time<br>
+                <br>
+              </b>The amount of time per cycle to sleep in seconds (as a
+              floating point number)<br>
+              <br>
+              You may try, if your computer is fast enough, shortening
+              the cpu delay.<br>
               find the line "#CPUWAIT=(0.0005)" and uncomment it, and
-              try changing the time to a shorter time (its a floating
-              point number of seconds to wait per-cycle)<br>
+              try changing the time to a shorter time <br>
               <br>
               likewise, if SBTCVM is using too much CPU for your taste,
               try making this time longer. <br>
+              <br>
+              <b>Frame Skipping</b><br>
+              <br>
+              number of clock cycles to wait between display updates.<br>
+              <br>
+              also you can try setting fskip (find the line "#fskip=1")
+              to a higher number. by default fskip is set to 1, that
+              means that every other clock cycle's frame is rendered. if
+              you have say an average operations/second of 2000, you
+              might try fskip=100, as with 2000 operations/second, by
+              default the display is being updated 1000 times a
+              second.&nbsp; so yea, fskip is worth adjusting a bit.<br>
               <br>
               <b>notes:</b><br>
               <ul>

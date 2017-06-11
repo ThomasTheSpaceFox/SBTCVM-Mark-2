@@ -471,126 +471,126 @@ while stopflag==0:
 		exlogclockticnum += 1
 		exlogcurtime=(time.time() - initaltime)
 		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + format((exlogcurtime), '.11f'))
-	if (disablereadouts==0 or stepbystep==1) and fskipcnt == fskip:
-		#screensurf.blit(vmbg, (0, 0))
-		#these show the instruction and data in the instruction/data box :)
-		if prevINST!=curinst:
-			insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0)).convert()
-			prevINST=curinst
-			upt=screensurf.blit(insttext, (8, 522))
+	if fskipcnt == fskip:
+		if disablereadouts==0 or stepbystep==1:
+			#screensurf.blit(vmbg, (0, 0))
+			#these show the instruction and data in the instruction/data box :)
+			if prevINST!=curinst:
+				insttext=smldispfont.render(curinst, True, (0, 255, 255), (0, 0, 0)).convert()
+				prevINST=curinst
+				upt=screensurf.blit(insttext, (8, 522))
+				updtblits.extend([upt])
+			if prevDATA!=curdata:
+				datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0)).convert()
+				prevDATA=curdata
+				upt=screensurf.blit(datatext, (8, 566))
+				updtblits.extend([upt])
+			
+			#these draw the register displays :)
+			if prevREG1!=REG1:
+				reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0)).convert()
+				prevREG1=REG1
+				upt=screensurf.blit(reg1text, (219, 521))
+				updtblits.extend([upt])
+			if prevREG2!=REG2:
+				reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0)).convert()
+				prevREG2=REG2
+				upt=screensurf.blit(reg2text, (219, 564))
+				updtblits.extend([upt])
+			
+			
+			#and here is what draws the ROM address display :)
+			ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0)).convert()
+			upt=screensurf.blit(ROMadrtex, (425, 564))
 			updtblits.extend([upt])
-		if prevDATA!=curdata:
-			datatext=smldispfont.render(curdata, True, (0, 255, 127), (0, 0, 0)).convert()
-			prevDATA=curdata
-			upt=screensurf.blit(datatext, (8, 566))
-			updtblits.extend([upt])
+			#and the current rom display :)
+			CURROMTEXT=(ROMLAMPFLG)
+			if prevROM!=CURROMTEXT:
+				curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0)).convert()
+				prevROM=CURROMTEXT
+				upt=screensurf.blit(curROMtex, (126, 522))
+				updtblits.extend([upt])
+		#LED LAMPS
+		#CPU
+		#screensurf.blit(CPULEDACT, (749, 505))
+		#STEP
 		
-		#these draw the register displays :)
-		if prevREG1!=REG1:
-			reg1text=lgdispfont.render(REG1, True, (255, 0, 127), (0, 0, 0)).convert()
-			prevREG1=REG1
-			upt=screensurf.blit(reg1text, (219, 521))
+		if updtcdisp==1:
+			updtcdisp=0
+			COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
+			upt=screensurf.blit(COLORDISPBIG, (649, 1))
 			updtblits.extend([upt])
-		if prevREG2!=REG2:
-			reg2text=lgdispfont.render(REG2, True, (255, 127, 0), (0, 0, 0)).convert()
-			prevREG2=REG2
-			upt=screensurf.blit(reg2text, (219, 564))
+		if updtmdisp==1:
+			updtmdisp=0
+			MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
+			upt=screensurf.blit(MONODISPBIG, (649, 150))
 			updtblits.extend([upt])
-		
-		
-		#and here is what draws the ROM address display :)
-		ROMadrtex=lgdispfont.render(EXECADDR, True, (0, 127, 255), (0, 0, 0)).convert()
-		upt=screensurf.blit(ROMadrtex, (425, 564))
-		updtblits.extend([upt])
-		#and the current rom display :)
-		CURROMTEXT=(ROMLAMPFLG)
-		if prevROM!=CURROMTEXT:
-			curROMtex=lgdispfont.render(CURROMTEXT, True, (255, 0, 255), (0, 0, 0)).convert()
-			prevROM=CURROMTEXT
-			upt=screensurf.blit(curROMtex, (126, 522))
-			updtblits.extend([upt])
-	#LED LAMPS
-	#CPU
-	#screensurf.blit(CPULEDACT, (749, 505))
-	#STEP
-	
-	if updtcdisp==1 and fskipcnt == fskip:
-		updtcdisp=0
-		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
-		upt=screensurf.blit(COLORDISPBIG, (649, 1))
-		updtblits.extend([upt])
-	if updtmdisp==1 and fskipcnt == fskip:
-		updtmdisp=0
-		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
-		upt=screensurf.blit(MONODISPBIG, (649, 150))
-		updtblits.extend([upt])
-	if (abtpref!=abt or ttyredraw==1) and fskipcnt == fskip:
-		abtpref=abt
-		ttyredraw=0
-		lineq=0
-		linexq=0
-		if ttystyle==0:
-			libSBTCVMsurf.fill(TTYBGCOL)
-			for fnx in abt:
-				fnx=fnx.replace('\n', '')
-				colq=0
-				if TTYSIZE==0 or linexq>26:
-					for qlin in fnx:
-						#print qlin
-						charq=libSBTCVM.charlookupdict.get(qlin)
-						#print charq
-						if TTYSIZE==1:
-							libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
-						else:
-							libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
-						colq +=1
-					lineq +=1
-				linexq +=1		
-			upt=screensurf.blit(libSBTCVMsurf, (0, 0))
-			updtblits.extend([upt])
-		lineq=0
-		linexq=0
-		#if ttystyle==1:
-			#print "-----newpage---"
-			#for fnx in abt:
-				#if TTYSIZE==0 or linexq>26:
+		if abtpref!=abt or ttyredraw==1:
+			abtpref=abt
+			ttyredraw=0
+			lineq=0
+			linexq=0
+			if ttystyle==0:
+				libSBTCVMsurf.fill(TTYBGCOL)
+				for fnx in abt:
+					fnx=fnx.replace('\n', '')
+					colq=0
+					if TTYSIZE==0 or linexq>26:
+						for qlin in fnx:
+							#print qlin
+							charq=libSBTCVM.charlookupdict.get(qlin)
+							#print charq
+							if TTYSIZE==1:
+								libSBTCVM.charblit2(libSBTCVMsurf, colq, lineq, charq)
+							else:
+								libSBTCVM.charblit(libSBTCVMsurf, colq, lineq, charq)
+							colq +=1
+						lineq +=1
+					linexq +=1		
+				upt=screensurf.blit(libSBTCVMsurf, (0, 0))
+				updtblits.extend([upt])
+			lineq=0
+			linexq=0
+			#if ttystyle==1:
+				#print "-----newpage---"
+				#for fnx in abt:
+					#if TTYSIZE==0 or linexq>26:
+						#fnx=fnx.replace('\n', '')
+						#colq=0
+						#print ("TTY|" + fnx)
+						#lineq +=1
+					#linexq +=1
+			lineq=0
+			linexq=0
+			#disabled as its far too buggy
+			#if ttystyle==2:
+				#for fnx in abt:
 					#fnx=fnx.replace('\n', '')
 					#colq=0
-					#print ("TTY|" + fnx)
-					#lineq +=1
-				#linexq +=1
-		lineq=0
-		linexq=0
-		#disabled as its far too buggy
-		#if ttystyle==2:
-			#for fnx in abt:
-				#fnx=fnx.replace('\n', '')
-				#colq=0
-				#if TTYSIZE==0 or linexq>26:
-					#if TTYSIZE==1:
-						#ttyfn=ttyfontB.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
-						#upt=screensurf.blit(ttyfn, (0, (lineq*18)))
-						##updtblits.extend([upt])
-					#else:
-						#ttyfn=ttyfont.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
-						#upt=screensurf.blit(ttyfn, (0, (lineq*9)))
-						##updtblits.extend([upt])
-					#lineq +=1
-				#linexq +=1
-		
+					#if TTYSIZE==0 or linexq>26:
+						#if TTYSIZE==1:
+							#ttyfn=ttyfontB.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+							#upt=screensurf.blit(ttyfn, (0, (lineq*18)))
+							##updtblits.extend([upt])
+						#else:
+							#ttyfn=ttyfont.render(fnx, True, (255, 255, 255), (0, 0, 0)).convert()
+							#upt=screensurf.blit(ttyfn, (0, (lineq*9)))
+							##updtblits.extend([upt])
+						#lineq +=1
+					#linexq +=1
 			
-		#print ("ttystyle" + str(ttystyle))
-		#screensurf.blit(libSBTCVMsurf, (45, 40))
-		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
-			
-	#aaaaannnnddd update display! :D
-	if fskipcnt == fskip:
+				
+			#print ("ttystyle" + str(ttystyle))
+			#screensurf.blit(libSBTCVMsurf, (45, 40))
+			#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
 		if updtblits!=list():
 			pygame.display.update(updtblits)
 			updtblits=list()
 		fskipcnt=0
+		#print "sc update"
 	else:
 		fskipcnt+=1
+		#print "sc skip"
 	#ROM READ (first register)
 	if curinst=="------":
 		REG1=(tritlen(libtrom.tromreaddata(curdata,ROMFILE), REG1))
