@@ -91,8 +91,8 @@ USRWAIT=0
 
 keyintreg="0000"
 
-ttyfont = pygame.font.SysFont("Mono", 10)
-ttyfontB =pygame.font.SysFont("Mono", 18)
+#ttyfont = pygame.font.SysFont("Mono", 10)
+#ttyfontB =pygame.font.SysFont("Mono", 18)
 #graphics:
 #background pixmap
 
@@ -159,6 +159,8 @@ logromexit=0
 logIOexit=0
 vmexeclogflg=0
 ttystyle=0
+
+fskip=0
 #set this to 1 as SBTCVM now runs too fast with default setting for these to be useful in normal execution.
 #user can overide this in USERBOOT.CFG and toggle it using F4 key.
 disablereadouts=1
@@ -170,7 +172,7 @@ if runuserconf==1:
 	exec(userexconf)
 	userscconf.close()
 
-
+fskipcnt=fskip
 
 def vmexeclog(texttolog):
 	if vmexeclogflg==1:
@@ -469,7 +471,7 @@ while stopflag==0:
 		exlogclockticnum += 1
 		exlogcurtime=(time.time() - initaltime)
 		vmexeclog("data: " + curdata + " |Inst: " + curinst + " |adr: " + EXECADDR + " |thread: " + btcurthread + " |exec bank: " + ROMLAMPFLG + " |reg1: " + REG1 + " |reg2: " + REG2 + " |tic #: " + str(exlogclockticnum) + " |secs: " + format((exlogcurtime), '.11f'))
-	if disablereadouts==0 or stepbystep==1:
+	if (disablereadouts==0 or stepbystep==1) and fskipcnt == fskip:
 		#screensurf.blit(vmbg, (0, 0))
 		#these show the instruction and data in the instruction/data box :)
 		if prevINST!=curinst:
@@ -520,7 +522,7 @@ while stopflag==0:
 		updtmdisp=0
 		upt=screensurf.blit(MONODISPBIG, (649, 150))
 		updtblits.extend([upt])
-	if abtpref!=abt or ttyredraw==1:
+	if (abtpref!=abt or ttyredraw==1) and fskipcnt == fskip:
 		abtpref=abt
 		ttyredraw=0
 		lineq=0
@@ -580,8 +582,13 @@ while stopflag==0:
 		#biglibSBTCVM=pygame.transform.scale(libSBTCVMsurf, (648, 486))
 			
 	#aaaaannnnddd update display! :D
-	pygame.display.update(updtblits)
-	updtblits=list()
+	if fskipcnt == fskip:
+		if updtblits!=list():
+			pygame.display.update(updtblits)
+			updtblits=list()
+		fskipcnt=0
+	else:
+		fskipcnt+=1
 	#ROM READ (first register)
 	if curinst=="------":
 		REG1=(tritlen(libtrom.tromreaddata(curdata,ROMFILE), REG1))
@@ -1890,7 +1897,7 @@ while stopflag==0:
 		ROMFILE=BTSTACK[btcurthread].ROMFILE
 		ROMLAMPFLG=BTSTACK[btcurthread].ROMLAMPFLG
 		#change the Thread status display.
-		if disablereadouts==0 or stepbystep==1:
+		if (disablereadouts==0 or stepbystep==1) and fskipcnt == fskip:
 			curthrtex=lgdispfont.render(btcurthread, True, (127, 0, 255), (0, 0, 0)).convert()
 			upt=screensurf.blit(curthrtex, (170, 522))
 			updtblits.extend([upt])
