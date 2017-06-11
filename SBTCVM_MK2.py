@@ -160,7 +160,7 @@ logIOexit=0
 vmexeclogflg=0
 ttystyle=0
 
-fskip=0
+fskip=1
 #set this to 1 as SBTCVM now runs too fast with default setting for these to be useful in normal execution.
 #user can overide this in USERBOOT.CFG and toggle it using F4 key.
 disablereadouts=1
@@ -514,12 +514,14 @@ while stopflag==0:
 	#screensurf.blit(CPULEDACT, (749, 505))
 	#STEP
 	
-	if updtcdisp==1:
+	if updtcdisp==1 and fskipcnt == fskip:
 		updtcdisp=0
+		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 		upt=screensurf.blit(COLORDISPBIG, (649, 1))
 		updtblits.extend([upt])
-	if updtmdisp==1:
+	if updtmdisp==1 and fskipcnt == fskip:
 		updtmdisp=0
+		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 		upt=screensurf.blit(MONODISPBIG, (649, 150))
 		updtblits.extend([upt])
 	if (abtpref!=abt or ttyredraw==1) and fskipcnt == fskip:
@@ -689,7 +691,7 @@ while stopflag==0:
 		RGBcol=libSBTCVM.colorfind(colorreg)
 		#print monocol
 		pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [jx, jy], 1)
-		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
+		#COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#set PPU color Register
 		
 	elif curinst=="--0--0":
@@ -700,7 +702,7 @@ while stopflag==0:
 		RGBcol=libSBTCVM.colorfind((curdata[3] + curdata[4] + curdata[5] + curdata[6] + curdata[7] + curdata[8]))
 		#print monocol
 		COLORDISP.fill(RGBcol)
-		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
+		#COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#set PPU color vector Register
 		
 	elif curinst=="--0-0-":
@@ -716,7 +718,7 @@ while stopflag==0:
 		RGBcol=libSBTCVM.colorfind(colorreg)
 		#print monocol
 		pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [kx, ky], 1)
-		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
+		#COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	#color draw rect
 	elif curinst=="--0-0+":
 		updtcdisp=1
@@ -729,7 +731,7 @@ while stopflag==0:
 		#print monocol
 		#pygame.draw.line(COLORDISP, RGBcol, [jx, jy], [kx, ky], 1)
 		COLORDISP.fill(RGBcol, (libSBTCVM.makerectbipoint(jx, jy, kx, ky)))
-		COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
+		#COLORDISPBIG=pygame.transform.scale(COLORDISP, (148, 148))
 	
 	#mono draw
 	#mono draw pixel
@@ -740,14 +742,14 @@ while stopflag==0:
 		monocol=(int(libSBTCVM.dollytell((curdata[7] + curdata[8]))))
 		#print monocol
 		pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [jx, jy], 1)
-		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
+		#MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono fill
 	elif curinst=="--0-+0":
 		updtmdisp=1
 		monocol=(int(libSBTCVM.dollytell((curdata[7] + curdata[8]))))
 		#print monocol
 		MONODISP.fill((monocol, monocol, monocol))
-		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
+		#MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#set PPU mono vector Register
 	elif curinst=="--0-++":
 		updtmdisp=1
@@ -762,7 +764,7 @@ while stopflag==0:
 		monocol=(int(libSBTCVM.dollytell((curdata[7] + curdata[8]))))
 		#print monocol
 		pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [kx, ky], 1)
-		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
+		#MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#mono draw rect
 	elif curinst=="--00-0":
 		updtmdisp=1
@@ -774,7 +776,7 @@ while stopflag==0:
 		#print monocol
 		#pygame.draw.line(MONODISP, (monocol, monocol, monocol), [jx, jy], [kx, ky], 1)
 		MONODISP.fill((monocol, monocol, monocol), (libSBTCVM.makerectbipoint(jx, jy, kx, ky)))
-		MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
+		#MONODISPBIG=pygame.transform.scale(MONODISP, (144, 144))
 	#SHUTDOWN VM
 	elif curinst=="--000-":
 		stopflag=1

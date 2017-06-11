@@ -490,8 +490,8 @@ USERCONFTEMP='''#This is the USER config file.
 #step-by-step mode always has readouts enabled regardless of the update setting.
 #disablereadouts=1
 
-#frame skipping interval (default 0 (off))
-#fskip=3
+#frame skipping interval (default 1) 0=off
+#fskip=1
 
 #set this to 1 to disable TTY rendering. (you would still be able to read tty
 #output, as SBTCVM mirrors the TTY to standard output.
